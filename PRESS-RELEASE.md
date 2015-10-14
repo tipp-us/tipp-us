@@ -17,28 +17,30 @@ Once the project moves into development, the press release can be used as a touc
  -->
  
 ## Heading ##
-  > Name the product in a way the reader (i.e. your target customers) will understand.
+  > Tip local artists easily with your phone
 
 ## Sub-Heading ##
-  > Describe who the market for the product is and what benefit they get. One sentence only underneath e title.
+  > We help local artists make a living in today's cashless society
 
 ## Summary ##
-  > Give a summary of the product and the benefit. Assume the reader will not read anything else so make is paragraph good.
+  > Starving Artist makes it easy to find and tip local artists right from your phone.
+  We love local music and art which is why we work hard to support the community.  We know that many people don't carry cash anymore, which is why we created a solution to tip when you're short on cash.
 
 ## Problem ##
-  > Describe the problem your product solves.
+  > People can't tip if they don't have cash.
 
 ## Solution ##
-  > Describe how your product elegantly solves the problem.
+  > Now you can easily tip from your phone - no download required.
 
 ## Quote from You ##
-  > A quote from a spokesperson in your company.
+  > We are happy to help support local artists.
 
 ## How to Get Started ##
-  > Describe how easy it is to get started.
+  > Simply open our site, find an artist by location, name, or code, and tip right there.
 
 ## Customer Quote ##
-  > Provide a quote from a hypothetical customer that describes how they experienced the benefit.
+  > I'm so happy I can now get tips from folks who don't carry cash! -The Naked Cowboy
 
 ## Closing and Call to Action ##
-  > Wrap it up and give pointers where the reader should go next.
+  > Artists: you deserve to earn a living from what you do - sign up on Starving Artist today and don't miss out on any more tips!
+  > Tippers: show local artists your love by finding and tipping them on Starving Artist!
