@@ -1,14 +1,7 @@
+<h3 class="md-headline" layout="row" flex layout-align="center">Starving Artist</h3>
+<h4 class="md-subhead" layout="row" flex layout-align="center">Show your love for local artists and musicians</h4>
 <md-input-container class="md-primary">
-  <label>Find an Artist</label>
+  <label>Find Artist by Name or Code</label>
   <input type="text"> <!-- ng-model="user.name"> -->
 </md-input-container>
-<md-button class="md-primary md-raised" ng-click="form=true">Tip Rock Starz</md-button>
-<div ng-hide='form'>
-</div>
-<div ng-show='form'>
-    <form id="checkout" method="post" action="/checkout">
-      <div id="tip-payment"></div>
-      <md-button class="md-primary md-raised" type="submit">Tip</md-button>
-      <md-button class="md-primary md-raised" ng-click="form=false">Cancel</md-button>
-      </form>
-</div>
+<artist-list></artist-list>
