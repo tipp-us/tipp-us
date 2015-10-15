@@ -1,10 +1,10 @@
-var app = angular.module('StarterApp', ['ngMaterial'])
-  .config(function($mdThemingProvider) {
-    $mdThemingProvider.theme('default')
-      .primaryPalette('indigo')
-      .accentPalette('blue');
-      // .dark();
-  });
+var app = angular.module('StarterApp', ['ngMaterial','ui.router'])
+.config(function($mdThemingProvider) {
+  $mdThemingProvider.theme('default')
+    .primaryPalette('indigo')
+    .accentPalette('blue')
+    // .dark();
+});
 
 app.controller('AppCtrl', ['$scope', '$mdSidenav', function($scope, $mdSidenav){
   $scope.toggleSidenav = function(menuId) {
@@ -25,3 +25,17 @@ function TipController($scope, $mdDialog){
     $mdDialog.hide(pay);
   };
 };
+
+app.config(function($stateProvider, $urlRouterProvider) {
+  $urlRouterProvider.otherwise('home');
+
+  $stateProvider.state('home', {
+    url: '/home',
+    templateUrl: 'home/home.html',
+  })
+
+  $stateProvider.state('artist', {
+    url: '/artist',
+    templateUrl: 'artist/artist.html',
+  })
+});
