@@ -4,8 +4,7 @@
   "description": "Tipping app for artists",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "node index.js"
+    "postinstall": "./node_modules/bower/bin/bower install"
   },
   "repository": {
     "type": "git",
@@ -18,11 +17,12 @@
   },
   "homepage": "https://github.com/starvingartists/starvingartists#readme",
   "dependencies": {
+    "body-parser": "^1.14.1",
+    "bower": "^1.6.2",
+    "braintree": "^1.29.0",
     "express": "^4.13.3",
     "pg": "^4.4.2",
-    "sequelize": "^3.12.1",
-    "body-parser": "^1.14.1",
-    "braintree": "^1.29.0",
+    "sequelize": "^3.12.1"
   },
   "engines": {
     "node": "4.2.1"
