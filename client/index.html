@@ -29,7 +29,16 @@
                 <label>Find an Artist</label>
                 <input type="text"> <!-- ng-model="user.name"> -->
               </md-input-container>
-              <md-button class="md-primary md-raised">Tip Rock Starz</md-button>
+              <md-button class="md-primary md-raised" ng-click="form=true">Tip Rock Starz</md-button>
+              <div ng-hide='form'>
+              </div>
+              <div ng-show='form'>
+                  <form id="checkout" method="post" action="/checkout">
+                    <div id="tip-payment"></div>
+                    <md-button class="md-primary md-raised" type="submit">Tip</md-button>
+                    <md-button class="md-primary md-raised" ng-click="form=false">Cancel</md-button>
+                    </form>
+                </div>
             </md-content>
         </div>
     </div>
@@ -37,8 +46,11 @@
     <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.3.15/angular.min.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.3.15/angular-animate.min.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.3.15/angular-aria.min.js"></script>
+    <script src="lib/braintree-web/dist/braintree.js"></script>
+    <script src="lib/angular-route/angular-route.js"></script>
 
     <script src="https://ajax.googleapis.com/ajax/libs/angular_material/0.9.4/angular-material.min.js"></script>
+    <script src="app/tip/tip.js"></script>
     <script src="app.js"></script>
   </body>
 </html>
