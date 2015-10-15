@@ -1,0 +1,24 @@
+{
+  "name": "starvingArtists",
+  "main": "index.js",
+  "version": "0.0.0",
+  "homepage": "https://github.com/LeKeve/starvingartists",
+  "authors": [
+    "Kevin Lee <kevinyjlee23@gmail.com>"
+  ],
+  "description": "",
+  "moduleType": [],
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "braintree-web": "~2.14.3",
+    "angular-route": "~1.4.7",
+    "braintree-angular": "~1.3.1"
+  }
+}
