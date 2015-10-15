@@ -26,6 +26,8 @@ function TipController($scope, $mdDialog){
   };
 };
 
+
+
 app.config(function($stateProvider, $urlRouterProvider) {
   $urlRouterProvider.otherwise('home');
 
@@ -38,4 +40,5 @@ app.config(function($stateProvider, $urlRouterProvider) {
     url: '/artist',
     templateUrl: 'artist/artist.html',
   })
+
 });
