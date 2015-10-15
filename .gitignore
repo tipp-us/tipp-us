@@ -27,3 +27,7 @@ npm-debug.log
 # Hidden Files
 .DS_Store
 */.DS_Store
+
+
+.floo
+.flooignore
