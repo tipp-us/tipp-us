@@ -20,7 +20,9 @@
   "dependencies": {
     "express": "^4.13.3",
     "pg": "^4.4.2",
-    "sequelize": "^3.12.1"
+    "sequelize": "^3.12.1",
+    "body-parser": "^1.14.1",
+    "braintree": "^1.29.0",
   },
   "engines": {
     "node": "4.2.1"

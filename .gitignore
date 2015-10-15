@@ -29,6 +29,7 @@ npm-debug.log
 .DS_Store
 */.DS_Store
 
+server/config.js
 
 .floo
 .flooignore
