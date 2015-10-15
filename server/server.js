@@ -6,19 +6,34 @@ var braintree = require('braintree');
 var bodyParser = require('body-parser');
 var jsonParser = bodyParser.json();
 var util = require('util');
-var config = require('./config.js');
 
 // Instantiate the braintree gateway.
 // Note: Must change these values for production
-var gateway = braintree.connect({
-  environment: braintree.Environment.Sandbox,
-  merchantId: process.env.BRAINTREE_MERCHANTID || config.braintree.merchantId,
-  publicKey: process.env.BRAINTREE_PUBLICKEY || config.braintree.publicKey,
-  privateKey: process.env.BRAINTREE_PRIVATEKEY || config.braintree.privateKey,
-});
+var gateway;
+
+if (process.env.BRAINTREE_MERCHANTID && process.env.BRAINTREE_PUBLICKEY && process.env.BRAINTREE_PRIVATEKEY) {
+  gateway = braintree.connect({
+    environment: braintree.Environment.Sandbox,
+    merchantId: process.env.BRAINTREE_MERCHANTID,
+    publicKey: process.env.BRAINTREE_PUBLICKEY,
+    privateKey: process.env.BRAINTREE_PRIVATEKEY,
+  });
+} else {
+  var config = require('./config.js');
+  gateway = braintree.connect({
+    environment: braintree.Environment.Sandbox,
+    merchantId: config.braintree.merchantId,
+    publicKey: config.braintree.publicKey,
+    privateKey: config.braintree.privateKey,
+  });
+}
 
 // attach middleware
 app.use(express.static(__dirname + '/../client'));
+
+/*===========================================================================/
+/                               ROUTES                                       /
+/===========================================================================*/
 
 // Send a client token to client
 app.get('/client_token', function(req, res) {
