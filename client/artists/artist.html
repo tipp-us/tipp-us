@@ -1,0 +1,10 @@
+<md-button class="md-primary md-raised" ng-click="form=true">Tip Rock Starz</md-button>
+<div ng-hide='form'>
+</div>
+<div ng-show='form'>
+    <form id="checkout" method="post" action="/checkout">
+      <div id="tip-payment"></div>
+      <md-button class="md-primary md-raised" type="submit">Tip</md-button>
+      <md-button class="md-primary md-raised" ng-click="form=false">Cancel</md-button>
+      </form>
+</div>

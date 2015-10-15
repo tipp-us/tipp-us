@@ -1,7 +1,7 @@
 // express app initialization
 var express = require('express');
 var app = express();
-
+var path = require('path');
 var braintree = require('braintree');
 var bodyParser = require('body-parser');
 var jsonParser = bodyParser.json();
@@ -54,6 +54,13 @@ app.post('/checkout', jsonParser, function(req, res) {
     res.json(result);
   });
 });
+
+
+// app.get('*', function(req, res) {
+//   var pat = req.path
+//   var a = pat.split("/").slice(2).join("/");
+//   res.sendFile(path.resolve("client/" + a));
+// })
 
 // export the express app to be used in index.js
 module.exports = app;
