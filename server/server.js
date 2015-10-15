@@ -12,9 +12,9 @@ var config = require('./config.js');
 // Note: Must change these values for production
 var gateway = braintree.connect({
   environment: braintree.Environment.Sandbox,
-  merchantId: config.braintree.merchantId,
-  publicKey: config.braintree.publicKey,
-  privateKey: config.braintree.privateKey,
+  merchantId: process.env.BRAINTREE_MERCHANTID || config.braintree.merchantId,
+  publicKey: process.env.BRAINTREE_PUBLICKEY || config.braintree.publicKey,
+  privateKey: process.env.BRAINTREE_PRIVATEKEY || config.braintree.privateKey,
 });
 
 // attach middleware
