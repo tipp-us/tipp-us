@@ -35,6 +35,54 @@ app.use(express.static(__dirname + '/../client'));
 /                               ROUTES                                       /
 /===========================================================================*/
 
+// Get info of single artist
+app.get('/artist', jsonParser, function(req, res) {
+  var searchTerm = req.body.searchTerm;
+  // TODO: replace with real data fetched from db
+  var testObj = {
+    name: 'The Dougs', 
+    location: 'Huntington Beach, CA',
+    pic: 'super/sweet/pic/uri',
+  };
+  res.status(200).json(testObj);
+});
+
+// Get list of specified number of nearby artists
+app.get('/nearby', jsonParser, function(req, res) {
+  var numArtists = req.body.numberOfArtists || 1;
+  var searchLocation = req.body.searchLocation;
+
+  // TODO: replace with real data fetched from db
+  var testObj = {
+    artists:
+      [
+        {
+          name: 'The Joes', 
+          location: 'Boston MA',
+          pic: 'picture/of/joes',
+        },
+        {
+          name: 'The Rods', 
+          location: 'Rome',
+          pic: 'picture/of/rods',
+        },
+        {
+          name: 'The Taylors', 
+          location: 'Athens',
+          pic: 'picture/of/taylors',
+        },
+        {
+          name: 'The Kevins', 
+          location: 'L.A.',
+          pic: 'picture/of/kevins',
+        }
+      ],
+    numberOfArtists: 4,
+    searchLocation: 'some search location',
+  };
+  res.status(200).json(testObj);
+});
+
 // Send a client token to client
 app.get('/client_token', function(req, res) {
   gateway.clientToken.generate({}, function(err, response) {
