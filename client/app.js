@@ -1,26 +1,3 @@
-window.artists = {
-  "artists":
-    [
-      {
-        "name": "The Soggy Bottom Boys", 
-        "location": "70ft",
-        "pic": "/assets/Band1.jpg",
-      },
-      {
-        "name": "The Soggy Bottom Girls", 
-        "location": ".2 miles",
-        "pic": "/assets/Band2.png",
-      },
-      {
-        "name": "The Soggy Bottom People", 
-        "location": ".4 miles",
-        "pic": "/assets/Band3.png",
-      }
-    ],
-  "numberOfArtists": 3,
-  "searchLocation": 'location',
-};
-
 var app = angular.module('StarterApp', ['ngMaterial','ui.router'])
 .config(function($mdThemingProvider) {
   $mdThemingProvider.theme('default')
@@ -42,12 +19,11 @@ app.directive('artistList', function(){
     restrict: 'E',
     templateUrl: 'artistList.html',
     controller: ['$http', function($http) {
-      // var self = this;
-      // this.artistList = [];
-      // $http.get('/SOMETHING.json').success(function(data) {
-      //   self.artistList = data;
-      // });
-      this.artistList = window.artists;
+      var self = this;
+      this.artistList = [];
+      $http.get('/nearby').success(function(data) {
+        self.artistList = data;
+      });
       this.click = function(artist) {
         console.log(artist);
       };
