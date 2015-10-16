@@ -9,3 +9,12 @@ md-icon {
   background-color: #ffffff;
 }
 */
+
+.error { 
+  background: red; 
+  color: white; 
+}
+.success { 
+  background: green; 
+  color: white; 
+}

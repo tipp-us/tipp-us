@@ -86,7 +86,7 @@ app.get('/nearby', jsonParser, function(req, res) {
 // Send a client token to client
 app.get('/client_token', function(req, res) {
   gateway.clientToken.generate({}, function(err, response) {
-    res.send(response.clientToken);
+    res.json({'clientToken': response.clientToken});
   });
 });
 
@@ -98,7 +98,7 @@ app.post('/checkout', jsonParser, function(req, res) {
   // var nonce = transaction.payment_method_nonce;
   // For a list of static test nonces, visit:
   //  https://developers.braintreepayments.com/javascript+node/reference/general/testing
-  var nonce = 'fake-valid-nonce';
+  var nonce = transaction.payment_method_nonce;
 
   // use payment method nonce here, test example below
   gateway.transaction.sale({
