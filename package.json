@@ -12,9 +12,13 @@
   "bugs": {
     "url": "https://github.com/starvingartists/starvingartists/issues"
   },
+  "scripts": {
+    "postinstall": "./node_modules/bower/bin/bower install"
+  },
   "homepage": "https://github.com/starvingartists/starvingartists#readme",
   "dependencies": {
     "body-parser": "^1.14.1",
+    "bower": "^1.6.3",
     "braintree": "^1.29.0",
     "express": "^4.13.3",
     "pg": "^4.4.2",
