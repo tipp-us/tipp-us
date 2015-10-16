@@ -2,14 +2,55 @@ var app = angular.module('StarterApp', ['ngMaterial','ui.router'])
 .config(function($mdThemingProvider) {
   $mdThemingProvider.theme('default')
     .primaryPalette('indigo')
-    .accentPalette('blue')
+    .accentPalette('blue');
     // .dark();
 });
 
-app.controller('AppCtrl', ['$scope', '$mdSidenav', function($scope, $mdSidenav){
+app.controller('AppCtrl', ['$scope', '$mdSidenav', '$http', function($scope, $mdSidenav, $http){
   $scope.toggleSidenav = function(menuId) {
     $mdSidenav(menuId).toggle();
   };
+  $scope.message = 'Please specify tip amount in the form below:';
+    $scope.showDropinContainer = true;
+    $scope.isError = false;
+    $scope.isPaid = false;
+    $scope.getToken = function () {
+      $http({
+        method: 'GET',
+        url: 'http://localhost:3000/client_token'
+      }).success(function (data) {
+        // testing to see if correct client token accepted
+        console.log(data.clientToken);
+        braintree.setup(data.clientToken, 'dropin', {
+          container: 'tip-payment',
+          // Form is not submitted by default when paymentMethodNonceReceived is implemented
+          paymentMethodNonceReceived: function (event, nonce) {
+            $scope.message = 'Processing your payment...';
+            $scope.showDropinContainer = false;
+            $http({
+              method: 'POST',
+              url: 'http://localhost:3000/checkout',
+              data: {
+                amount: $scope.amount,
+                payment_method_nonce: nonce
+              }
+            }).success(function (data) {
+              console.log(data.success);
+              if (data.success) {
+                $scope.message = 'Payment authorized, thanks for your support!';
+                $scope.showDropinContainer = false;
+                $scope.isError = false;
+                $scope.isPaid = true;
+              } else {
+                $scope.message = 'Payment failed: ' + data.message + ' Please refresh the page and try again.';
+                $scope.isError = true;
+              }
+            });
+          }
+        });
+      });
+    };
+    $scope.getToken();
 }]);
 
 // Controller for Tip mdDialog box
@@ -33,31 +74,17 @@ app.directive('artistList', function(){
   };
 });
 
-function TipController($scope, $mdDialog){
-  $scope.hide = function() {
-    $mdDialog.hide();
-  };
-  $scope.cancel = function() {
-    $mdDialog.cancel();
-  };
-  $scope.pay = function(pay) {
-    $mdDialog.hide(pay);
-  };
-};
-
-
 app.config(function ($stateProvider, $urlRouterProvider) {
 
   $stateProvider.state('home', {
     url: '/home',
     templateUrl: 'home/home.html',
-
-  })
+  });
 
   $stateProvider.state('artists', {
     url: '/artists',
     templateUrl: 'artists/artist.html',
-  })
+  });
 
   $urlRouterProvider.otherwise('home');
 
