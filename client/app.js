@@ -1,4 +1,4 @@
-var app = angular.module('StarterApp', ['ngMaterial','ui.router'])
+var app = angular.module('StarterApp', ['ngMaterial','ui.router', 'geolocation'])
 .config(function($mdThemingProvider) {
   $mdThemingProvider.theme('default')
     .primaryPalette('indigo')
@@ -59,17 +59,20 @@ app.directive('artistList', function(){
   return {
     restrict: 'E',
     templateUrl: 'artistList.html',
-    controller: ['$http', function($http) {
+    controller: function($http,geolocation) {
       var self = this;
       this.artistList = [];
-      $http.get('/nearby').success(function(data) {
-        self.artistList = data;
-      });
       this.click = function(artist) {
         console.log(artist);
       };
+      geolocation.getLocation().then(function(data){
+        var coords = {lat:data.coords.latitude, long:data.coords.longitude};
+        $http.post('/nearby',coords).success(function(data) {
+          self.artistList = data;
+        });
+      });
 
-    }],
+    },
     controllerAs: 'artistCtrl'
   };
 });
