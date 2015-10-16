@@ -85,12 +85,48 @@ app.get('/nearby', jsonParser, function(req, res) {
           name: 'The Kevins',
           location: 'L.A.',
           pic: 'picture/of/kevins',
-        }
+        },
       ],
     numberOfArtists: 4,
     searchLocation: 'some search location',
   };
   res.status(200).json(testObj);
+});
+
+app.post('/nearby', jsonParser, function(req, res) {
+  var latitude = req.body.lat;
+  var longitude = req.body.long;
+
+  // TODO: update lat/long in db
+  //  and return nearby artists
+  // Replace dummy data
+  res.status(201).json({
+    artists:
+      [
+        {
+          name: 'The Joes',
+          location: 'Boston MA',
+          pic: 'picture/of/joes',
+        },
+        {
+          name: 'The Rods',
+          location: 'Rome',
+          pic: 'picture/of/rods',
+        },
+        {
+          name: 'The Taylors',
+          location: 'Athens',
+          pic: 'picture/of/taylors',
+        },
+        {
+          name: 'The Kevins',
+          location: 'L.A.',
+          pic: 'picture/of/kevins',
+        },
+      ],
+    numberOfArtists: 4,
+    searchLocation: 'some search location',
+  });
 });
 
 app.post('/create/artist', jsonParser, function(req, res) {
