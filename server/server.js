@@ -6,19 +6,82 @@ var braintree = require('braintree');
 var bodyParser = require('body-parser');
 var jsonParser = bodyParser.json();
 var util = require('util');
-var config = require('./config.js');
 
 // Instantiate the braintree gateway.
 // Note: Must change these values for production
-var gateway = braintree.connect({
-  environment: braintree.Environment.Sandbox,
-  merchantId: config.braintree.merchantId,
-  publicKey: config.braintree.publicKey,
-  privateKey: config.braintree.privateKey,
-});
+var gateway;
+
+if (process.env.BRAINTREE_MERCHANTID && process.env.BRAINTREE_PUBLICKEY && process.env.BRAINTREE_PRIVATEKEY) {
+  gateway = braintree.connect({
+    environment: braintree.Environment.Sandbox,
+    merchantId: process.env.BRAINTREE_MERCHANTID,
+    publicKey: process.env.BRAINTREE_PUBLICKEY,
+    privateKey: process.env.BRAINTREE_PRIVATEKEY,
+  });
+} else {
+  var config = require('./config.js');
+  gateway = braintree.connect({
+    environment: braintree.Environment.Sandbox,
+    merchantId: config.braintree.merchantId,
+    publicKey: config.braintree.publicKey,
+    privateKey: config.braintree.privateKey,
+  });
+}
 
 // attach middleware
 app.use(express.static(__dirname + '/../client'));
+
+/*===========================================================================/
+/                               ROUTES                                       /
+/===========================================================================*/
+
+// Get info of single artist
+app.get('/artist', jsonParser, function(req, res) {
+  var searchTerm = req.body.searchTerm;
+  // TODO: replace with real data fetched from db
+  var testObj = {
+    name: 'The Dougs', 
+    location: 'Huntington Beach, CA',
+    pic: 'super/sweet/pic/uri',
+  };
+  res.status(200).json(testObj);
+});
+
+// Get list of specified number of nearby artists
+app.get('/nearby', jsonParser, function(req, res) {
+  var numArtists = req.body.numberOfArtists || 1;
+  var searchLocation = req.body.searchLocation;
+
+  // TODO: replace with real data fetched from db
+  var testObj = {
+    artists:
+      [
+        {
+          name: 'The Joes', 
+          location: 'Boston MA',
+          pic: 'picture/of/joes',
+        },
+        {
+          name: 'The Rods', 
+          location: 'Rome',
+          pic: 'picture/of/rods',
+        },
+        {
+          name: 'The Taylors', 
+          location: 'Athens',
+          pic: 'picture/of/taylors',
+        },
+        {
+          name: 'The Kevins', 
+          location: 'L.A.',
+          pic: 'picture/of/kevins',
+        }
+      ],
+    numberOfArtists: 4,
+    searchLocation: 'some search location',
+  };
+  res.status(200).json(testObj);
+});
 
 // Send a client token to client
 app.get('/client_token', function(req, res) {
