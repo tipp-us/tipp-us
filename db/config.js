@@ -20,6 +20,7 @@ if (!global.hasOwnProperty('db')) {
     Sequelize: Sequelize,
     sequelize: sequelize,
     artist:    sequelize.import(__dirname + '/models/artist'),
+    show:    sequelize.import(__dirname + '/models/show'),
 
     // add your other models here
   };
