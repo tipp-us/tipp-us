@@ -45,88 +45,63 @@ app.use(function(req, res, next) {
 /===========================================================================*/
 
 // Get info of single artist
-app.get('/artist', jsonParser, function(req, res) {
-  var searchTerm = req.body.searchTerm;
+app.post('/artist', jsonParser, function(req, res) {
+  var artistId = req.body.artistId;
 
   // TODO: replace with real data fetched from db
   var testObj = {
+    id: '9999',
     name: 'The Dougs',
-    location: 'Huntington Beach, CA',
-    pic: 'super/sweet/pic/uri',
+    pic: 'http://thecatapi.com/api/images/get',
   };
   res.status(200).json(testObj);
 });
 
 // Get list of specified number of nearby artists
-app.get('/nearby', jsonParser, function(req, res) {
-  var numArtists = req.body.numberOfArtists || 1;
-  var searchLocation = req.body.searchLocation;
+app.post('/nearby', jsonParser, function(req, res) {
+  var numArtists = req.body.numberOfArtists || 3;
+  var position = req.body.position;
 
   // TODO: replace with real data fetched from db
   var testObj = {
     artists:
       [
         {
+          id: '1234',
           name: 'The Joes',
-          location: 'Boston MA',
-          pic: 'picture/of/joes',
+          pic: 'http://thecatapi.com/api/images/get',
+          position: {lat: -7.75113, long: -47.22246},
+          location: 0.63,
+          venue: 'Starbucks',
         },
         {
+          id: '2345',
           name: 'The Rods',
-          location: 'Rome',
-          pic: 'picture/of/rods',
+
+          pic: 'http://thecatapi.com/api/images/get',
+          position: {lat:  28.43593, long: 69.77992},
+          location: 1.5,
+          venue: 'The Hollywood Bowl',
         },
         {
+          id: '3456',
           name: 'The Taylors',
-          location: 'Athens',
-          pic: 'picture/of/taylors',
+          pic: 'http://thecatapi.com/api/images/get',
+          position: {lat: 11.10532, long: -13.88939},
+          location: 7.6,
         },
         {
+          id: '4567',
           name: 'The Kevins',
-          location: 'L.A.',
-          pic: 'picture/of/kevins',
+          pic: 'http://thecatapi.com/api/images/get',
+          position: {lat: 60.87421, long: 151.17539},
+          location: 150.7,
         },
       ],
     numberOfArtists: 4,
-    searchLocation: 'some search location',
+    searchPosition: {lat: -7.75113, long: -47.22246},
   };
   res.status(200).json(testObj);
-});
-
-app.post('/nearby', jsonParser, function(req, res) {
-  var latitude = req.body.lat;
-  var longitude = req.body.long;
-
-  // TODO: update lat/long in db
-  //  and return nearby artists
-  // Replace dummy data
-  res.status(201).json({
-    artists:
-      [
-        {
-          name: 'The Joes',
-          location: 'Boston MA',
-          pic: 'picture/of/joes',
-        },
-        {
-          name: 'The Rods',
-          location: 'Rome',
-          pic: 'picture/of/rods',
-        },
-        {
-          name: 'The Taylors',
-          location: 'Athens',
-          pic: 'picture/of/taylors',
-        },
-        {
-          name: 'The Kevins',
-          location: 'L.A.',
-          pic: 'picture/of/kevins',
-        },
-      ],
-    numberOfArtists: 4,
-    searchLocation: 'some search location',
-  });
 });
 
 app.post('/create/artist', jsonParser, function(req, res) {
@@ -148,9 +123,9 @@ app.post('/create/artist', jsonParser, function(req, res) {
 
   // TODO: replace this test data, which assumes that a new user was created
   res.status(201).json({
+    id: '9999',
     name: 'The Dougs',
-    location: 'Huntington Beach, CA',
-    pic: 'super/sweet/pic/uri',
+    pic: 'http://thecatapi.com/api/images/get',
   });
 });
 
