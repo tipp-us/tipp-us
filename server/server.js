@@ -30,6 +30,15 @@ if (process.env.BRAINTREE_MERCHANTID && process.env.BRAINTREE_PUBLICKEY && proce
 
 // attach middleware
 app.use(express.static(__dirname + '/../client'));
+/**
+ * Enable CORS (http://enable-cors.org/server_expressjs.html)
+ * to allow different clients to request data from your server
+ */
+app.use(function(req, res, next) {
+  res.header('Access-Control-Allow-Origin', '*');
+  res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept');
+  next();
+});
 
 /*===========================================================================/
 /                               ROUTES                                       /
@@ -38,9 +47,10 @@ app.use(express.static(__dirname + '/../client'));
 // Get info of single artist
 app.get('/artist', jsonParser, function(req, res) {
   var searchTerm = req.body.searchTerm;
+
   // TODO: replace with real data fetched from db
   var testObj = {
-    name: 'The Dougs', 
+    name: 'The Dougs',
     location: 'Huntington Beach, CA',
     pic: 'super/sweet/pic/uri',
   };
@@ -57,22 +67,22 @@ app.get('/nearby', jsonParser, function(req, res) {
     artists:
       [
         {
-          name: 'The Joes', 
+          name: 'The Joes',
           location: 'Boston MA',
           pic: 'picture/of/joes',
         },
         {
-          name: 'The Rods', 
+          name: 'The Rods',
           location: 'Rome',
           pic: 'picture/of/rods',
         },
         {
-          name: 'The Taylors', 
+          name: 'The Taylors',
           location: 'Athens',
           pic: 'picture/of/taylors',
         },
         {
-          name: 'The Kevins', 
+          name: 'The Kevins',
           location: 'L.A.',
           pic: 'picture/of/kevins',
         }
@@ -86,7 +96,7 @@ app.get('/nearby', jsonParser, function(req, res) {
 // Send a client token to client
 app.get('/client_token', function(req, res) {
   gateway.clientToken.generate({}, function(err, response) {
-    res.json({'clientToken': response.clientToken});
+    res.json({clientToken: response.clientToken});
   });
 });
 
@@ -117,7 +127,6 @@ app.post('/checkout', jsonParser, function(req, res) {
     res.json(result);
   });
 });
-
 
 // app.get('*', function(req, res) {
 //   var pat = req.path
