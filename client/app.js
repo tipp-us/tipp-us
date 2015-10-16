@@ -17,7 +17,7 @@ app.controller('AppCtrl', ['$scope', '$mdSidenav', '$http', function($scope, $md
     $scope.getToken = function () {
       $http({
         method: 'GET',
-        url: 'http://localhost:3000/client_token'
+        url: '/client_token'
       }).success(function (data) {
         // testing to see if correct client token accepted
         console.log(data.clientToken);
@@ -29,7 +29,7 @@ app.controller('AppCtrl', ['$scope', '$mdSidenav', '$http', function($scope, $md
             $scope.showDropinContainer = false;
             $http({
               method: 'POST',
-              url: 'http://localhost:3000/checkout',
+              url: '/checkout',
               data: {
                 amount: $scope.amount,
                 payment_method_nonce: nonce
