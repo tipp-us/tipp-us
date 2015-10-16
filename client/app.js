@@ -3,18 +3,18 @@ window.artists = {
     [
       {
         "name": "The Soggy Bottom Boys", 
-        "location": "Boston MA",
-        "pic": "picture of boys",
+        "location": "70ft",
+        "pic": "/assets/Band1.jpg",
       },
       {
         "name": "The Soggy Bottom Girls", 
-        "location": "Rome",
-        "pic": "picture of ladies",
+        "location": ".2 miles",
+        "pic": "/assets/Band2.png",
       },
       {
         "name": "The Soggy Bottom People", 
-        "location": "Athens",
-        "pic": "picture of people",
+        "location": ".4 miles",
+        "pic": "/assets/Band3.png",
       }
     ],
   "numberOfArtists": 3,
@@ -48,6 +48,10 @@ app.directive('artistList', function(){
       //   self.artistList = data;
       // });
       this.artistList = window.artists;
+      this.click = function(artist) {
+        console.log(artist);
+      };
+
     }],
     controllerAs: 'artistCtrl'
   };
