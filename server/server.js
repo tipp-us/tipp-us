@@ -93,14 +93,39 @@ app.get('/nearby', jsonParser, function(req, res) {
   res.status(200).json(testObj);
 });
 
-// Send a client token to client
+app.post('/create/artist', jsonParser, function(req, res) {
+
+  // TODO: fill in necessary fields to create a user
+  var artistData = {
+    email: req.body.email,
+    name: req.body.name,
+
+    // additional fields...
+  };
+
+  // TODO: check if user in db
+  //  if not, create
+  //    return created user profile from db
+  //  else, user already exists
+  //    return some obj with error message to be displayed
+  //    tell the user to think of a new name or something
+
+  // TODO: replace this test data, which assumes that a new user was created
+  res.status(201).json({
+    name: 'The Dougs',
+    location: 'Huntington Beach, CA',
+    pic: 'super/sweet/pic/uri',
+  });
+});
+
+// Send a braintree client token to client
 app.get('/client_token', function(req, res) {
   gateway.clientToken.generate({}, function(err, response) {
     res.json({clientToken: response.clientToken});
   });
 });
 
-// Receive a payment method nonce from client
+// Receive a braintree payment method nonce from client
 app.post('/checkout', jsonParser, function(req, res) {
   var transaction = req.body;
 
