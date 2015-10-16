@@ -1,10 +1,10 @@
-var gulp = require('gulp'),
-  jshint = require('gulp-jshint');
+var gulp = require('gulp');
+var jshint = require('gulp-jshint');
 
-gulp.task('lint', function(){
-  return gulp.src(['./server/**/*.js', './client/**/*.js', './*.js'])
-      .pipe(jshint())
-      .pipe(jshint.reporter('default'));
+gulp.task('lint', function() {
+  return gulp.src(['./server/**/*.js', './client/**/*.js', '!./client/lib/**/*.js', './*.js'])
+    .pipe(jshint())
+    .pipe(jshint.reporter('default'));
 });
 
 gulp.task('default', function() {
