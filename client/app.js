@@ -20,7 +20,7 @@ app.controller('AppCtrl', ['$scope', '$mdSidenav', '$http', function($scope, $md
         url: '/client_token'
       }).success(function (data) {
         // testing to see if correct client token accepted
-        console.log(data.clientToken);
+        // console.log(data.clientToken);
         braintree.setup(data.clientToken, 'dropin', {
           container: 'tip-payment',
           // Form is not submitted by default when paymentMethodNonceReceived is implemented
@@ -55,7 +55,7 @@ app.controller('AppCtrl', ['$scope', '$mdSidenav', '$http', function($scope, $md
 
 // Controller for Tip mdDialog box
 
-app.directive('artistList', function(){
+app.directive('artistList', ['$rootScope', '$state', function($scope, $state){
   return {
     restrict: 'E',
     templateUrl: 'artistList.html',
@@ -63,7 +63,9 @@ app.directive('artistList', function(){
       var self = this;
       this.artistList = [];
       this.click = function(artist) {
-        console.log(artist);
+        $scope.artist = artist;
+        console.log($scope.artist.location);
+        $state.go('^.artists');
       };
       geolocation.getLocation().then(function(data){
         var coords = {lat:data.coords.latitude, long:data.coords.longitude};
@@ -75,7 +77,29 @@ app.directive('artistList', function(){
     },
     controllerAs: 'artistCtrl'
   };
-});
+}]);
+
+app.directive('artistDisplay', ['$rootScope', '$state', function($scope, $state){
+  return {
+    restrict: 'E',
+    templateUrl: 'artistDisplay.html',
+    controller: ['$http', function($http) {
+      var self = this;
+      this.artistInfo = {};
+      $http.get('/artist').success(function(data) {
+        console.log('in artistDisplay. $scope.artist is...');
+        console.log($scope.artist);
+        self.info = data;
+      });
+      this.click = function(artist) {
+        // console.log(artist);
+      };
+
+    }],
+    controllerAs: 'selectedArtist'
+  };
+}]);
+
 
 app.config(function ($stateProvider, $urlRouterProvider) {
 
