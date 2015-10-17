@@ -6,7 +6,7 @@ var app = angular.module('StarterApp', ['ngMaterial','ui.router', 'geolocation',
     // .dark();
 });
 
-app.controller('AppCtrl', ['$scope', '$mdSidenav', '$http', function($scope, $mdSidenav, $http){
+app.controller('AppCtrl', ['$scope', '$state', '$mdSidenav', '$http', function($scope,$state, $mdSidenav, $http){
   $scope.toggleSidenav = function(menuId) {
     $mdSidenav(menuId).toggle();
   };
@@ -55,6 +55,11 @@ app.controller('AppCtrl', ['$scope', '$mdSidenav', '$http', function($scope, $md
     // TODO:
       // talk to doug about how we want the server to pull the data
   };
+
+  $scope.changeState = function(stateName) {
+    $state.go('^.'+stateName);
+    $mdSidenav('left').toggle();
+  }
   
   // bloodhound suggestion engine with sample data
     // TODO delete this testing engine data when get is complete
@@ -153,6 +158,60 @@ app.config(function ($stateProvider, $urlRouterProvider) {
     templateUrl: 'artists/artist.html',
   });
 
+  $stateProvider.state('signup', {
+    url: '/signup',
+    templateUrl: 'signup/signup.html',
+    controller: ['$http', '$state',function($http, $state) {
+      this.formValid = true;
+      this.signup = function() {
+        var form = {email: this.email,password: this.pass};
+        var valid = this.email && this.pass && this.confirm;
+        if(valid) {
+          $http.post('/create/artist', form).success(function(data) {
+            $state.go('^.home');
+          });
+          
+        } else {
+          this.formValid = false;
+        }
+      }
+    }],
+    controllerAs: 'signupCtrl'
+  });
+
   $urlRouterProvider.otherwise('home');
 
+});
+
+//http://stackoverflow.com/questions/14012239
+app.directive("passwordVerify", function() {
+   return {
+      require: "ngModel",
+      scope: {
+        passwordVerify: '='
+      },
+      link: function(scope, element, attrs, ctrl) {
+        scope.$watch(function() {
+            var combined;
+
+            if (scope.passwordVerify || ctrl.$viewValue) {
+               combined = scope.passwordVerify + '_' + ctrl.$viewValue; 
+            }                    
+            return combined;
+        }, function(value) {
+            if (value) {
+                ctrl.$parsers.unshift(function(viewValue) {
+                    var origin = scope.passwordVerify;
+                    if (origin !== viewValue) {
+                        ctrl.$setValidity("passwordVerify", false);
+                        return undefined;
+                    } else {
+                        ctrl.$setValidity("passwordVerify", true);
+                        return viewValue;
+                    }
+                });
+            }
+        });
+     }
+   };
 });
