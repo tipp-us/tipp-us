@@ -7,10 +7,9 @@
     
   </md-input-container> -->
 
-  <form ng-submit="search()">
-    <!-- will automatically update $scope.user.first_name and .last_name -->
-    <input type="text" placeholder="Find Artist by Name or Code" class="artistSearch" ng-model="user.first_name"> 
-    <md-button flex class="md-raised md-primary" ng-click="search()">Search</md-button>
+  <form layout="row" layout-align="center" onsubmit="searchArtist">
+    <input class="typeahead" type="text" placeholder="Find Artist by Name or Code" sf-typeahead options="exampleOptions" datasets="artistData" ng-model="selectedArtist">
+    <input type="submit" class="hiddenSubmit"/>
   </form>
-</div>  
+</div>
 <artist-list></artist-list>
