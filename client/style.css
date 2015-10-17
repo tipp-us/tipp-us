@@ -18,3 +18,7 @@ md-icon {
   background: green; 
   color: white; 
 }
+.artistSearch {
+  width: 300;
+  margin-left: 350;
+}

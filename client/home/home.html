@@ -1,11 +1,16 @@
 <h3 class="md-headline" layout="row" flex layout-align="center">Starving Artist</h3>
 <h4 class="md-subhead" layout="row" flex layout-align="center">Show your love for local artists and musicians</h4>
 <div layout="column" layout-align="center">
-  <md-input-container flex  class="md-primary md-text-float">
+  <!-- <md-input-container flex  class="md-primary md-text-float">
     <label>Find Artist by Name or Code</label>
-    <input type="text"> <!-- ng-model="user.name"> -->
+    <input type="text" ng-model="artist.name"> 
     
-  </md-input-container>
-  <md-button flex class="md-raised md-primary">Search</md-button>
+  </md-input-container> -->
+
+  <form ng-submit="search()">
+    <!-- will automatically update $scope.user.first_name and .last_name -->
+    <input type="text" placeholder="Find Artist by Name or Code" class="artistSearch" ng-model="user.first_name"> 
+    <md-button flex class="md-raised md-primary" ng-click="search()">Search</md-button>
+  </form>
 </div>  
 <artist-list></artist-list>
