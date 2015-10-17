@@ -28,7 +28,16 @@
     "node": "4.2.1"
   },
   "devDependencies": {
+    "chai": "^3.3.0",
     "gulp": "^3.9.0",
-    "gulp-jshint": "^1.11.2"
+    "gulp-jshint": "^1.11.2",
+    "jshint-stylish": "^2.0.1",
+    "karma": "^0.13.11",
+    "karma-chai": "^0.1.0",
+    "karma-mocha": "^0.2.0",
+    "karma-mocha-reporter": "^1.1.1",
+    "karma-phantomjs-launcher": "^0.2.1",
+    "mocha": "^2.3.3",
+    "phantomjs": "^1.9.18"
   }
 }
