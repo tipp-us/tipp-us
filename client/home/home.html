@@ -1,11 +1,15 @@
 <h3 class="md-headline" layout="row" flex layout-align="center">Starving Artist</h3>
 <h4 class="md-subhead" layout="row" flex layout-align="center">Show your love for local artists and musicians</h4>
 <div layout="column" layout-align="center">
-  <md-input-container flex  class="md-primary md-text-float">
+  <!-- <md-input-container flex  class="md-primary md-text-float">
     <label>Find Artist by Name or Code</label>
-    <input type="text"> <!-- ng-model="user.name"> -->
+    <input type="text" ng-model="artist.name"> 
     
-  </md-input-container>
-  <md-button flex class="md-raised md-primary">Search</md-button>
-</div>  
+  </md-input-container> -->
+
+  <form layout="row" layout-align="center" onsubmit="searchArtist">
+    <input class="typeahead" type="text" placeholder="Find Artist by Name or Code" sf-typeahead options="exampleOptions" datasets="artistData" ng-model="selectedArtist">
+    <input type="submit" class="hiddenSubmit"/>
+  </form>
+</div>
 <artist-list></artist-list>

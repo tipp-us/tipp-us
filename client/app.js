@@ -1,4 +1,4 @@
-var app = angular.module('StarterApp', ['ngMaterial','ui.router', 'geolocation'])
+var app = angular.module('StarterApp', ['ngMaterial','ui.router', 'geolocation', 'siyfion.sfTypeahead'])
 .config(function($mdThemingProvider) {
   $mdThemingProvider.theme('default')
     .primaryPalette('indigo')
@@ -50,10 +50,42 @@ app.controller('AppCtrl', ['$scope', '$mdSidenav', '$http', function($scope, $md
         });
       });
     };
-    $scope.getToken();
-}]);
+  $scope.getToken();
+  $scope.searchArtist = function(){
+    // TODO:
+      // talk to doug about how we want the server to pull the data
+  };
+  
+  // bloodhound suggestion engine with sample data
+    // TODO delete this testing engine data when get is complete
+  var artists = new Bloodhound({
+    datumTokenizer: function(d) { return Bloodhound.tokenizers.whitespace(d.artist); },
+    queryTokenizer: Bloodhound.tokenizers.whitespace,
+    local: [
+      {artist: 'The Dougs'},
+      {artist: 'The Taylors'},
+      {artist: 'The Joes'},
+      {artist: 'The Rods'},
+      {artist: 'This is a test of a long one'},
+      {artist: '1234 5678'},
+      {artist: '5678 1234'},
+      {artist: 'The Doug extra words 1234'},
+    ]
+  });
 
-// Controller for Tip mdDialog box
+  artists.initialize();
+  
+  $scope.artistData = {
+    displayKey: 'artist',
+    source: artists.ttAdapter()
+  };
+
+  // This option highlights the main option in
+  $scope.exampleOptions = {
+    highlight: true
+  };
+  
+}]);
 
 app.directive('artistList', ['$rootScope', '$state', function($scope, $state){
   return {
