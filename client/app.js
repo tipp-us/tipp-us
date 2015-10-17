@@ -98,6 +98,10 @@ app.directive('artistDisplay', ['$rootScope', '$state', function($scope, $state)
       this.click = function(artist) {
         // console.log(artist);
       };
+      this.go = function() {
+        var art = $scope.artist
+        window.location.href = ("http://maps.google.com/maps?q="+art.position.lat+","+art.position.long+"+(My+Point)&z=14&ll="+art.position.lat+","+art.position.long);
+      }
 
     }],
     controllerAs: 'selectedArtist'
