@@ -70,7 +70,7 @@ app.post('/nearby', jsonParser, function(req, res) {
           id: '1234',
           name: 'The Joes',
           pic: 'http://thecatapi.com/api/images/get',
-          position: {lat: -7.75113, long: -47.22246},
+          position: {lat: 42.775546, long: -71.309915},
           location: 0.63,
           venue: 'Starbucks',
         },
