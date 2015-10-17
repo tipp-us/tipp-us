@@ -28,6 +28,10 @@ if (process.env.BRAINTREE_MERCHANTID && process.env.BRAINTREE_PUBLICKEY && proce
   });
 }
 
+/*===========================================================================/
+/                             MIDDLEWARE                                     /
+/===========================================================================*/
+
 // attach middleware
 app.use(express.static(__dirname + '/../client'));
 /**
@@ -43,6 +47,32 @@ app.use(function(req, res, next) {
 /*===========================================================================/
 /                               ROUTES                                       /
 /===========================================================================*/
+
+// Get names and IDs for all artists in db
+app.get('/getAll', function(req, res) {
+  var testObj = {
+    artists:
+      [
+        {
+          id: '1234',
+          name: 'The Joes',
+        },
+        {
+          id: '2345',
+          name: 'The Rods',
+        },
+        {
+          id: '3456',
+          name: 'The Taylors',
+        },
+        {
+          id: '4567',
+          name: 'The Kevins',
+        },
+      ],
+  };
+  res.status(200).json(testObj);
+});
 
 // Get info of single artist
 app.post('/artist', jsonParser, function(req, res) {
@@ -77,7 +107,6 @@ app.post('/nearby', jsonParser, function(req, res) {
         {
           id: '2345',
           name: 'The Rods',
-
           pic: 'http://thecatapi.com/api/images/get',
           position: {lat:  28.43593, long: 69.77992},
           location: 1.5,
