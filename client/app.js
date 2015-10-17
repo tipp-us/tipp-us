@@ -64,7 +64,6 @@ app.directive('artistList', ['$rootScope', '$state', function($scope, $state){
       this.artistList = [];
       this.click = function(artist) {
         $scope.artist = artist;
-        console.log($scope.artist.location);
         $state.go('^.artists');
       };
       geolocation.getLocation().then(function(data){
@@ -84,11 +83,16 @@ app.directive('artistDisplay', ['$rootScope', '$state', function($scope, $state)
     restrict: 'E',
     templateUrl: 'artistDisplay.html',
     controller: ['$http', function($http) {
+      if(!$scope.artist) {
+        $state.go('^.home');
+      }
       var self = this;
       this.artistInfo = {};
-      $http.get('/artist').success(function(data) {
+      // as of 10-16, server still responding with dummy data
+      $http.post('/artist', {artistId: $scope.artist.id}).success(function(data) {
         console.log('in artistDisplay. $scope.artist is...');
         console.log($scope.artist);
+        console.log(data);
         self.info = data;
       });
       this.click = function(artist) {
