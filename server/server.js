@@ -60,28 +60,11 @@ app.use(function(req, res, next) {
 
 // Get names and IDs for all artists in db
 app.get('/getAll', function(req, res) {
-  var testObj = {
-    artists:
-      [
-        {
-          id: '1234',
-          name: 'The Joes',
-        },
-        {
-          id: '2345',
-          name: 'The Rods',
-        },
-        {
-          id: '3456',
-          name: 'The Taylors',
-        },
-        {
-          id: '4567',
-          name: 'The Kevins',
-        },
-      ],
-  };
-  res.status(200).json(testObj);
+  db.show.findAll({
+    attributes: ['id', 'name'],
+  }).then(function(artist) {
+    res.status(200).json(artist);
+  });
 });
 
 // Get info of single artist
