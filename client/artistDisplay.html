@@ -2,4 +2,4 @@
 <img flex="90" ng-src='{{selectedArtist.info.pic}}'>
 <h4 class="md-subhead" layout="row" flex layout-align="center">{{selectedArtist.info.location}}</h4>
 <md-button class="md-primary md-raised" ng-click="selectedArtist.go()" layout="row" flex layout-align="center">Navigate</md-button>
-<md-button class="md-primary md-raised" ng-click="form=true" layout="row" flex layout-align="center">Tip {{selectedArtist.info.name}}</md-button>
+<md-button class="md-primary md-raised" ng-click="form=true; getToken()" layout="row" flex layout-align="center">Tip {{selectedArtist.info.name}}</md-button>
