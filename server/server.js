@@ -88,13 +88,28 @@ app.get('/getAll', function(req, res) {
 app.post('/artist', jsonParser, function(req, res) {
   var artistId = req.body.artistId;
 
-  // TODO: replace with real data fetched from db
-  var testObj = {
-    id: '9999',
-    name: 'The Dougs',
-    pic: 'http://thecatapi.com/api/images/get',
-  };
-  res.status(200).json(testObj);
+  db.artist.findById(artistId)
+    .then(function(artist) {
+      if (artist === null) {
+        res.status(404).end('ArtistID ' + artistId + ' not found.');
+      }
+
+      res.status(200).json({
+        id: artist.id,
+        name: artist.name,
+        pic: artist.imageUrl,
+        email: artist.email,
+        artistUrl: artist.artistUrl,
+      });
+    });
+
+  // // TODO: replace with real data fetched from db
+  // var testObj = {
+  //   id: '9999',
+  //   name: 'The Dougs',
+  //   pic: 'http://thecatapi.com/api/images/get',
+  // };
+  // res.status(200).json(testObj);
 });
 
 // Get list of specified number of nearby artists
@@ -121,7 +136,7 @@ app.post('/nearby', jsonParser, function(req, res) {
         },
         location: dist,
         venue: show.venue,
-     });
+      });
     }
 
     closest =  closest.sort(function(one, two) {
