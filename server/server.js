@@ -7,6 +7,8 @@ var bodyParser = require('body-parser');
 var jsonParser = bodyParser.json();
 var util = require('util');
 
+var db = require('../db/config.js');
+
 // Instantiate the braintree gateway.
 // Note: Must change these values for production
 var gateway;
@@ -138,9 +140,7 @@ app.post('/create/artist', jsonParser, function(req, res) {
   // TODO: fill in necessary fields to create a user
   var artistData = {
     email: req.body.email,
-    name: req.body.name,
-
-    // additional fields...
+    password: req.body.password,
   };
 
   // TODO: check if user in db
@@ -149,12 +149,16 @@ app.post('/create/artist', jsonParser, function(req, res) {
   //  else, user already exists
   //    return some obj with error message to be displayed
   //    tell the user to think of a new name or something
-
-  // TODO: replace this test data, which assumes that a new user was created
-  res.status(201).json({
-    id: '9999',
-    name: 'The Dougs',
-    pic: 'http://thecatapi.com/api/images/get',
+  db.artist.findOne({
+    where: {email: artistData.email},
+  }).then(function(artist) {
+    if (artist) {
+      res.status(200).end("Sorry, email already registered");
+    } else {
+      db.artist.create(artistData).then(function(artist) {
+        res.status(201).json(artist);
+      });
+    }
   });
 });
 

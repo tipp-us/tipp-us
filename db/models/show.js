@@ -1,8 +1,6 @@
 module.exports = function(sequelize, DataTypes) {
-  var Show = sequelize.define('User', {
-    id: { type: DataTypes.STRING, primaryKey: true},
-    artistId: DataTypes.STRING,
-    location: DataTypes.STRING,
+  var Show = sequelize.define('Show', {
+    venue: DataTypes.STRING,
     latitude: DataTypes.INTEGER,
     longitude: DataTypes.INTEGER,
     startTime: DataTypes.DATE,
