@@ -1,5 +1,3 @@
-var config = require('../server/config.js');
-
 if (!global.hasOwnProperty('db')) {
   var Sequelize = require('sequelize');
   var sequelize = null;
@@ -15,6 +13,7 @@ if (!global.hasOwnProperty('db')) {
     });
   } else {
     // the application is executed on the local machine ...
+    var config = require('../server/config.js');
     sequelize = new Sequelize(config.db.db, config.db.user, config.db.password, {
       dialect:  'postgres',
       host: '127.0.0.1',
@@ -36,7 +35,6 @@ if (!global.hasOwnProperty('db')) {
 
   global.db.artist.associate(global.db);
   global.db.show.associate(global.db);
-
 
   sequelize.sync().then(function() {
     // global.db.artist.create({
