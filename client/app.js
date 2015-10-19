@@ -53,7 +53,7 @@ app.controller('AppCtrl', ['$scope', '$state', '$mdSidenav', '$http', '$location
         });
       });
     };
-  $scope.getToken();
+  // $scope.getToken();
 
 /*===========================================================================/
 /                             SEARCH BAR                                     /
