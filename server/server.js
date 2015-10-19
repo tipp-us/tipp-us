@@ -60,10 +60,10 @@ app.use(function(req, res, next) {
 
 // Get names and IDs for all artists in db
 app.get('/getAll', function(req, res) {
-  db.show.findAll({
+  db.artist.findAll({
     attributes: ['id', 'name'],
-  }).then(function(artist) {
-    res.status(200).json(artist);
+  }).then(function(artists) {
+    res.status(200).json(artists);
   });
 });
 
