@@ -59,7 +59,7 @@ app.controller('AppCtrl', ['$scope', '$state', '$mdSidenav', '$http', function($
   $scope.changeState = function(stateName) {
     $state.go('^.'+stateName);
     $mdSidenav('left').toggle();
-  }
+  };
   
   // bloodhound suggestion engine with sample data
     // TODO delete this testing engine data when get is complete
@@ -136,7 +136,7 @@ app.directive('artistDisplay', ['$rootScope', '$state', function($scope, $state)
           // console.log(artist);
         };
         this.go = function() {
-          var art = $scope.artist
+          var art = $scope.artist;
           window.location.href = ("http://maps.google.com/maps?q="+art.position.lat+","+art.position.long+"+(My+Point)&z=14&ll="+art.position.lat+","+art.position.long);
         };
       }
@@ -175,7 +175,7 @@ app.config(function ($stateProvider, $urlRouterProvider) {
         } else {
           this.formValid = false;
         }
-      }
+      };
     }],
     controllerAs: 'signupCtrl'
   });
