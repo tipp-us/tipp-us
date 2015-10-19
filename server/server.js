@@ -160,14 +160,6 @@ app.post('/create/artist', jsonParser, function(req, res) {
       });
     }
   });
-
-
-  // TODO: replace this test data, which assumes that a new user was created
-  res.status(201).json({
-    id: '9999',
-    name: 'The Dougs',
-    pic: 'http://thecatapi.com/api/images/get',
-  });
 });
 
 // Send a braintree client token to client

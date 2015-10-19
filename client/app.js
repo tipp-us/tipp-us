@@ -168,6 +168,7 @@ app.config(function ($stateProvider, $urlRouterProvider) {
         var valid = this.email && this.pass && this.confirm;
         if(valid) {
           $http.post('/create/artist', form).success(function(data) {
+            console.log(data);
             $state.go('^.home');
           });
           
