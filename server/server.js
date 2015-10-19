@@ -94,45 +94,35 @@ app.post('/nearby', jsonParser, function(req, res) {
   var numArtists = req.body.numberOfArtists || 3;
   var position = req.body.position;
 
-  // TODO: replace with real data fetched from db
-  var testObj = {
-    artists:
-      [
-        {
-          id: '1234',
-          name: 'The Joes',
-          pic: 'http://thecatapi.com/api/images/get',
-          position: {lat: 42.775546, long: -71.309915},
-          location: 0.63,
-          venue: 'Starbucks',
+  db.show.findAll({include: [db.artist]}).then(function(shows) {
+    var closest = [];
+    for(var i = 0; i < shows.length; i++) {
+      var show = shows[i].dataValues;
+      var artist = show.Artist;
+      var dist = getDistanceFromLatLonInKm(position.lat, position.long, show.latitude, show.longitude) / 1.60934;
+      closest.push({
+        id: artist.id,
+        name: artist.name, 
+        pic: artist.imageUrl,
+        position: {
+          lat: show.latitude,
+          long: show.longitude,
         },
-        {
-          id: '2345',
-          name: 'The Rods',
-          pic: 'http://thecatapi.com/api/images/get',
-          position: {lat:  28.43593, long: 69.77992},
-          location: 1.5,
-          venue: 'The Hollywood Bowl',
-        },
-        {
-          id: '3456',
-          name: 'The Taylors',
-          pic: 'http://thecatapi.com/api/images/get',
-          position: {lat: 11.10532, long: -13.88939},
-          location: 7.6,
-        },
-        {
-          id: '4567',
-          name: 'The Kevins',
-          pic: 'http://thecatapi.com/api/images/get',
-          position: {lat: 60.87421, long: 151.17539},
-          location: 150.7,
-        },
-      ],
-    numberOfArtists: 4,
-    searchPosition: {lat: -7.75113, long: -47.22246},
-  };
-  res.status(200).json(testObj);
+        location: dist,
+        venue: show.venue,
+     });
+    }
+
+    closest =  closest.sort(function(one, two) {
+      return one.location > two.location;
+    }).splice(0,numArtists);
+    res.status(200).json({
+      artists: closest,
+      numberOfArtists: closest.length,
+      searchPosition: position,
+    });
+
+  });
 });
 
 app.post('/create/artist', jsonParser, function(req, res) {
@@ -205,3 +195,23 @@ app.post('/checkout', jsonParser, function(req, res) {
 
 // export the express app to be used in index.js
 module.exports = app;
+
+//Helper functions
+function getDistanceFromLatLonInKm(lat1,lon1,lat2,lon2) {
+  var R = 6371; // Radius of the earth in km
+  var dLat = deg2rad(lat2-lat1);  // deg2rad below
+  var dLon = deg2rad(lon2-lon1); 
+
+  var a = 
+    Math.sin(dLat/2) * Math.sin(dLat/2) +
+    Math.cos(deg2rad(lat1)) * Math.cos(deg2rad(lat2)) * 
+    Math.sin(dLon/2) * Math.sin(dLon/2)
+    ; 
+  var c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a)); 
+  var d = R * c; // Distance in km
+  return d;
+}
+
+function deg2rad(deg) {
+  return deg * (Math.PI/180)
+}

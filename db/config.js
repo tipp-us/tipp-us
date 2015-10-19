@@ -38,19 +38,7 @@ if (!global.hasOwnProperty('db')) {
   global.db.show.associate(global.db);
 
 
-  sequelize.sync({force:true})
-  .then(function() {
-    return global.db.artist.create({
-      name: 'BandName',
-    })
-    .then(function(artist){
-      return global.db.show.create({
-        venue: 'theVenue',
-      })
-      .then(function(show) {
-        show.setArtist(artist);
-      });
-    });
+  sequelize.sync().then(function() {
   });
 
   /*
