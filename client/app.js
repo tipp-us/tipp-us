@@ -6,10 +6,13 @@ var app = angular.module('StarterApp', ['ngMaterial','ui.router', 'geolocation',
     // .dark();
 });
 
-app.controller('AppCtrl', ['$scope', '$state', '$mdSidenav', '$http', function($scope,$state, $mdSidenav, $http){
+app.controller('AppCtrl', ['$scope', '$state', '$mdSidenav', '$http', '$location', function($scope,$state, $mdSidenav, $http, $location){
   $scope.toggleSidenav = function(menuId) {
     $mdSidenav(menuId).toggle();
   };
+/*===========================================================================/
+/                             BRAINTREE                                      /
+/===========================================================================*/
   $scope.message = 'Please specify tip amount in the form below:';
     $scope.showDropinContainer = true;
     $scope.isError = false;
@@ -51,30 +54,43 @@ app.controller('AppCtrl', ['$scope', '$state', '$mdSidenav', '$http', function($
       });
     };
   $scope.getToken();
-  $scope.searchArtist = function(){
-    // TODO:
-      // talk to doug about how we want the server to pull the data
+
+/*===========================================================================/
+/                             SEARCH BAR                                     /
+/===========================================================================*/
+  $scope.searchableArtists = null;
+  $scope.getArtists = function(){
+    $http({
+      method: 'GET',
+      url: '/getAll',
+    }).success(function(data){
+      $scope.searchableArtists = data.artists;
+    });
+  };
+  $scope.getArtists();
+  $scope.search = function(artist){
+    $scope.searchableArtists.forEach(function(element){
+      if(element.name === artist.artist){
+        // redirecting to signup page for the time being
+        $location.url('/signup');
+      }
+    });
   };
 
-  $scope.changeState = function(stateName) {
-    $state.go('^.'+stateName);
-    $mdSidenav('left').toggle();
-  };
-  
+/*===========================================================================/
+/                             TYPEAHEAD                                      /
+/===========================================================================*/
+
   // bloodhound suggestion engine with sample data
     // TODO delete this testing engine data when get is complete
   var artists = new Bloodhound({
     datumTokenizer: function(d) { return Bloodhound.tokenizers.whitespace(d.artist); },
     queryTokenizer: Bloodhound.tokenizers.whitespace,
     local: [
-      {artist: 'The Dougs'},
-      {artist: 'The Taylors'},
       {artist: 'The Joes'},
+      {artist: 'The Taylors'},
+      {artist: 'The Kevins'},
       {artist: 'The Rods'},
-      {artist: 'This is a test of a long one'},
-      {artist: '1234 5678'},
-      {artist: '5678 1234'},
-      {artist: 'The Doug extra words 1234'},
     ]
   });
 
@@ -85,9 +101,14 @@ app.controller('AppCtrl', ['$scope', '$state', '$mdSidenav', '$http', function($
     source: artists.ttAdapter()
   };
 
-  // This option highlights the main option in
+  // This option highlights the main option
   $scope.exampleOptions = {
     highlight: true
+  };
+
+  $scope.changeState = function(stateName) {
+    $state.go('^.'+stateName);
+    $mdSidenav('left').toggle();
   };
   
 }]);
