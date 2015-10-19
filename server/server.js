@@ -6,31 +6,36 @@ var braintree = require('braintree');
 var bodyParser = require('body-parser');
 var jsonParser = bodyParser.json();
 var util = require('util');
-var config = require('./config.js')
 var db = require('../db/config.js');
 
 var cloudinary = require('cloudinary');
-
-cloudinary.config(config.cloudConfig);
 
 // Instantiate the braintree gateway.
 // Note: Must change these values for production
 var gateway;
 
-if (process.env.BRAINTREE_MERCHANTID && process.env.BRAINTREE_PUBLICKEY && process.env.BRAINTREE_PRIVATEKEY) {
+// if running on Heroku
+if (process.env.BRAINTREE_MERCHANTID) {
   gateway = braintree.connect({
     environment: braintree.Environment.Sandbox,
     merchantId: process.env.BRAINTREE_MERCHANTID,
     publicKey: process.env.BRAINTREE_PUBLICKEY,
     privateKey: process.env.BRAINTREE_PRIVATEKEY,
   });
-} else {
+  cloudinary.config({
+    cloud_name: process.env.CLOUD_NAME,
+    api_key: process.env.CLOUD_KEY,
+    api_secret: process.env.CLOUD_SECRET,
+  });
+} else { // running locally
+  var config = require('./config.js');
   gateway = braintree.connect({
     environment: braintree.Environment.Sandbox,
     merchantId: config.braintree.merchantId,
     publicKey: config.braintree.publicKey,
     privateKey: config.braintree.privateKey,
   });
+  cloudinary.config(config.cloudConfig);
 }
 
 /*===========================================================================/
@@ -99,16 +104,16 @@ app.post('/nearby', jsonParser, function(req, res) {
 
   db.show.findAll({include: [db.artist]}).then(function(shows) {
     var closest = [];
-    for(var i = 0; i < shows.length; i++) {
+    for (var i = 0; i < shows.length; i++) {
       var show = shows[i].dataValues;
       var artist = show.Artist;
       var dist = getDistanceFromLatLonInKm(position.lat, position.long, show.latitude, show.longitude) / 1.60934;
-      var splits = artist.imageUrl.split("/");
-      splits[splits.length - 2] = "w_50,h_50";
-      var img = splits.join("/");
+      var splits = artist.imageUrl.split('/');
+      splits[splits.length - 2] = 'w_50,h_50';
+      var img = splits.join('/');
       closest.push({
         id: artist.id,
-        name: artist.name, 
+        name: artist.name,
         pic: img,
         position: {
           lat: show.latitude,
@@ -121,7 +126,7 @@ app.post('/nearby', jsonParser, function(req, res) {
 
     closest =  closest.sort(function(one, two) {
       return one.location > two.location;
-    }).splice(0,numArtists);
+    }).splice(0, numArtists);
     res.status(200).json({
       artists: closest,
       numberOfArtists: closest.length,
@@ -149,7 +154,7 @@ app.post('/create/artist', jsonParser, function(req, res) {
     where: {email: artistData.email},
   }).then(function(artist) {
     if (artist) {
-      res.status(200).end("Sorry, email already registered");
+      res.status(200).end('Sorry, email already registered');
     } else {
       db.artist.create(artistData).then(function(artist) {
         res.status(201).json(artist);
