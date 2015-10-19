@@ -104,7 +104,7 @@ app.directive('artistList', ['$rootScope', '$state', function($scope, $state){
         $state.go('^.artists');
       };
       geolocation.getLocation().then(function(data){
-        var coords = {lat:data.coords.latitude, long:data.coords.longitude};
+        var coords = {position: {lat:data.coords.latitude, long:data.coords.longitude}};
         $http.post('/nearby',coords).success(function(data) {
           self.artistList = data;
         });

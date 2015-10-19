@@ -1,8 +1,8 @@
 module.exports = function(sequelize, DataTypes) {
   var Show = sequelize.define('Show', {
     venue: DataTypes.STRING,
-    latitude: DataTypes.INTEGER,
-    longitude: DataTypes.INTEGER,
+    latitude: DataTypes.DOUBLE,
+    longitude: DataTypes.DOUBLE,
     startTime: DataTypes.DATE,
     stopTime: DataTypes.DATE,
 
