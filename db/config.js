@@ -39,6 +39,18 @@ if (!global.hasOwnProperty('db')) {
 
 
   sequelize.sync().then(function() {
+    // global.db.artist.create({
+    //   name: "Joebo",
+    //   email: "joe@joe.com",
+    //   password: "asdf",
+    //   imageUrl: "http://res.cloudinary.com/dalft4dfx/image/upload/h_300,w_300/l3TcPFO_yyjcr2.jpg",
+    // })
+    // global.db.show.create({
+    //   venue: "somefLfsdocaftion",
+    //   latitude: 360.7761589,
+    //   longitude: -71.3090285,
+    //   ArtistId: 5,
+    // })
   });
 
   /*
