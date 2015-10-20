@@ -1,0 +1,16 @@
+<md-input-container class="md-primary">
+  <label>Email</label>
+  <input ng-model="signupCtrl.email" type="email"> <!-- ng-model="user.name"> -->
+</md-input-container>
+<md-input-container class="md-primary">
+  <label>Password</label>
+  <input ng-model="signupCtrl.pass" type="password"> <!-- ng-model="user.name"> -->
+</md-input-container>
+<md-input-container class="md-primary">
+  <label>Confirm Password</label>
+  <input type="password" ng-model="signupCtrl.confirm"  data-password-verify="signupCtrl.pass"> <!-- ng-model="user.name"> -->
+</md-input-container>
+<div ng-show="!signupCtrl.formValid">Invalid form</div>
+<div flex layout-align="end center" layout="column">
+  <md-button ng-click="signupCtrl.signup()">Sign Up</md-button>
+</div>
