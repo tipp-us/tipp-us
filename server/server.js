@@ -162,6 +162,40 @@ app.post('/create/artist', jsonParser, function(req, res) {
   });
 });
 
+//edit an already created artist page
+app.post('/edit/artist', jsonParser ,function(req, res) {
+  //TODO auth
+  var data = req.body;
+  db.artist.findOne({
+    where: {email: data.email}
+  }).then(function(artist) {
+    if(data.image) {
+      cloudinary.uploader.upload(data.image, function(result) {
+       //wait for image to upload!
+       finish(result.url);
+      });
+    } else {
+      finish();
+    }
+    
+    function finish(url) {
+      artist.name = data.name;
+      artist.description = data.description;
+      artist.password = data.pass;
+      //Check to see if new url is already used by someone
+      artist.artistUrl = data.url;
+      //
+      artist.imageUrl = url;
+      artist.save().then(function() {
+        res.end("Success", 200);
+
+      });
+    }
+  }).catch(function(e) {
+    res.status(400).json({error: e});
+  });
+});
+
 // Send a braintree client token to client
 app.get('/client_token', function(req, res) {
   gateway.clientToken.generate({}, function(err, response) {
@@ -223,5 +257,5 @@ function getDistanceFromLatLonInKm(lat1,lon1,lat2,lon2) {
 }
 
 function deg2rad(deg) {
-  return deg * (Math.PI/180)
+  return deg * (Math.PI/180);
 }

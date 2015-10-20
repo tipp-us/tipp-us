@@ -179,6 +179,22 @@ app.config(function ($stateProvider, $urlRouterProvider) {
     templateUrl: 'artists/artist.html',
   });
 
+  $stateProvider.state('edit', {
+    url: '/edit',
+    templateUrl: 'edit/edit.html',
+    controller: ['$http','$state', function($http,$state) {
+      this.save = function() {
+        var data = this;
+        data.image = window.image;
+        $http.post('/edit/artist', data).success(function(rdata) {
+          $state.go('^.home');
+        });
+
+      };
+    }],
+    controllerAs: 'editCtrl',
+  });
+
   $stateProvider.state('signup', {
     url: '/signup',
     templateUrl: 'signup/signup.html',
