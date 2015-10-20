@@ -12,6 +12,7 @@ module.exports = function(sequelize, DataTypes) {
       associate: function(models) {
         Artist.hasMany(models.show);
       },
+      // verifyPassword: function()......
     },
   });
 
