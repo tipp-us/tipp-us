@@ -217,20 +217,19 @@ app.config(function ($stateProvider, $urlRouterProvider) {
     controllerAs: 'signupCtrl'
   });
 
-    $stateProvider.state('login', {
+  $stateProvider.state('login', {
     url: '/login',
     templateUrl: 'login/login.html',
     controller: ['$http', '$state',function($http, $state) {
       this.formValid = true;
       this.login = function() {
         var form = {email: this.email,password: this.pass};
-        var valid = this.email && this.pass && this.confirm;
+        var valid = this.email && this.pass;
         if(valid) {
-          $http.post('/create/artist', form).success(function(data) {
+          $http.post('/artist', form).success(function(data) {
             console.log(data);
             $state.go('^.home');
           });
-          
         } else {
           this.formValid = false;
         }
