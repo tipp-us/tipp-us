@@ -11,7 +11,7 @@ app.controller('AppCtrl', ['$scope', '$state', '$mdSidenav', '$http', '$location
     $mdSidenav(menuId).toggle();
   };
 /*===========================================================================/
-/                             BRAINTREE                                      /
+/                             BRAINTREE DROPIN                               /
 /===========================================================================*/
   $scope.message = 'Please specify tip amount in the form below:';
     $scope.showDropinContainer = true;
@@ -54,6 +54,47 @@ app.controller('AppCtrl', ['$scope', '$state', '$mdSidenav', '$http', '$location
       });
     };
   // $scope.getToken();
+
+/*===========================================================================/
+/                             BRAINTREE MARKETPLACE                          /
+/===========================================================================*/
+  merchantAccountParams = {
+  individual: {
+    firstName: "Taylor",
+    lastName: "Hayduk",
+    email: "example@gmail.com",
+    phone: "5555555555",
+    dateOfBirth: "2015-10-20",
+    ssn: "555-55-5555",
+    address: {
+      streetAddress: "123 Test St",
+      locality: "Los Angeles",
+      region: "CA",
+      postalCode: "91210"
+    }
+  },
+  business: {
+    legalName: "The Taylors",
+    taxId: "98-7654321",
+    address: {
+      streetAddress: "123 Test St",
+      locality: "Los Angeles",
+      region: "CA",
+      postalCode: "91210"
+    }
+  },
+  funding: {
+    descriptor: "Taylor's Bank",
+    destination: 'MerchantAccount.FundingDestination.Bank',
+    email: "example@gmail.com",
+    mobilePhone: "5555555555",
+    accountNumber: "1123581321",
+    routingNumber: "071101307"
+  },
+  tosAccepted: true,
+  masterMerchantAccountId: "taylorhayduck_marketplace",
+  id: "taylor_band"
+};
 
 /*===========================================================================/
 /                             SEARCH BAR                                     /
@@ -177,6 +218,11 @@ app.config(function ($stateProvider, $urlRouterProvider) {
   $stateProvider.state('artists', {
     url: '/artists',
     templateUrl: 'artists/artist.html',
+  });
+
+  $stateProvider.state('banking', {
+    url: '/banking',
+    templateUrl: 'artists/submerchant.html',
   });
 
   $stateProvider.state('edit', {
