@@ -1,5 +1,6 @@
 var gulp = require('gulp');
 var jshint = require('gulp-jshint');
+var shell = require('gulp-shell');
 var Server = require('karma').Server;
 
 gulp.task('lint', function() {
@@ -17,6 +18,10 @@ gulp.task('test', function(done) {
     singleRun: true,
   }, done).start();
 });
+
+gulp.task('dummydb', shell.task('node db/dummydb.js'));
+
+gulp.task('dropdb', shell.task('node db/dropdb.js'));
 
 gulp.task('check', ['lint', 'test']);
 
