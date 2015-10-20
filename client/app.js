@@ -73,6 +73,7 @@ app.controller('AppCtrl', ['$scope', '$state', '$mdSidenav', '$http', '$location
       postalCode: "91210"
     }
   },
+  // below not needed if band is not a registered business
   business: {
     legalName: "The Taylors",
     taxId: "98-7654321",
@@ -84,11 +85,11 @@ app.controller('AppCtrl', ['$scope', '$state', '$mdSidenav', '$http', '$location
     }
   },
   funding: {
-    descriptor: "Taylor's Bank",
-    destination: 'MerchantAccount.FundingDestination.Bank',
-    email: "example@gmail.com",
-    mobilePhone: "5555555555",
-    accountNumber: "1123581321",
+    descriptor: "Taylor's Bank", // optional
+    destination: 'MerchantAccount.FundingDestination.Bank', // could be email, pnone, or bank
+    email: "example@gmail.com", // Venmo
+    mobilePhone: "5555555555", // Venmo
+    accountNumber: "1123581321", // required if bank is main option
     routingNumber: "071101307"
   },
   tosAccepted: true,
