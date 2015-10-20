@@ -6,15 +6,16 @@ var braintree = require('braintree');
 var bodyParser = require('body-parser');
 var jsonParser = bodyParser.json();
 var util = require('util');
-var request = require('request');
 var db = require('../db/config.js');
+// For venmo auth:
+// var request = require('request');
+// var venmoId, venmoSecret; 
 
 var cloudinary = require('cloudinary');
 
 // Instantiate the braintree gateway.
 // Note: Must change these values for production
 var gateway;
-var venmoId, venmoSecret; 
 
 // if running on Heroku
 if (process.env.BRAINTREE_MERCHANTID) {
@@ -29,9 +30,9 @@ if (process.env.BRAINTREE_MERCHANTID) {
     api_key: process.env.CLOUD_KEY,
     api_secret: process.env.CLOUD_SECRET,
   });
-  // TODO: Add these to heroku config vars
-  venmoId = process.env.VENMO_CLIENT_ID;
-  venmoSecret = process.env.VENMO_CLIENT_SECRET;
+  // For venmo auth:
+  // venmoId = process.env.VENMO_CLIENT_ID;
+  // venmoSecret = process.env.VENMO_CLIENT_SECRET;
 } else { // running locally
   var config = require('./config.js');
   gateway = braintree.connect({
@@ -41,8 +42,9 @@ if (process.env.BRAINTREE_MERCHANTID) {
     privateKey: config.braintree.privateKey,
   });
   cloudinary.config(config.cloudConfig);
-  venmoId = config.venmo.client_id;
-  venmoSecret = config.venmo.client_secret;
+  // For venmo auth:
+  // venmoId = config.venmo.client_id;
+  // venmoSecret = config.venmo.client_secret;
 }
 
 /*===========================================================================/
@@ -238,43 +240,43 @@ app.post('/checkout', jsonParser, function(req, res) {
   });
 });
 
-// Venmo auth and callback for auth token
-app.get('/auth/venmo', jsonParser, function(req, res) {
-  // redirect to auth with venmo, which will redirect back to /auth/venmo/callback with an auth code
-  res.redirect('https://api.venmo.com/v1/oauth/authorize?client_id=' + venmoId + '&scope=make_payments%20access_profile%20access_email&response_type=code');
-});
+// // Venmo auth and callback for auth token
+// app.get('/auth/venmo', jsonParser, function(req, res) {
+//   // redirect to auth with venmo, which will redirect back to /auth/venmo/callback with an auth code
+//   res.redirect('https://api.venmo.com/v1/oauth/authorize?client_id=' + venmoId + '&scope=make_payments%20access_profile%20access_email&response_type=code');
+// });
 
-app.get('/auth/venmo/callback', jsonParser, function(req, res) {
-  // auth with venmo to get token
-  var authCode = req.param('code');
-  request.post(
-    'https://api.venmo.com/v1/oauth/access_token',
-    {form: {
-      client_id: venmoId,
-      client_secret: venmoSecret,
-      code: authCode,
-    }},
-    function(err, response, body) {
-    if (err) {
-      console.log(err);
-      res.end('Failure!');
-    } else {
-      var data = JSON.parse(body);
-      // console.log('data:', data);
-      // console.log('data.access_token:', data.access_token);
-      var userData = {
-        name: data.user.display_name,
-        imageUrl: data.user.profile_picture_url,
-        email: data.user.email,
-        venmoAccessToken: data.access_token,
-        venmoRefreshToken: data.refresh_token,
-      };
-      // TODO: insert the above information into the database
+// app.get('/auth/venmo/callback', jsonParser, function(req, res) {
+//   // auth with venmo to get token
+//   var authCode = req.param('code');
+//   request.post(
+//     'https://api.venmo.com/v1/oauth/access_token',
+//     {form: {
+//       client_id: venmoId,
+//       client_secret: venmoSecret,
+//       code: authCode,
+//     }},
+//     function(err, response, body) {
+//     if (err) {
+//       console.log(err);
+//       res.end('Failure!');
+//     } else {
+//       var data = JSON.parse(body);
+//       // console.log('data:', data);
+//       // console.log('data.access_token:', data.access_token);
+//       var userData = {
+//         name: data.user.display_name,
+//         imageUrl: data.user.profile_picture_url,
+//         email: data.user.email,
+//         venmoAccessToken: data.access_token,
+//         venmoRefreshToken: data.refresh_token,
+//       };
+//       // TODO: insert the above information into the database
 
-      res.end('Success!'); 
-    }
-  });
-});
+//       res.end('Success!'); 
+//     }
+//   });
+// });
 // app.get('*', function(req, res) {
 //   var pat = req.path
 //   var a = pat.split("/").slice(2).join("/");
