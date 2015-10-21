@@ -100,25 +100,28 @@ app.controller('AppCtrl', ['$scope', '$state', '$mdSidenav', '$http', '$location
 /*===========================================================================/
 /                             SEARCH BAR                                     /
 /===========================================================================*/
-  $scope.searchableArtists = null;
+  $scope.searchableArtists = [];
   $scope.getArtists = function(){
     $http({
       method: 'GET',
       url: '/getAll',
     }).success(function(data){
-      $scope.searchableArtists = data.artists;
+        // $scope.searchableArtists= data;
+        data.forEach(function(element){
+          $scope.searchableArtists.push({artist: element.name});
+        });
     });
   };
   $scope.getArtists();
+
   $scope.search = function(artist){
     $scope.searchableArtists.forEach(function(element){
-      if(element.name === artist.artist){
+      if(element.artist === artist.artist){
         // redirecting to signup page for the time being
         $location.url('/signup');
       }
     });
   };
-
 /*===========================================================================/
 /                             TYPEAHEAD                                      /
 /===========================================================================*/
@@ -134,10 +137,18 @@ app.controller('AppCtrl', ['$scope', '$state', '$mdSidenav', '$http', '$location
       {artist: 'The Kevins'},
       {artist: 'The Rods'},
     ]
+    // prefetch: {
+    //   url: '/getAll',
+    //   filter: function(list){
+    //     return $.map(list, function(artist){
+    //       return {artist: artist};
+    //     });
+    //   }
+    // }
   });
 
   artists.initialize();
-  
+
   $scope.artistData = {
     displayKey: 'artist',
     source: artists.ttAdapter()
@@ -146,11 +157,6 @@ app.controller('AppCtrl', ['$scope', '$state', '$mdSidenav', '$http', '$location
   // This option highlights the main option
   $scope.exampleOptions = {
     highlight: true
-  };
-
-  $scope.changeState = function(stateName) {
-    $state.go('^.'+stateName);
-    $mdSidenav('left').toggle();
   };
   
 }]);
