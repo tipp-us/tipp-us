@@ -366,6 +366,23 @@ app.post('/edit/artist', jsonParser ,function(req, res) {
   });
 });
 
+app.post('/shows/add', jsonParser, function(req, res) {
+  var data = req.body;
+  console.log(data)
+  db.artist.findById(data.id).then(function(artist) {
+    db.show.create({
+      venue: data.venue,
+      latitude: data.lat,
+      longitude: data.long,
+      startTime: this.start,
+      stopTime: this.end,
+    }).then(function(show) {
+      show.setArtist(artist);
+      show.save();
+    })
+  })
+});
+
 // Send a braintree client token to client
 app.get('/client_token', function(req, res) {
   gateway.clientToken.generate({}, function(err, response) {
