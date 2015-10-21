@@ -142,8 +142,6 @@ app.get('/auth/facebook',
 app.get('/auth/facebook/callback', 
   passport.authenticate('facebook', { failureRedirect: '/login' }),
   function(req, res) {
-    console.log('logged in with facebook');
-    console.log(req.user); //'{"name":"Taylor Hayduk","id":"10104919683456760"}'
     res.redirect('/#/edit');
   });
 
