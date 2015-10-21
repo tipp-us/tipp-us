@@ -86,16 +86,18 @@ app.controller('AppCtrl', ['$scope', '$state', '$mdSidenav', '$http', '$location
       }
     },
     funding: {
-      destination: MerchantAccount.FundingDestination.Bank, // could be email, pnone, or bank
-      accountNumber: null, // required if bank is main option
-      routingNumber: null
+      destination: 'Chase Bank', 
+      accountNumber: null, 
+      routingNumber: null,
     },
     tosAccepted: true,
     masterMerchantAccountId: "starvingartists",
 };
 
 $scope.bankingSubmit = function(){
-  console.log($scope.submerchant);
+  $http.post('/submerchant', {submerchantInfo: $scope.submerchant}).success(function(data) {
+    console.log(data);  
+  });
 };
 
 /*===========================================================================/
