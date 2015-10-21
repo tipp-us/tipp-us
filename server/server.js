@@ -142,14 +142,16 @@ app.get('/auth/facebook',
 app.get('/auth/facebook/callback', 
   passport.authenticate('facebook', { failureRedirect: '/login' }),
   function(req, res) {
-    console.log('logged in with facebook');
-    console.log(req);
     res.redirect('/#/edit');
   });
 
 app.get('/logout', function(req, res){
   req.logout();
   res.redirect('/');
+});
+
+app.get('/loggedin', function(req, res) { 
+  res.send(req.isAuthenticated() ? req.user : '0'); 
 });
 
 // Simple route middleware to ensure user is authenticated.
@@ -333,7 +335,7 @@ app.post('/create/artist', jsonParser, function(req, res) {
 });
 
 //edit an already created artist page
-app.post('/edit/artist', jsonParser ,function(req, res) {
+app.post('/edit/artist', jsonParser , function(req, res) {
   //TODO auth
   var data = req.body;
   db.artist.findOne({
