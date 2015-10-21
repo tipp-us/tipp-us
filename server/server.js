@@ -368,7 +368,7 @@ app.post('/edit/artist', jsonParser ,function(req, res) {
 
 app.post('/shows/add', jsonParser, function(req, res) {
   var data = req.body;
-  console.log(data)
+  //Show auth and check authed user email instead of sent ID
   db.artist.findById(data.id).then(function(artist) {
     db.show.create({
       venue: data.venue,
