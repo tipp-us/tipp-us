@@ -15,43 +15,49 @@ app.controller('AppCtrl', ['$scope', '$state', '$mdSidenav', '$http', '$location
 /===========================================================================*/
   $scope.message = 'Please specify tip amount in the form below:';
     $scope.showDropinContainer = true;
+    $scope.loaded = false;
     $scope.isError = false;
     $scope.isPaid = false;
     $scope.getToken = function () {
-      $http({
-        method: 'GET',
-        url: '/client_token'
-      }).success(function (data) {
-        // testing to see if correct client token accepted
-        // console.log(data.clientToken);
-        braintree.setup(data.clientToken, 'dropin', {
-          container: 'tip-payment',
-          // Form is not submitted by default when paymentMethodNonceReceived is implemented
-          paymentMethodNonceReceived: function (event, nonce) {
-            $scope.message = 'Processing your payment...';
-            $scope.showDropinContainer = false;
-            $http({
-              method: 'POST',
-              url: '/checkout',
-              data: {
-                amount: $scope.amount,
-                payment_method_nonce: nonce
-              }
-            }).success(function (data) {
-              console.log(data.success);
-              if (data.success) {
-                $scope.message = 'Payment authorized, thanks for your support!';
-                $scope.showDropinContainer = false;
-                $scope.isError = false;
-                $scope.isPaid = true;
-              } else {
-                $scope.message = 'Payment failed: ' + data.message + ' Please refresh the page and try again.';
-                $scope.isError = true;
-              }
-            });
-          }
+      if($scope.loaded){
+        return;
+      } else {
+        $http({
+          method: 'GET',
+          url: '/client_token'
+        }).success(function (data) {
+          // testing to see if correct client token accepted
+          // console.log(data.clientToken);
+          braintree.setup(data.clientToken, 'dropin', {
+            container: 'tip-payment',
+            // Form is not submitted by default when paymentMethodNonceReceived is implemented
+            paymentMethodNonceReceived: function (event, nonce) {
+              $scope.message = 'Processing your payment...';
+              $scope.showDropinContainer = false;
+              $http({
+                method: 'POST',
+                url: '/checkout',
+                data: {
+                  amount: $scope.amount,
+                  payment_method_nonce: nonce
+                }
+              }).success(function (data) {
+                console.log(data.success);
+                if (data.success) {
+                  $scope.message = 'Payment authorized, thanks for your support!';
+                  $scope.showDropinContainer = false;
+                  $scope.isError = false;
+                  $scope.isPaid = true;
+                } else {
+                  $scope.message = 'Payment failed: ' + data.message + ' Please refresh the page and try again.';
+                  $scope.isError = true;
+                }
+              });
+            }
+          });
+        $scope.loaded = true;
         });
-      });
+      }
     };
   // $scope.getToken();
 
