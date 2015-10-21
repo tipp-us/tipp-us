@@ -9,6 +9,8 @@
   - test/...
   - doc/...
   - refactor/...
+  - db/...
+  - deploy/...
 1. Make commits to your feature branch. Prefix each commit like so:
   - (feat) Add a new feature
   - (fix) Fix inconsistent tests [Fixes #0]
@@ -16,6 +18,8 @@
   - (cleanup) ...
   - (test) ...
   - (doc) ...
+  - (db) ...
+  - (deploy) ...
 1. When you've finished with your fix or feature, Rebase upstream changes into your branch. submit a [pull request][]
    directly to staging. Include a description of your changes.
 1. Your pull request will be reviewed by another maintainer. The point of code
@@ -33,7 +37,7 @@
 Use github’s interface to make a fork of the repo, then add that repo as an upstream remote:
 
 ```
-git remote add upstream https://github.com/hackreactor-labs/<NAME_OF_REPO>.git
+git remote add upstream https://github.com/starvingartists/starvingartists.git
 ```
 
 ### Cut a namespaced feature branch from staging
@@ -44,13 +48,15 @@ Your branch should follow this naming convention:
   - test/...
   - doc/...
   - refactor/...
+  - db/...
+  - deploy/...
 
 These commands will help you do this:
 
 ``` bash
 
 # Creates your branch and brings you there
-git checkout -b `your-branch-name`
+git checkout -b `namespace/your-branch-name`
 ```
 
 ### Make commits to your feature branch. 
@@ -62,6 +68,8 @@ Prefix each commit like so
   - (cleanup) ...
   - (test) ...
   - (doc) ...
+  - (db) ...
+  - (deploy) ...
 
 Make changes and commits on your branch, and make sure that you
 only make changes that are relevant to this branch. If you find
@@ -122,7 +130,19 @@ you get here again and nothing is broken and all the tests pass.
 Make a clear pull request from your fork and branch to the upstream staging
 branch, detailing exactly what changes you made and what feature this
 should add. The clearer your pull request is the faster you can get
-your changes incorporated into this repo.
+your changes incorporated into this repo. If your PR is associated with a
+particular github issue, use a one of the following closing keyword phrases
+at the end of your PR title:
+  - [Closes #N]
+  - [Fixes #N]
+  - [Resolves #N]
+
+You should be aiming for something like this:
+  - (feat) Add super awesome feature [Closes #1]
+
+You can link to multiple issues by appending more than one closing keyword
+phrase, like this:
+  - (bug) Fix something that closes two issues [Fixes #2][Fixes #3]
 
 At least one other person MUST give your changes a code review, and once
 they are satisfied they will merge your changes into upstream. Alternatively,
