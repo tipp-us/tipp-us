@@ -1,4 +1,4 @@
-<md-sidenav layout="column" class="md-sidenav-left md-whiteframe-z2" md-component-id="left" md-is-locked-open="$mdMedia('gt-sm')">
+<md-sidenav layout="column" layout-fill class="md-sidenav-left md-whiteframe-z2" md-component-id="left" md-is-locked-open="$mdMedia('gt-sm')">
   <!-- Sidebar -->
   <md-button ng-click="changeState('home')">Home</md-button>
   <md-input-container class="md-primary">
@@ -6,12 +6,10 @@
     <input type="text"> <!-- ng-model="user.name"> -->
   </md-input-container>
   <div flex layout-align="end center" layout="column">
-    <md-button ng-show="user==='0'" ng-click="changeState('login')" >Old Artist Login</md-button>
-    <md-button ng-show="user==='0'" ng-click="changeState('signup')" >New Artist Sign Up</md-button>
-    <a ng-show="user==='0'" href="/auth/facebook"><img src="http://i.stack.imgur.com/pZzc4.png" width="220" height="38"></a>
+    <md-button ng-show="user==='0'" ng-click="changeState('login')" >Artist Login</md-button>
+    <md-button ng-show="user==='0'" ng-click="changeState('signup')" >Artist Sign Up</md-button>
     <md-button ng-show="user!=='0'" ng-click="changeState('edit')">Start now</md-button>
     <md-button ng-show="user!=='0'" ng-click="changeState('add')">Add Show</md-button>
-    <md-button ng-show="user!=='0'" ng-click="changeState('edit')">Profile</md-button>
-    
+    <md-button ng-show="user!=='0'" ng-click="changeState('edit')">Profile</md-button> 
   </div>
 </md-sidenav>
