@@ -15,43 +15,49 @@ app.controller('AppCtrl', ['$scope', '$state', '$mdSidenav', '$http', '$location
 /===========================================================================*/
   $scope.message = 'Please specify tip amount in the form below:';
     $scope.showDropinContainer = true;
+    $scope.loaded = false;
     $scope.isError = false;
     $scope.isPaid = false;
     $scope.getToken = function () {
-      $http({
-        method: 'GET',
-        url: '/client_token'
-      }).success(function (data) {
-        // testing to see if correct client token accepted
-        // console.log(data.clientToken);
-        braintree.setup(data.clientToken, 'dropin', {
-          container: 'tip-payment',
-          // Form is not submitted by default when paymentMethodNonceReceived is implemented
-          paymentMethodNonceReceived: function (event, nonce) {
-            $scope.message = 'Processing your payment...';
-            $scope.showDropinContainer = false;
-            $http({
-              method: 'POST',
-              url: '/checkout',
-              data: {
-                amount: $scope.amount,
-                payment_method_nonce: nonce
-              }
-            }).success(function (data) {
-              console.log(data.success);
-              if (data.success) {
-                $scope.message = 'Payment authorized, thanks for your support!';
-                $scope.showDropinContainer = false;
-                $scope.isError = false;
-                $scope.isPaid = true;
-              } else {
-                $scope.message = 'Payment failed: ' + data.message + ' Please refresh the page and try again.';
-                $scope.isError = true;
-              }
-            });
-          }
+      if($scope.loaded){
+        return;
+      } else {
+        $http({
+          method: 'GET',
+          url: '/client_token'
+        }).success(function (data) {
+          // testing to see if correct client token accepted
+          // console.log(data.clientToken);
+          braintree.setup(data.clientToken, 'dropin', {
+            container: 'tip-payment',
+            // Form is not submitted by default when paymentMethodNonceReceived is implemented
+            paymentMethodNonceReceived: function (event, nonce) {
+              $scope.message = 'Processing your payment...';
+              $scope.showDropinContainer = false;
+              $http({
+                method: 'POST',
+                url: '/checkout',
+                data: {
+                  amount: $scope.amount,
+                  payment_method_nonce: nonce
+                }
+              }).success(function (data) {
+                console.log(data.success);
+                if (data.success) {
+                  $scope.message = 'Payment authorized, thanks for your support!';
+                  $scope.showDropinContainer = false;
+                  $scope.isError = false;
+                  $scope.isPaid = true;
+                } else {
+                  $scope.message = 'Payment failed: ' + data.message + ' Please refresh the page and try again.';
+                  $scope.isError = true;
+                }
+              });
+            }
+          });
+        $scope.loaded = true;
         });
-      });
+      }
     };
   // $scope.getToken();
 
@@ -100,25 +106,28 @@ app.controller('AppCtrl', ['$scope', '$state', '$mdSidenav', '$http', '$location
 /*===========================================================================/
 /                             SEARCH BAR                                     /
 /===========================================================================*/
-  $scope.searchableArtists = null;
+  $scope.searchableArtists = [];
   $scope.getArtists = function(){
     $http({
       method: 'GET',
       url: '/getAll',
     }).success(function(data){
-      $scope.searchableArtists = data.artists;
+        // $scope.searchableArtists= data;
+        data.forEach(function(element){
+          $scope.searchableArtists.push({artist: element.name});
+        });
     });
   };
   $scope.getArtists();
+
   $scope.search = function(artist){
     $scope.searchableArtists.forEach(function(element){
-      if(element.name === artist.artist){
+      if(element.artist === artist.artist){
         // redirecting to signup page for the time being
         $location.url('/signup');
       }
     });
   };
-
 /*===========================================================================/
 /                             TYPEAHEAD                                      /
 /===========================================================================*/
@@ -134,10 +143,18 @@ app.controller('AppCtrl', ['$scope', '$state', '$mdSidenav', '$http', '$location
       {artist: 'The Kevins'},
       {artist: 'The Rods'},
     ]
+    // prefetch: {
+    //   url: '/getAll',
+    //   filter: function(list){
+    //     return $.map(list, function(artist){
+    //       return {artist: artist};
+    //     });
+    //   }
+    // }
   });
 
   artists.initialize();
-  
+
   $scope.artistData = {
     displayKey: 'artist',
     source: artists.ttAdapter()
@@ -146,11 +163,6 @@ app.controller('AppCtrl', ['$scope', '$state', '$mdSidenav', '$http', '$location
   // This option highlights the main option
   $scope.exampleOptions = {
     highlight: true
-  };
-
-  $scope.changeState = function(stateName) {
-    $state.go('^.'+stateName);
-    $mdSidenav('left').toggle();
   };
   
 }]);
