@@ -17,6 +17,7 @@
   },
   "homepage": "https://github.com/starvingartists/starvingartists#readme",
   "dependencies": {
+    "bcrypt-nodejs": "0.0.3",
     "body-parser": "^1.14.1",
     "bower": "^1.6.3",
     "braintree": "^1.29.0",

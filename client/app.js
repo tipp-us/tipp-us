@@ -299,15 +299,18 @@ app.config(function ($stateProvider, $urlRouterProvider) {
   $stateProvider.state('login', {
   url: '/login',
   templateUrl: 'login/login.html',
-  controller: ['$http', '$state',function($http, $state) {
+  controller: ['$rootScope', '$http', '$state',function($scope, $http, $state) {
     this.formValid = true;
     this.login = function() {
       var form = {email: this.email,password: this.pass};
       var valid = this.email && this.pass;
       if(valid) {
-        $http.post('/artist', form).success(function(data) {
+        $http.post('/login/artist', form).success(function(data) {
           console.log(data);
-          $state.go('^.home');
+          $state.go('^.edit');
+          $http.get('/loggedin').success(function(user) {
+            $scope.user = user;
+          });
         });
       } else {
         this.formValid = false;
@@ -320,7 +323,7 @@ app.config(function ($stateProvider, $urlRouterProvider) {
   $stateProvider.state('signup', {
     url: '/signup',
     templateUrl: 'signup/signup.html',
-    controller: ['$http', '$state',function($http, $state) {
+    controller: ['$rootScope', '$http', '$state',function($scope, $http, $state) {
       this.formValid = true;
       this.signup = function() {
         var form = {email: this.email,password: this.pass};
@@ -328,7 +331,10 @@ app.config(function ($stateProvider, $urlRouterProvider) {
         if(valid) {
           $http.post('/create/artist', form).success(function(data) {
             console.log(data);
-            $state.go('^.home');
+            $state.go('^.edit');
+            $http.get('/loggedin').success(function(user) {
+              $scope.user = user;
+            });
           });
           
         } else {

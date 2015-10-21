@@ -13,6 +13,7 @@ var db = require('../db/config.js');
 
 var passport = require('passport');
 var FacebookStrategy = require('passport-facebook').Strategy;
+var LocalStrategy = require('passport-local').Strategy;
 
 // For venmo auth:
 // var request = require('request');
@@ -143,6 +144,56 @@ passport.use(new FacebookStrategy({
   }
 ));
 
+passport.use('local-signup', new LocalStrategy({
+    usernameField: 'email',
+    passwordField: 'password',
+    passReqToCallback: true,
+  },
+  function(req, email, password, done) {
+    db.artist.findOne({where: {email: email}}).then(function(artist) {
+      // TODO: error handling maybe
+      if (artist) {
+        console.log('This email has already been registered.');
+        return done(null, false);
+      } else {
+        db.artist.genHash(password, function(hash) {
+          db.artist.create({
+            email: email,
+            password: hash,
+          }).then(function(newArtist) {
+            return done(null, newArtist);
+          });
+        });
+      }
+    });
+  }
+));
+
+passport.use('local-login', new LocalStrategy({
+  usernameField: 'email',
+  passwordField: 'password',
+  passReqToCallback: true,
+}, function(req, email, password, done) {
+  db.artist.findOne({where:{email: email}}).then(function(artist) {
+    // TODO: error handling maybe
+    if (!artist) {
+      console.log('No artist with that email found.');
+      return done(null, false);
+    } else {
+      db.artist.verifyPassword(artist, password, function(isVerified) {
+        if (isVerified) {
+          console.log('User credentials matched locally!');
+          return done(null, artist);
+        } else {
+          console.log('Incorrect password, try again.');
+          return done(null, false);
+        }
+      });
+    }
+
+  });
+}));
+
 // Initialize Passport!  Also use passport.session() middleware, to support
 // persistent login sessions (recommended).
 app.use(passport.initialize());
@@ -162,6 +213,19 @@ app.get('/auth/facebook',
 // which, in this example, will redirect the user to the home page.
 app.get('/auth/facebook/callback',
   passport.authenticate('facebook', { failureRedirect: '/#/login' }),
+  function(req, res) {
+    res.redirect('/#/edit');
+  });
+
+// TODO: Get rid of unnecessary redirects maybe, handled by angular
+app.post('/create/artist',
+  passport.authenticate('local-signup', { failureRedirect: '/#/signup' }),
+  function(req, res) {
+    res.redirect('/#/edit');
+  });
+
+app.post('/login/artist',
+  passport.authenticate('local-login', { failureRedirect: '/#/login' }),
   function(req, res) {
     res.redirect('/#/edit');
   });
@@ -248,28 +312,28 @@ app.post('/nearby', function(req, res) {
   });
 });
 
-app.post('/create/artist', function(req, res) {
+// app.post('/create/artist', function(req, res) {
 
-  // TODO: fill in necessary fields to create a user
-  var artistData = {
-    email: req.body.email,
-    password: req.body.password,
-  };
+//   // TODO: fill in necessary fields to create a user
+//   var artistData = {
+//     email: req.body.email,
+//     password: req.body.password,
+//   };
 
-  // TODO: Check to see if we need this, probably won't after
-  // implementing local auth strategy
-  db.artist.findOne({
-    where: {email: artistData.email},
-  }).then(function(artist) {
-    if (artist) {
-      res.status(200).end('Sorry, email already registered');
-    } else {
-      db.artist.create(artistData).then(function(artist) {
-        res.status(201).json(artist);
-      });
-    }
-  });
-});
+//   // TODO: Check to see if we need this, probably won't after
+//   // implementing local auth strategy
+//   db.artist.findOne({
+//     where: {email: artistData.email},
+//   }).then(function(artist) {
+//     if (artist) {
+//       res.status(200).end('Sorry, email already registered');
+//     } else {
+//       db.artist.create(artistData).then(function(artist) {
+//         res.status(201).json(artist);
+//       });
+//     }
+//   });
+// });
 
 // Edit an already created artist page
 app.post('/edit/artist', function(req, res) {
