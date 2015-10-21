@@ -7,6 +7,7 @@ module.exports = function(sequelize, DataTypes) {
     email: DataTypes.STRING,
     password: DataTypes.STRING,
     artistUrl: DataTypes.STRING,
+    facebookID: DataTypes.STRING,
     imageUrl: {type: DataTypes.STRING, allowNull: false, defaultValue: 'http://res.cloudinary.com/dalft4dfx/image/upload/v1445395326/default_bz6sxy.png'},
     merchantAccountID: DataTypes.STRING,
 
