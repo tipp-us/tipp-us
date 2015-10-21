@@ -208,6 +208,20 @@ app.directive('artistDisplay', ['$rootScope', '$state', function($scope, $state)
   };
 }]);
 
+app.directive('sideButtons', ['$rootScope', '$state', function($scope, $state){
+  return {
+    restrict: 'E',
+    templateUrl: 'sideButtons.html',
+    controller: ['$http', function($http) {
+      $http.get('/loggedin').success(function(data){
+        console.log(data);
+        $scope.user = data;
+      });
+    }],
+    controllerAs: 'sideButtons'
+  };
+}]);
+
 
 app.config(function ($stateProvider, $urlRouterProvider) {
 
