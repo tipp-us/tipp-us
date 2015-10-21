@@ -8,5 +8,8 @@
 </md-input-container>
 <div ng-show="!loginCtrl.formValid">Invalid form</div>
 <div flex layout-align="end center" layout="column">
-  <md-button ng-click="loginCtrl.login()">Login</md-button>
+  <md-button class="md-raised" ng-click="loginCtrl.login()">Login</md-button>
+  <md-button class="md-raised md-primary" aria-label="Settings" href="/auth/facebook">
+    <md-icon md-svg-icon="../assets/facebook.svg"></md-icon>Login with Facebook
+  </md-button>
 </div>

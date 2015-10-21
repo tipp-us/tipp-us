@@ -12,5 +12,8 @@
 </md-input-container>
 <div ng-show="!signupCtrl.formValid">Invalid form</div>
 <div flex layout-align="end center" layout="column">
-  <md-button ng-click="signupCtrl.signup()">Sign Up</md-button>
+  <md-button class="md-raised" ng-click="signupCtrl.signup()">Sign Up</md-button>
+  <md-button class="md-raised md-primary" aria-label="Settings" href="/auth/facebook">  
+    <md-icon md-svg-icon="../assets/facebook.svg"></md-icon>sign up with Facebook
+  </md-button>
 </div>
