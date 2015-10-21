@@ -7,45 +7,55 @@
 <div flex layout-align="center" layout="row">
   <md-input-container class="md-primary">
     <label>First Name</label>
-    <input type="text">
+    <input type="text" ng-model="submerchant.individual.firstName">
   </md-input-container>
   <md-input-container class="md-primary">
     <label>Last Name</label>
-    <input type="text">
-  </md-input-container>
-  <md-input-container class="md-primary">
-    <label>Email</label>
-    <input ng-model="signupCtrl.email" type="email">
+    <input type="text" ng-model="submerchant.individual.lastName">
   </md-input-container>
 </div>
+
 <div flex layout-align="center" layout="row">
   <md-input-container class="md-primary">
-    <label>Date of Birth</label>
-    <input type="text">
+    <label>Email</label>
+    <input type="email" ng-model="submerchant.individual.email">
   </md-input-container>
   <md-input-container class="md-primary">
     <label>Phone Number</label>
-    <input type="text">
+    <input type="text" ng-model="submerchant.individual.phone">
   </md-input-container>
 </div>
+
 <div flex layout-align="center" layout="row">
-  <md-input-container class="md-primary" style="width: 500">
+  <md-input-container class="md-primary">
+    <label>Date of Birth</label>
+    <input type="text" ng-model="submerchant.individual.dateOfBirth">
+  </md-input-container>
+  <md-input-container class="md-primary">
+    <label>SSN (optional)</label>
+    <input type="text" ng-model="submerchant.individual.ssn">
+  </md-input-container>
+</div>
+
+<div flex layout-align="center" layout="row">
+  <md-input-container class="md-primary" style="width: 345">
     <label>Address</label>
-    <input type="text">
+    <input type="text" ng-model="submerchant.individual.address.streetAddress">
   </md-input-container>
 </div>
+
 <div flex layout-align="center" layout="row">
-  <md-input-container class="md-primary">
+  <md-input-container class="md-primary" style="width: 160">
     <label>City</label>
-    <input type="text">
+    <input type="text" ng-model="submerchant.individual.address.locality">
   </md-input-container>
-  <md-input-container class="md-primary">
+  <md-input-container class="md-primary" style="width: 60">
     <label>State</label>
-    <input type="text">
+    <input type="text" ng-model="submerchant.individual.address.region">
     </md-input-container>
-  <md-input-container class="md-primary">
+  <md-input-container class="md-primary" style="width: 115">
     <label>ZIP</label>
-    <input type="text">
+    <input type="text" ng-model="submerchant.individual.address.postalCode">
   </md-input-container>
 </div>
 
@@ -58,11 +68,11 @@
 <div flex layout-align="center" layout="row">
   <md-input-container class="md-primary">
     <label>Account Number</label>
-    <input type="text">
+    <input type="text" ng-model="submerchant.funding.accountNumber">
   </md-input-container>
   <md-input-container class="md-primary">
     <label>Routing Number</label>
-    <input type="text">
+    <input type="text" ng-model="submerchant.funding.routingNumber">
   </md-input-container>
 </div>
 

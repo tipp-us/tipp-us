@@ -70,43 +70,32 @@ app.controller('AppCtrl', ['$scope', '$state', '$mdSidenav', '$http', '$location
 /*===========================================================================/
 /                             BRAINTREE MARKETPLACE                          /
 /===========================================================================*/
-  merchantAccountParams = {
-  individual: {
-    firstName: "Taylor",
-    lastName: "Hayduk",
-    email: "example@gmail.com",
-    phone: "5555555555",
-    dateOfBirth: "2015-10-20",
-    ssn: "555-55-5555",
-    address: {
-      streetAddress: "123 Test St",
-      locality: "Los Angeles",
-      region: "CA",
-      postalCode: "91210"
-    }
-  },
-  // below not needed if band is not a registered business
-  business: {
-    legalName: "The Taylors",
-    taxId: "98-7654321",
-    address: {
-      streetAddress: "123 Test St",
-      locality: "Los Angeles",
-      region: "CA",
-      postalCode: "91210"
-    }
-  },
-  funding: {
-    descriptor: "Taylor's Bank", // optional
-    destination: 'MerchantAccount.FundingDestination.Bank', // could be email, pnone, or bank
-    email: "example@gmail.com", // Venmo
-    mobilePhone: "5555555555", // Venmo
-    accountNumber: "1123581321", // required if bank is main option
-    routingNumber: "071101307"
-  },
-  tosAccepted: true,
-  masterMerchantAccountId: "taylorhayduck_marketplace",
-  id: "taylor_band"
+  $scope.submerchant = {
+    individual: {
+      firstName: null,
+      lastName: null,
+      email: null,
+      phone: null,
+      dateOfBirth: null,
+      ssn: null,
+      address: {
+        streetAddress: null,
+        locality: null,
+        region: null,
+        postalCode: null,
+      }
+    },
+    funding: {
+      destination: MerchantAccount.FundingDestination.Bank, // could be email, pnone, or bank
+      accountNumber: null, // required if bank is main option
+      routingNumber: null
+    },
+    tosAccepted: true,
+    masterMerchantAccountId: "starvingartists",
+};
+
+$scope.bankingSubmit = function(){
+  console.log($scope.submerchant);
 };
 
 /*===========================================================================/
