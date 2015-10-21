@@ -6,10 +6,30 @@ var app = angular.module('StarterApp', ['ngMaterial','ui.router', 'geolocation',
     // .dark();
 });
 
-app.controller('AppCtrl', ['$scope', '$state', '$mdSidenav', '$http', '$location', function($scope,$state, $mdSidenav, $http, $location){
+app.controller('AppCtrl', ['$scope', '$state', '$mdSidenav', '$http', '$location','geolocation', function($scope,$state, $mdSidenav, $http, $location,geolocation){
   $scope.toggleSidenav = function(menuId) {
     $mdSidenav(menuId).toggle();
   };
+
+  $scope.currentShow = false;
+  $scope.startNow = function() {
+    $scope.currentShow = true;
+    //get current id
+
+    geolocation.getLocation().then(function(data){
+      var sendData = {
+        lat:data.coords.latitude,
+        long:data.coords.longitude
+      };
+      $http.post('/shows/startNow',sendData).success(function(data) {
+        
+      });
+    });
+
+    $scope.cancelShow = function() {
+      $scope.currentShow = false;
+    }
+  }
 
   $scope.changeState = function(stateName) {
       $state.go('^.'+stateName);

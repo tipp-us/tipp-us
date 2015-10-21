@@ -214,6 +214,16 @@ app.get('/auth/facebook',
 app.get('/auth/facebook/callback',
   passport.authenticate('facebook', { failureRedirect: '/#/login' }),
   function(req, res) {
+    db.artist.findOne({where: {facebookID: req.user.id}}).then(function(artist) {
+      //if we did not find a artist with that ID create one
+      if(!artist) {
+        db.artist.create({
+          facebookID: req.user.id,
+        }).then(function(art) {
+          console.log("Created new artist")
+        })
+      }
+    })
     res.redirect('/#/edit');
   });
 
@@ -253,6 +263,30 @@ app.get('/getAll', function(req, res) {
   });
 });
 
+app.post('/shows/startNow', function(req, res) {
+  var stopTime = new Date();
+  stopTime.setHours(stopTime.getHours() + 3);
+  if(!req.user) {
+    res.status(403);
+    return;
+  }
+  db.artist.findOne({where: {facebookID: req.user.id}}).then(function(artist) {
+    if(!artist) {
+      res.status(403);
+      return;
+    }
+    db.show.create({
+      latitude: req.body.lat,
+      longitude: req.body.long,
+      startTime: Date.now(),
+      stopTime: stopTime,
+    }).then(function(show) {
+      show.setArtist(artist);
+      show.save();
+    })
+  })
+});
+
 // Get info of single artist
 app.post('/artist', function(req, res) {
   var artistId = req.body.artistId;
@@ -283,22 +317,25 @@ app.post('/nearby', function(req, res) {
     for (var i = 0; i < shows.length; i++) {
       var show = shows[i].dataValues;
       var artist = show.Artist;
-      var dist = getDistanceFromLatLonInKm(position.lat, position.long, show.latitude, show.longitude) / 1.60934;
-      var splits = artist.imageUrl.split('/');
-      splits[splits.length - 2] = 'w_50,h_50';
-      var img = splits.join('/');
+      if(artist) {
+        var dist = getDistanceFromLatLonInKm(position.lat, position.long, show.latitude, show.longitude) / 1.60934;
+        var splits = artist.imageUrl.split('/');
+        splits[splits.length - 2] = 'w_50,h_50';
+        var img = splits.join('/');
 
-      closest.push({
-        id: artist.id,
-        name: artist.name,
-        pic: img,
-        position: {
-          lat: show.latitude,
-          long: show.longitude,
-        },
-        location: dist,
-        venue: show.venue,
-      });
+        closest.push({
+          id: artist.id,
+          name: artist.name,
+          pic: img,
+          position: {
+            lat: show.latitude,
+            long: show.longitude,
+          },
+          location: dist,
+          venue: show.venue,
+        });
+        
+      }
     }
 
     closest =  closest.sort(function(one, two) {
@@ -337,10 +374,11 @@ app.post('/nearby', function(req, res) {
 
 // Edit an already created artist page
 app.post('/edit/artist', function(req, res) {
-  //TODO auth
+  var user = req.user;
+  console.log(user)
   var data = req.body;
   db.artist.findOne({
-    where: {email: data.email},
+    where: {facebookID: req.user.id},
   }).then(function(artist) {
     if (data.image) {
       cloudinary.uploader.upload(data.image, function(result) {
@@ -356,10 +394,12 @@ app.post('/edit/artist', function(req, res) {
       artist.name = data.name;
       artist.description = data.description;
       artist.password = data.pass;
-
+      artist.email = data.email;
       //Check to see if new url is already used by someone
       artist.artistUrl = data.url;
-      artist.imageUrl = url;
+      if(url) {
+        artist.imageUrl = url;
+      }
       artist.save().then(function() {
         res.end('Success', 200);
       });
@@ -370,10 +410,14 @@ app.post('/edit/artist', function(req, res) {
 });
 
 app.post('/shows/add', function(req, res) {
+  var user = req.user;
   var data = req.body;
-
+  if(!user) {
+    res.status(403);
+    return;
+  }
   // Show auth and check authed user email instead of sent ID
-  db.artist.findById(data.id).then(function(artist) {
+  db.artist.findOne({where: {facebookID: user.id}}).then(function(artist) {
     db.show.create({
       venue: data.venue,
       latitude: data.lat,
