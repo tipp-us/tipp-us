@@ -74,8 +74,8 @@ if (process.env.BRAINTREE_MERCHANTID) {
 app.use(express.static(__dirname + '/../client'));
 app.use(morgan('dev'));
 app.use(cookieParser('keyboard cat'));
-// app.use(bodyParser.json());
-// app.use(bodyParser.urlencoded({ extended: false }));
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: false }));
 
 // app.use(methodOverride());
 app.use(session({
