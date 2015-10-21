@@ -242,6 +242,58 @@ app.config(function ($stateProvider, $urlRouterProvider) {
     controllerAs: 'editCtrl',
   });
 
+  $stateProvider.state('add', {
+    url: '/add',
+    templateUrl: 'shows/addshow.html',
+    controller: ['$http','$state', 'geolocation', function($http,$state, geolocation) {
+      this.location = function() {
+        var self = this;
+        geolocation.getLocation().then(function(data){
+          var coords = {lat:data.coords.latitude, long:data.coords.longitude};
+          console.log(coords)
+          self.lat = coords.lat;
+          self.long = coords.long;
+        });
+      };
+      this.add = function() {
+        var data = {
+          venue: this.venue,
+          lat: this.lat,
+          long: this.long,
+          start: this.start,
+          end: this.end,
+          id: this.id,
+        }
+        $http.post('shows/add', data).success(function(rdata) {
+          state.go("^.home");
+        })
+      }
+
+    }],
+    controllerAs: 'addCtrl',
+  });
+
+  $stateProvider.state('login', {
+  url: '/login',
+  templateUrl: 'login/login.html',
+  controller: ['$http', '$state',function($http, $state) {
+    this.formValid = true;
+    this.login = function() {
+      var form = {email: this.email,password: this.pass};
+      var valid = this.email && this.pass;
+      if(valid) {
+        $http.post('/artist', form).success(function(data) {
+          console.log(data);
+          $state.go('^.home');
+        });
+      } else {
+        this.formValid = false;
+      }
+    };
+  }],
+  controllerAs: 'loginCtrl'
+});
+
   $stateProvider.state('signup', {
     url: '/signup',
     templateUrl: 'signup/signup.html',
@@ -262,27 +314,6 @@ app.config(function ($stateProvider, $urlRouterProvider) {
       };
     }],
     controllerAs: 'signupCtrl'
-  });
-
-  $stateProvider.state('login', {
-    url: '/login',
-    templateUrl: 'login/login.html',
-    controller: ['$http', '$state',function($http, $state) {
-      this.formValid = true;
-      this.login = function() {
-        var form = {email: this.email,password: this.pass};
-        var valid = this.email && this.pass;
-        if(valid) {
-          $http.post('/artist', form).success(function(data) {
-            console.log(data);
-            $state.go('^.home');
-          });
-        } else {
-          this.formValid = false;
-        }
-      };
-    }],
-    controllerAs: 'loginCtrl'
   });
 
   $urlRouterProvider.otherwise('home');
