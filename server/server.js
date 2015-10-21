@@ -356,6 +356,16 @@ app.post('/checkout', function(req, res) {
   });
 });
 
+app.post('/submerchant', function(req, res){
+  console.log(req.body);
+  gateway.merchantAccount.create(req.body.submerchantInfo, function(err, result){
+    if(err){
+      console.log(err);
+    }
+    console.log(result);
+  });
+});
+
 // // Venmo auth and callback for auth token
 // app.get('/auth/venmo', function(req, res) {
 //   // redirect to auth with venmo, which will redirect back to /auth/venmo/callback with an auth code
