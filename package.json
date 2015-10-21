@@ -49,6 +49,7 @@
     "karma-mocha-reporter": "^1.1.1",
     "karma-phantomjs-launcher": "^0.2.1",
     "mocha": "^2.3.3",
+    "morgan": "^1.6.1",
     "phantomjs": "^1.9.18"
   }
 }
