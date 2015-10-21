@@ -253,6 +253,20 @@ app.get('/getAll', function(req, res) {
   });
 });
 
+app.post('/shows/startNow', function(req, res) {
+  var id = 5;
+  var stopTime = new Date();
+  stopTime.setHours(stopTime.getHours() + 3);
+  db.artist.findById(id).then(function(artist) {
+    db.show.create({
+      latitude: req.body.lat,
+      longitude: req.body.long,
+      startTime: Date.now(),
+      stopTime: stopTime,
+    })
+  })
+});
+
 // Get info of single artist
 app.post('/artist', function(req, res) {
   var artistId = req.body.artistId;
