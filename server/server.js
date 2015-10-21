@@ -374,8 +374,8 @@ app.post('/shows/add', jsonParser, function(req, res) {
       venue: data.venue,
       latitude: data.lat,
       longitude: data.long,
-      startTime: this.start,
-      stopTime: this.end,
+      startTime: data.start,
+      stopTime: data.end,
     }).then(function(show) {
       show.setArtist(artist);
       show.save();
