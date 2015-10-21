@@ -10,6 +10,12 @@ app.controller('AppCtrl', ['$scope', '$state', '$mdSidenav', '$http', '$location
   $scope.toggleSidenav = function(menuId) {
     $mdSidenav(menuId).toggle();
   };
+
+  $scope.changeState = function(stateName) {
+      $state.go('^.'+stateName);
+      $mdSidenav('left').toggle();
+  };
+
 /*===========================================================================/
 /                             BRAINTREE DROPIN                               /
 /===========================================================================*/
