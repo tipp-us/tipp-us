@@ -144,16 +144,13 @@ app.get('/auth/facebook/callback',
   function(req, res) {
     res.redirect('/#/edit');
   });
-
 app.get('/logout', function(req, res){
   req.logout();
   res.redirect('/');
 });
-
-app.get('/loggedin', function(req, res) { 
-  res.send(req.isAuthenticated() ? req.user : '0'); 
+app.get('/loggedin', function(req, res) {
+  res.send(req.isAuthenticated() ? req.user : '0');
 });
-
 // Simple route middleware to ensure user is authenticated.
 //   Use this route middleware on any resource that needs to be protected.  If
 //   the request is authenticated (typically via a persistent login session),
@@ -282,6 +279,7 @@ app.post('/nearby', jsonParser, function(req, res) {
       var splits = artist.imageUrl.split('/');
       splits[splits.length - 2] = 'w_50,h_50';
       var img = splits.join('/');
+
       closest.push({
         id: artist.id,
         name: artist.name,
@@ -335,7 +333,7 @@ app.post('/create/artist', jsonParser, function(req, res) {
 });
 
 //edit an already created artist page
-app.post('/edit/artist', jsonParser , function(req, res) {
+app.post('/edit/artist', jsonParser ,function(req, res) {
   //TODO auth
   var data = req.body;
   db.artist.findOne({
