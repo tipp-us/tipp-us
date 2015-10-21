@@ -5,7 +5,7 @@ var dummyArtists = [
     email: 'doug@doug.com',
     password: 'dougpass',
     artistUrl: 'https://github.com/dougshamoo',
-    imageUrl: 'https://avatars2.githubusercontent.com/u/10533596?v=3&s=460',
+    imageUrl: 'http://res.cloudinary.com/dd2e2t0fb/image/upload/v1445391525/dougGithub_hxosqq.jpg',
     merchantAccountID: 'dougMerchantAccountId',
   },
   {
@@ -14,7 +14,7 @@ var dummyArtists = [
     email: 'kevin@kevin.com',
     password: 'kevinpass',
     artistUrl: 'https://github.com/LeKeve',
-    imageUrl: 'https://avatars2.githubusercontent.com/u/9746156?v=3&s=460',
+    imageUrl: 'http://res.cloudinary.com/dd2e2t0fb/image/upload/v1445391531/kevinGithub_eizbkb.jpg',
     merchantAccountID: 'kevinMerchantAccountId',
   },
   {
@@ -23,7 +23,7 @@ var dummyArtists = [
     email: 'taylor@taylor.com',
     password: 'taylorpass',
     artistUrl: 'https://github.com/taylorhayduk',
-    imageUrl: 'https://avatars1.githubusercontent.com/u/1664202?v=3&s=460',
+    imageUrl: 'http://res.cloudinary.com/dd2e2t0fb/image/upload/v1445391530/taylorGithub_rrjw6c.jpg',
     merchantAccountID: 'taylorMerchantAccountId',
   },
   {
@@ -32,7 +32,7 @@ var dummyArtists = [
     email: 'joe@joe.com',
     password: 'joepass',
     artistUrl: 'https://github.com/Joby890',
-    imageUrl: 'https://avatars3.githubusercontent.com/u/1770689?v=3&s=460',
+    imageUrl: 'http://res.cloudinary.com/dd2e2t0fb/image/upload/v1445391527/joeGithub_sh3tb2.jpg',
     merchantAccountID: 'joeMerchantAccountId',
   },
   {
@@ -41,7 +41,7 @@ var dummyArtists = [
     email: 'rod@rod.com',
     password: 'rodpass',
     artistUrl: 'https://github.com/rodmachen',
-    imageUrl: 'https://avatars1.githubusercontent.com/u/7606483?v=3&s=460',
+    imageUrl: 'http://res.cloudinary.com/dd2e2t0fb/image/upload/v1445391528/rodGithub_abotrq.jpg',
     merchantAccountID: 'rodMerchantAccountId',
   },
 ];
