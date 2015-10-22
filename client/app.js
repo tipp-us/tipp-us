@@ -28,8 +28,8 @@ app.controller('AppCtrl', ['$scope', '$state', '$mdSidenav', '$http', '$location
 
     $scope.cancelShow = function() {
       $scope.currentShow = false;
-    }
-  }
+    };
+  };
 
   $scope.changeState = function(stateName) {
       $state.go('^.'+stateName);
@@ -139,12 +139,14 @@ $scope.bankingSubmit = function(){
   $scope.getArtists();
 
   $scope.search = function(artist){
-    console.log('element in search bar')
+    console.log('element in search bar');
     console.log(artist);
     $scope.searchableArtists.forEach(function(element){
       if(element.artist === artist.name){
         // redirecting to signup page for the time being
-        $location.url('/signup');
+        // $location.url('/signup');
+        $scope.artist = artist;
+        $state.go('^.artists');
       }else{
         console.log('element in array');
         console.log(element.artist);
@@ -166,7 +168,6 @@ $scope.bankingSubmit = function(){
     remote: {
         url: '/getAll',
         filter: function(artists){
-          console.log('getAlled')
           return $.map(artists, function(artist){
             return {
               name: artist.name,
@@ -311,7 +312,7 @@ app.config(function ($stateProvider, $urlRouterProvider) {
         var self = this;
         geolocation.getLocation().then(function(data){
           var coords = {lat:data.coords.latitude, long:data.coords.longitude};
-          console.log(coords)
+          console.log(coords);
           self.lat = coords.lat;
           self.long = coords.long;
         });
@@ -324,11 +325,11 @@ app.config(function ($stateProvider, $urlRouterProvider) {
           start: this.start,
           end: this.end,
           id: this.id,
-        }
+        };
         $http.post('shows/add', data).success(function(rdata) {
           state.go("^.home");
-        })
-      }
+        });
+      };
 
     }],
     controllerAs: 'addCtrl',
