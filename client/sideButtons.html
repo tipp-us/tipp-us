@@ -2,7 +2,7 @@
   <!-- Sidebar -->
   <md-button class="md-raised md-primary" ng-click="changeState('home')">Home</md-button>
   <div append-source>
-    <form class="form-inline" role="form" layout="row" layout-align="center" ng-submit="search(selectedArtist)">
+    <form class="form-inline" role="form" layout="row" layout-align="center" ng-submit="sideButtons.click(selectedArtist)">
       <div class="form-group">
         <input type="text" class="form-control typeahead" ng-model="selectedArtist" bs-options="artist for artist in artists" placeholder="Search by Artist" bs-typeahead>
         <input type="submit" class="hiddenSubmit"/>
