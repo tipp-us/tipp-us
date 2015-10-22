@@ -1,4 +1,4 @@
-var app = angular.module('StarterApp', ['ngMaterial','ui.router', 'geolocation', 'siyfion.sfTypeahead'])
+var app = angular.module('StarterApp', ['ngMaterial','ui.router', 'geolocation', 'siyfion.sfTypeahead', 'mgcrea.ngStrap'])
 .config(function($mdThemingProvider) {
   $mdThemingProvider.theme('default')
     .primaryPalette('indigo')
@@ -6,7 +6,7 @@ var app = angular.module('StarterApp', ['ngMaterial','ui.router', 'geolocation',
     // .dark();
 });
 
-app.controller('AppCtrl', ['$scope', '$state', '$mdSidenav', '$http', '$location','geolocation', function($scope,$state, $mdSidenav, $http, $location,geolocation){
+app.controller('AppCtrl', ['$rootScope', '$scope', '$state', '$mdSidenav', '$http', '$location','geolocation', function($rootScope, $scope, $state, $mdSidenav, $http, $location,geolocation){
   $scope.toggleSidenav = function(menuId) {
     $mdSidenav(menuId).toggle();
   };
@@ -124,31 +124,38 @@ $scope.bankingSubmit = function(){
 /                             SEARCH BAR                                     /
 /===========================================================================*/
   $scope.searchableArtists = [];
+  var artistsArray = [];
   $scope.getArtists = function(){
     $http({
       method: 'GET',
       url: '/getAll',
     }).success(function(data){
         // $scope.searchableArtists= data;
-        console.log(data);
         data.forEach(function(element){
           $scope.searchableArtists.push({name: element.name, id: element.id});
+          artistsArray.push(element.name);
         });
     });
   };
   $scope.getArtists();
 
   $scope.search = function(artist){
+    console.log(artist);
     $scope.searchableArtists.forEach(function(element){
-      if(element.name === artist.name){
+      if(element.name === artist){
         console.log(element);
         // redirecting to signup page for the time being
         // $location.url('/signup');
         $scope.artist = element;
+        var self = {};
+        console.log(self);
+        self.artistList = [];
         $state.go('^.artists');
       }
     });
   };
+  $scope.selectedArtist = "";
+  $scope.artists = artistsArray;
 /*===========================================================================/
 /                             TYPEAHEAD                                      /
 /===========================================================================*/
@@ -175,7 +182,6 @@ $scope.bankingSubmit = function(){
   });
 
   artists.initialize();
-  console.log(artists);
 
   $scope.artistData = {
     displayKey: 'name',
@@ -249,6 +255,35 @@ app.directive('sideButtons', ['$rootScope', '$state', function($scope, $state){
     restrict: 'E',
     templateUrl: 'sideButtons.html',
     controller: ['$http', function($http) {
+      $scope.searchableArtists = [];
+      var artistsArray = [];
+      $scope.getArtists = function(){
+        $http({
+          method: 'GET',
+          url: '/getAll',
+        }).success(function(data){
+            // $scope.searchableArtists= data;
+            data.forEach(function(element){
+              $scope.searchableArtists.push({name: element.name, id: element.id});
+              artistsArray.push(element.name);
+            });
+        });
+      };
+      $scope.getArtists();
+      var self = this;
+      this.artistInfo = {};
+      this.click = function(artist) {
+        $scope.searchableArtists.forEach(function(element){
+          if(element.name === artist){
+            $scope.artist = element;
+            $http.post('/artist', {artistId: $scope.artist.id}).success(function(data) {
+              self.info = data;
+            });
+            $state.go('^.artists');
+          }
+        });
+  
+      };
       $http.get('/loggedin').success(function(data){
         console.log(data);
         $scope.user = data;
