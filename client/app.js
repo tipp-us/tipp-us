@@ -221,7 +221,7 @@ app.directive('artistList', ['$rootScope', '$state', function($scope, $state){
 
 app.filter('distance', function () {
   return function (input) {
-    return (input/1000).toFixed(2) + ' miles';
+    return (input).toFixed(2) + ' miles';
   };
 });
 
