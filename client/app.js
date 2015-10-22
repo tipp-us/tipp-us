@@ -131,6 +131,7 @@ $scope.bankingSubmit = function(){
       url: '/getAll',
     }).success(function(data){
         // $scope.searchableArtists= data;
+        console.log(data);
         data.forEach(function(element){
           $scope.searchableArtists.push({name: element.name, id: element.id});
           artistsArray.push(element.name);
@@ -250,12 +251,13 @@ app.directive('artistDisplay', ['$rootScope', '$state', function($scope, $state)
   };
 }]);
 
-app.directive('sideButtons', ['$rootScope', '$state', function($scope, $state){
+app.directive('sideButtons', ['$rootScope', '$state', '$mdSidenav', function($scope, $state, $mdSidenav){
   return {
     restrict: 'E',
     templateUrl: 'sideButtons.html',
-    controller: ['$http', function($http) {
-      $scope.searchableArtists = [];
+    controller: function($http, geolocation) {
+      // $scope.searchableArtists = [];
+      $scope.searchableArtists = null;
       var artistsArray = [];
       $scope.getArtists = function(){
         $http({
@@ -264,21 +266,28 @@ app.directive('sideButtons', ['$rootScope', '$state', function($scope, $state){
         }).success(function(data){
             // $scope.searchableArtists= data;
             data.forEach(function(element){
-              $scope.searchableArtists.push({name: element.name, id: element.id});
+              // $scope.searchableArtists.push({name: element.name, id: element.id});
               artistsArray.push(element.name);
             });
         });
       };
       $scope.getArtists();
-      var self = this;
-      this.artistInfo = {};
+      var artistList = null;
+
+      geolocation.getLocation().then(function(data){
+        var coords = {position: {lat:data.coords.latitude, long:data.coords.longitude}};
+        $http.post('/nearby',coords).success(function(data) {
+          $scope.searchableArtists = data.artists;
+        });
+      });
+
       this.click = function(artist) {
+        console.log(artistList);
+        $mdSidenav('left').toggle();
         $scope.searchableArtists.forEach(function(element){
           if(element.name === artist){
             $scope.artist = element;
-            $http.post('/artist', {artistId: $scope.artist.id}).success(function(data) {
-              self.info = data;
-            });
+            console.log('test');
             $state.go('^.artists');
           }
         });
@@ -288,7 +297,7 @@ app.directive('sideButtons', ['$rootScope', '$state', function($scope, $state){
         console.log(data);
         $scope.user = data;
       });
-    }],
+    },
     controllerAs: 'sideButtons'
   };
 }]);
