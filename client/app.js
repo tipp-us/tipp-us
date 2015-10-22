@@ -294,6 +294,21 @@ app.directive('sideButtons', ['$rootScope', '$state', '$mdSidenav', function($sc
           }
         });
       };
+      this.clickNoSide = function(artist) {
+        console.log($scope.nearbyArtists);
+        $scope.searchableArtists.forEach(function(element){
+          if(element.name === artist){
+            $scope.artist = element;
+            $state.go('^.artists');
+          }
+        });
+        $scope.nearbyArtists.forEach(function(element){
+          if(element.name === artist){
+            $scope.artist = element;
+            $state.go('^.artists');
+          }
+        });
+      };
       $http.get('/loggedin').success(function(data){
         console.log(data);
         $scope.user = data;
