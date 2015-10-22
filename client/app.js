@@ -336,9 +336,6 @@ app.config(function ($stateProvider, $urlRouterProvider) {
         $http.post('/login/artist', form).success(function(data) {
           console.log(data);
           $state.go('^.edit');
-          $http.get('/loggedin').success(function(user) {
-            $scope.user = user;
-          });
         });
       } else {
         this.formValid = false;
@@ -360,9 +357,6 @@ app.config(function ($stateProvider, $urlRouterProvider) {
           $http.post('/create/artist', form).success(function(data) {
             console.log(data);
             $state.go('^.edit');
-            $http.get('/loggedin').success(function(user) {
-              $scope.user = user;
-            });
           });
           
         } else {
