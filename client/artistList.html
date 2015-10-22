@@ -6,7 +6,7 @@
     </md-button>-->
     <img ng-src="{{artist.pic}}"height="50" width="50">
     <p>{{artist.name}}</p>
-    <span class="md-caption">{{artist.location}}</span>
+    <span class="md-caption">{{artist.location | distance}}</span>
     <md-divider ng-if="!$last"></md-divider>
   </md-list-item>
 </md-list>
