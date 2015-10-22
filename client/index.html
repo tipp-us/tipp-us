@@ -8,10 +8,13 @@
   <body layout="column" ng-controller="AppCtrl">
     <md-toolbar layout="row">
       <div class="md-toolbar-tools">
-        <md-button ng-click="toggleSidenav('left')" hide-gt-sm class="md-icon-button">
+        <md-button flex='15' ng-click="toggleSidenav('left')" hide-gt-sm class="md-icon-button">
           <md-icon aria-label="Menu" md-svg-icon="https://s3-us-west-2.amazonaws.com/s.cdpn.io/68133/menu.svg"></md-icon>
         </md-button>
-        <h1 class="md-display-1">*logo*</h1>
+        <div flex='70' layout="row" layout-align='center center'>
+          <img ng-src="/assets/wehearttips03.png" height="80%">
+        </div>
+        <div flex='15'></div>
       </div>
     </md-toolbar>
     <div layout="row" flex>
