@@ -21,6 +21,8 @@ gulp.task('test', function(done) {
 
 gulp.task('dummydb', shell.task('node db/dummydb.js'));
 
+gulp.task('presdb', shell.task('node db/dummydb-pres.js'));
+
 gulp.task('dropdb', shell.task('node db/dropdb.js'));
 
 gulp.task('check', ['lint', 'test']);
