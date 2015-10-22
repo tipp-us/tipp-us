@@ -318,23 +318,25 @@ app.post('/nearby', function(req, res) {
       var show = shows[i].dataValues;
       var artist = show.Artist;
       if(artist) {
-        var dist = getDistanceFromLatLonInKm(position.lat, position.long, show.latitude, show.longitude) / 1.60934;
-        var splits = artist.imageUrl.split('/');
-        splits[splits.length - 2] = 'w_50,h_50';
-        var img = splits.join('/');
+        var now = new Date(Date.now());
+        if(show.startTime < now && now < show.stopTime) {
+          var dist = getDistanceFromLatLonInKm(position.lat, position.long, show.latitude, show.longitude) / 1.60934;
+          var splits = artist.imageUrl.split('/');
+          splits[splits.length - 2] = 'w_50,h_50';
+          var img = splits.join('/');
 
-        closest.push({
-          id: artist.id,
-          name: artist.name,
-          pic: img,
-          position: {
-            lat: show.latitude,
-            long: show.longitude,
-          },
-          location: dist,
-          venue: show.venue,
-        });
-        
+          closest.push({
+            id: artist.id,
+            name: artist.name,
+            pic: img,
+            position: {
+              lat: show.latitude,
+              long: show.longitude,
+            },
+            location: dist,
+            venue: show.venue,
+          });
+        }
       }
     }
 
