@@ -137,10 +137,14 @@ sequelize.sync({force: true}).then(function() {
       global.db.show.create(dummyShows[index])
       .then(function(show) {
         show.setArtist(artist);
-      })
-      .then(function() {
-        process.exit(0);
       });
     });
   });
 });
+
+// might need to put this somewhere to fix hang... seems to fix but
+// somehow causes data not to be loaded right in app though.
+
+// .then(function() {
+//   process.exit(0);
+// });
