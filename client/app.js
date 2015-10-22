@@ -1,12 +1,12 @@
-var app = angular.module('StarterApp', ['ngMaterial','ui.router', 'geolocation', 'siyfion.sfTypeahead'])
+var app = angular.module('StarterApp', ['ngMaterial','ui.router', 'geolocation', 'siyfion.sfTypeahead', 'mgcrea.ngStrap'])
 .config(function($mdThemingProvider) {
   $mdThemingProvider.theme('default')
     .primaryPalette('indigo')
-    .accentPalette('blue');
+    .accentPalette('pink');
     // .dark();
 });
 
-app.controller('AppCtrl', ['$scope', '$state', '$mdSidenav', '$http', '$location','geolocation', function($scope,$state, $mdSidenav, $http, $location,geolocation){
+app.controller('AppCtrl', ['$rootScope', '$scope', '$state', '$mdSidenav', '$http', '$location','geolocation', function($rootScope, $scope, $state, $mdSidenav, $http, $location,geolocation){
   $scope.toggleSidenav = function(menuId) {
     $mdSidenav(menuId).toggle();
   };
@@ -34,6 +34,7 @@ app.controller('AppCtrl', ['$scope', '$state', '$mdSidenav', '$http', '$location
   $scope.changeState = function(stateName) {
       $state.go('^.'+stateName);
       $mdSidenav('left').toggle();
+      $scope.loaded = false;
   };
 
 /*===========================================================================/
@@ -124,27 +125,32 @@ $scope.bankingSubmit = function(){
 /                             SEARCH BAR                                     /
 /===========================================================================*/
   $scope.searchableArtists = [];
+  var artistsArray = [];
   $scope.getArtists = function(){
     $http({
       method: 'GET',
       url: '/getAll',
     }).success(function(data){
         // $scope.searchableArtists= data;
-        console.log(data);
         data.forEach(function(element){
           $scope.searchableArtists.push({name: element.name, id: element.id});
+          artistsArray.push(element.name);
         });
     });
   };
   $scope.getArtists();
 
   $scope.search = function(artist){
+    console.log(artist);
     $scope.searchableArtists.forEach(function(element){
-      if(element.name === artist.name){
+      if(element.name === artist){
         console.log(element);
         // redirecting to signup page for the time being
         // $location.url('/signup');
         $scope.artist = element;
+        var self = {};
+        console.log(self);
+        self.artistList = [];
         $state.go('^.artists');
       }
     });
@@ -175,7 +181,6 @@ $scope.bankingSubmit = function(){
   });
 
   artists.initialize();
-  console.log(artists);
 
   $scope.artistData = {
     displayKey: 'name',
@@ -214,6 +219,12 @@ app.directive('artistList', ['$rootScope', '$state', function($scope, $state){
   };
 }]);
 
+app.filter('distance', function () {
+  return function (input) {
+    return (input).toFixed(2) + ' miles';
+  };
+});
+
 app.directive('artistDisplay', ['$rootScope', '$state', function($scope, $state){
   return {
     restrict: 'E',
@@ -244,16 +255,72 @@ app.directive('artistDisplay', ['$rootScope', '$state', function($scope, $state)
   };
 }]);
 
-app.directive('sideButtons', ['$rootScope', '$state', function($scope, $state){
+app.directive('sideButtons', ['$rootScope', '$state', '$mdSidenav', function($scope, $state, $mdSidenav){
   return {
     restrict: 'E',
     templateUrl: 'sideButtons.html',
-    controller: ['$http', function($http) {
+    controller: function($http, geolocation) {
+      $scope.searchableArtists = [];
+      $scope.nearbyArtists = null;
+      var artistsArray = [];
+      $scope.getArtists = function(){
+        $http({
+          method: 'GET',
+          url: '/getAll',
+        }).success(function(data){
+            data.forEach(function(element){
+              $scope.searchableArtists.push({name: element.name, id: element.id});
+              artistsArray.push(element.name);
+            });
+        });
+      };
+      $scope.getArtists();
+
+      geolocation.getLocation().then(function(data){
+        var coords = {position: {lat:data.coords.latitude, long:data.coords.longitude}};
+        $http.post('/nearby',coords).success(function(data) {
+          $scope.nearbyArtists = data.artists;
+        });
+      });
+
+      this.click = function(artist) {
+        console.log($scope.nearbyArtists);
+        $mdSidenav('left').toggle();
+        $scope.searchableArtists.forEach(function(element){
+          if(element.name === artist){
+            $scope.artist = element;
+            $state.go('^.artists');
+          }
+        });
+        $scope.nearbyArtists.forEach(function(element){
+          if(element.name === artist){
+            $scope.artist = element;
+            $state.go('^.artists');
+          }
+        });
+      };
+      this.clickNoSide = function(artist) {
+        console.log($scope.nearbyArtists);
+        $scope.searchableArtists.forEach(function(element){
+          if(element.name === artist){
+            $scope.artist = element;
+            $state.go('^.artists');
+          }
+        });
+        $scope.nearbyArtists.forEach(function(element){
+          if(element.name === artist){
+            $scope.artist = element;
+            $state.go('^.artists');
+          }
+        });
+      };
+      $scope.selectedArtist = "";
+      $scope.artists = artistsArray;
       $http.get('/loggedin').success(function(data){
         console.log(data);
         $scope.user = data;
       });
-    }],
+    },
     controllerAs: 'sideButtons'
   };
 }]);
@@ -279,9 +346,9 @@ app.config(function ($stateProvider, $urlRouterProvider) {
   $stateProvider.state('edit', {
     url: '/edit',
     templateUrl: 'edit/edit.html',
-    controller: ['$http','$state', function($http,$state) {
+    controller: ['$rootScope','$http','$state', function($scope, $http,$state) {
       this.save = function() {
-        var data = this;
+        var data = $scope.profile;
         data.image = window.image;
         $http.post('/edit/artist', data).success(function(rdata) {
           $state.go('^.home');
@@ -289,6 +356,10 @@ app.config(function ($stateProvider, $urlRouterProvider) {
       };
     }],
     onEnter: ['$rootScope','$http','$state', function($scope,$http,$state) {
+      $scope.profile = {};
+      $http.get('/edit/artist').success(function(data) {
+        $scope.profile = data;
+      });
       $http.get('/loggedin').success(function(data){
         console.log(data);
         $scope.user = data;

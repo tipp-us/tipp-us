@@ -141,3 +141,10 @@ sequelize.sync({force: true}).then(function() {
     });
   });
 });
+
+// might need to put this somewhere to fix hang... seems to fix but
+// somehow causes data not to be loaded right in app though.
+
+// .then(function() {
+//   process.exit(0);
+// });

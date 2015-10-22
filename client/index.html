@@ -1,6 +1,7 @@
 <html lang="en" ng-app="StarterApp">
   <head>
     <link rel="stylesheet" href="lib/angular-material/angular-material.css">
+    <link rel="stylesheet" type="text/css" href="lib/bootstrap/dist/css/bootstrap.css">
     <link rel="stylesheet" type="text/css" href="style.css">
     <!-- <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=RobotoDraft:300,400,500,700,400italic"> -->
     <meta name="viewport" content="initial-scale=1" />
@@ -8,10 +9,13 @@
   <body layout="column" ng-controller="AppCtrl">
     <md-toolbar layout="row">
       <div class="md-toolbar-tools">
-        <md-button ng-click="toggleSidenav('left')" hide-gt-sm class="md-icon-button">
+        <md-button flex='15' ng-click="toggleSidenav('left')" hide-gt-sm class="md-icon-button">
           <md-icon aria-label="Menu" md-svg-icon="https://s3-us-west-2.amazonaws.com/s.cdpn.io/68133/menu.svg"></md-icon>
         </md-button>
-        <h1 class="md-display-1">*logo*</h1>
+        <div flex='70' layout="row" layout-align='center center'>
+          <img ng-src="/assets/wehearttips03.png" height="80%">
+        </div>
+        <div flex='15'></div>
       </div>
     </md-toolbar>
     <div layout="row" flex>
@@ -38,6 +42,8 @@
     <script src="lib/angular-ui-router/release/angular-ui-router.js"></script>
     <script src="lib/angularjs-geolocation/src/geolocation.js"></script>
     <script src="lib/angular-typeahead/angular-typeahead.js"></script>
+    <script src="lib/angular-strap/dist/angular-strap.min.js"></script>
+    <script src="lib/angular-strap/dist/angular-strap.tpl.min.js"></script>
     <!-- App Scripts -->
 
     <script src="app.js"></script>
