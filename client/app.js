@@ -132,24 +132,20 @@ $scope.bankingSubmit = function(){
         // $scope.searchableArtists= data;
         console.log(data);
         data.forEach(function(element){
-          $scope.searchableArtists.push({artist: element.name});
+          $scope.searchableArtists.push({name: element.name, id: element.id});
         });
     });
   };
   $scope.getArtists();
 
   $scope.search = function(artist){
-    console.log('element in search bar');
-    console.log(artist);
     $scope.searchableArtists.forEach(function(element){
-      if(element.artist === artist.name){
+      if(element.name === artist.name){
+        console.log(element);
         // redirecting to signup page for the time being
         // $location.url('/signup');
-        $scope.artist = artist;
+        $scope.artist = element;
         $state.go('^.artists');
-      }else{
-        console.log('element in array');
-        console.log(element.artist);
       }
     });
   };
