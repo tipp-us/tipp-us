@@ -1,4 +1,4 @@
-var app = angular.module('StarterApp', ['ngMaterial','ui.router', 'geolocation', 'siyfion.sfTypeahead'])
+var app = angular.module('StarterApp', ['ngMaterial','ui.router', 'geolocation', 'siyfion.sfTypeahead', 'mgcrea.ngStrap'])
 .config(function($mdThemingProvider) {
   $mdThemingProvider.theme('default')
     .primaryPalette('indigo')
@@ -124,6 +124,7 @@ $scope.bankingSubmit = function(){
 /                             SEARCH BAR                                     /
 /===========================================================================*/
   $scope.searchableArtists = [];
+  var artistsArray = [];
   $scope.getArtists = function(){
     $http({
       method: 'GET',
@@ -133,14 +134,16 @@ $scope.bankingSubmit = function(){
         console.log(data);
         data.forEach(function(element){
           $scope.searchableArtists.push({name: element.name, id: element.id});
+          artistsArray.push(element.name);
         });
     });
   };
   $scope.getArtists();
 
   $scope.search = function(artist){
+    console.log(artist);
     $scope.searchableArtists.forEach(function(element){
-      if(element.name === artist.name){
+      if(element.name === artist){
         console.log(element);
         // redirecting to signup page for the time being
         // $location.url('/signup');
@@ -149,6 +152,8 @@ $scope.bankingSubmit = function(){
       }
     });
   };
+  $scope.selectedArtist = "";
+  $scope.artists = artistsArray;
 /*===========================================================================/
 /                             TYPEAHEAD                                      /
 /===========================================================================*/

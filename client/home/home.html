@@ -7,9 +7,17 @@
     
   </md-input-container> -->
 
-  <form layout="row" layout-align="center" class="searchForm" ng-submit="search(selectedArtist)">
+  <!-- <form layout="row" layout-align="center" class="searchForm" ng-submit="search(selectedArtist)">
     <input class="typeahead" type="text" placeholder="Find Artist by Name or Code" sf-typeahead options="exampleOptions" datasets="artistData" ng-model="selectedArtist">
     <input type="submit" class="hiddenSubmit"/>
-  </form>
+  </form> -->
+  <div append-source>
+    <form class="form-inline" role="form" layout="row" layout-align="center" ng-submit="search(selectedArtist)">
+      <div class="form-group">
+        <input type="text" class="form-control typeahead" ng-model="selectedArtist" bs-options="artist for artist in artists" placeholder="Search by Artist" bs-typeahead>
+        <input type="submit" class="hiddenSubmit"/>
+      </div>
+    </form>
+  </div>
 </div>
 <artist-list></artist-list>

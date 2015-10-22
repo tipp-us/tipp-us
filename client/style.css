@@ -18,7 +18,16 @@ md-icon {
   background: green; 
   color: white; 
 }
-.typeahead {
+/* style the dropdown items */
+.dropdown-menu .active > a {
+  font-size: 110%;
+  background-color: #3F51B5;
+}
+
+.typeahead:focus {
+  border: 2px solid #3F51B5;
+}
+/*.typeahead {
   width: 300px;
   height: 36px;
   padding: 8px 12px;
@@ -29,8 +38,8 @@ md-icon {
      -moz-border-radius: 8px;
           border-radius: 8px;
   outline: none;
-}
-.typeahead:focus {
+}*/
+/*.typeahead:focus {
   border: 2px solid #3F51B5;
 }
 .tt-hint {
@@ -56,17 +65,17 @@ md-icon {
   line-height: 24px;
 }
 /*mouse hover*/
-.tt-suggestion:hover {
+/*.tt-suggestion:hover {
   cursor: pointer;
   color: #fff;
   background-color: #3F51B5;
-}
+}*/
 /*keyboard hover*/
-.tt-suggestion.tt-cursor {
+/*.tt-suggestion.tt-cursor {
   color: #fff;
   background-color: #3F51B5;
 
-}
+}*/
 .hiddenSubmit {
   visibility: hidden; 
   position: absolute;
