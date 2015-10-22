@@ -1,0 +1,35 @@
+### node etc ###
+
+# Logs
+logs
+*.log
+
+# Runtime data
+pids
+*.pid
+*.seed
+
+# Grunt intermediate storage (http://gruntjs.com/creating-plugins#storing-task-files)
+.grunt
+
+# Compiled Dirs (http://nodejs.org/api/addons.html)
+build/
+dist/
+
+# Dependency directories
+# Deployed apps should consider commenting these lines out:
+# see https://npmjs.org/doc/faq.html#Should-I-check-my-node_modules-folder-into-git
+node_modules/
+client/lib
+npm-debug.log
+.sass-cache
+*.env
+
+# Hidden Files
+.DS_Store
+*/.DS_Store
+
+server/config.js
+
+.floo
+.flooignore

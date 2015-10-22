@@ -1,0 +1,15 @@
+<md-input-container class="md-primary">
+  <label>Email</label>
+  <input ng-model="loginCtrl.email" type="email"> <!-- ng-model="user.name"> -->
+</md-input-container>
+<md-input-container class="md-primary">
+  <label>Password</label>
+  <input ng-model="loginCtrl.pass" type="password"> <!-- ng-model="user.name"> -->
+</md-input-container>
+<div ng-show="!loginCtrl.formValid">Invalid form</div>
+<div flex layout-align="end center" layout="column">
+  <md-button class="md-raised" ng-click="loginCtrl.login()">Login</md-button>
+  <md-button class="md-raised md-primary" aria-label="Settings" href="/auth/facebook">
+    <md-icon md-svg-icon="../assets/facebook.svg"></md-icon>Login with Facebook
+  </md-button>
+</div>

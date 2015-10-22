@@ -1,0 +1,45 @@
+<html lang="en" ng-app="StarterApp">
+  <head>
+    <link rel="stylesheet" href="lib/angular-material/angular-material.css">
+    <link rel="stylesheet" type="text/css" href="style.css">
+    <!-- <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=RobotoDraft:300,400,500,700,400italic"> -->
+    <meta name="viewport" content="initial-scale=1" />
+  </head>
+  <body layout="column" ng-controller="AppCtrl">
+    <md-toolbar layout="row">
+      <div class="md-toolbar-tools">
+        <md-button ng-click="toggleSidenav('left')" hide-gt-sm class="md-icon-button">
+          <md-icon aria-label="Menu" md-svg-icon="https://s3-us-west-2.amazonaws.com/s.cdpn.io/68133/menu.svg"></md-icon>
+        </md-button>
+        <h1 class="md-display-1">*logo*</h1>
+      </div>
+    </md-toolbar>
+    <div layout="row" flex>
+        <side-buttons></side-buttons>
+        <div layout="column" flex id="content">
+            <md-content layout="column" flex class="md-padding">
+              <!-- This is the MAIN VIEW. -->
+              <div ng-hide='form'></div>
+              <ui-view>
+            </md-content>
+        </div>
+    </div>
+    <!-- Braintree Dependencies -->
+    <script src="lib/braintree-web/dist/braintree.js"></script>
+    <!-- Typeahead Dependencies -->
+    <script src="lib/jquery/dist/jquery.js"></script>
+    <script src="lib/typeahead.js/dist/typeahead.bundle.js"></script>
+    <script src="lib/typeahead.js/dist/bloodhound.js"></script>
+    <!-- Angular Material Dependencies -->
+    <script src="lib/angular/angular.js"></script>
+    <script src="lib/angular-animate/angular-animate.js"></script>
+    <script src="lib/angular-aria/angular-aria.js"></script>
+    <script src="lib/angular-material/angular-material.js"></script>
+    <script src="lib/angular-ui-router/release/angular-ui-router.js"></script>
+    <script src="lib/angularjs-geolocation/src/geolocation.js"></script>
+    <script src="lib/angular-typeahead/angular-typeahead.js"></script>
+    <!-- App Scripts -->
+
+    <script src="app.js"></script>
+  </body>
+</html>

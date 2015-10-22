@@ -1,0 +1,41 @@
+<md-input-container class="md-primary">
+  <label>Venue</label>
+  <input ng-model="addCtrl.venue" type="test"> <!-- ng-model="user.name"> -->
+</md-input-container>
+<md-input-container class="md-primary">
+  <label>Lat</label>
+  <input ng-model="addCtrl.lat" type="text"> <!-- ng-model="user.name"> -->
+</md-input-container>
+<md-input-container class="md-primary">
+  <label>Long</label>
+  <input ng-model="addCtrl.long" type="text"> <!-- ng-model="user.name"> -->
+</md-input-container>
+<div flex layout-align="end center" layout="column">
+  <md-button ng-click="addCtrl.location()">Current</md-button>
+</div>
+<md-input-container class="md-primary">
+  <label>Start Date</label>
+  <input ng-model="addCtrl.start" type="datetime-local"> <!-- ng-model="user.name"> -->
+</md-input-container>
+<!-- <md-input-container class="md-primary">
+  <label>Start Time</label>
+  
+  <input ng-model="addCtrl.starttime" type="time"> <!-- ng-model="user.name"> 
+</md-input-container> -->
+ 
+<md-input-container class="md-primary">
+  <label>End Date</label>
+  <input ng-model="addCtrl.end" type="datetime-local"> <!-- ng-model="user.name"> -->
+</md-input-container>
+<!-- <md-input-container class="md-primary">
+  <label>End Time</label>
+  <input ng-model="addCtrl.endtime" type="time"> <!-- ng-model="user.name"> 
+</md-input-container> -->
+<!-- This will not be an option once auth is implemented -->
+<md-input-container class="md-primary">
+  <label>ArtistId Temp!!!</label>
+  <input ng-model="addCtrl.id" type="text"> <!-- ng-model="user.name"> -->
+</md-input-container>
+<div flex layout-align="end center" layout="column">
+  <md-button ng-click="addCtrl.add()">Add</md-button>
+</div>
