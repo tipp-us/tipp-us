@@ -2,7 +2,7 @@ var app = angular.module('StarterApp', ['ngMaterial','ui.router', 'geolocation',
 .config(function($mdThemingProvider) {
   $mdThemingProvider.theme('default')
     .primaryPalette('indigo')
-    .accentPalette('blue');
+    .accentPalette('pink');
     // .dark();
 });
 
