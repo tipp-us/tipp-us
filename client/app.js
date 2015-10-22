@@ -324,9 +324,9 @@ app.config(function ($stateProvider, $urlRouterProvider) {
   $stateProvider.state('edit', {
     url: '/edit',
     templateUrl: 'edit/edit.html',
-    controller: ['$http','$state', function($http,$state) {
+    controller: ['$rootScope','$http','$state', function($scope, $http,$state) {
       this.save = function() {
-        var data = this;
+        var data = $scope.profile;
         data.image = window.image;
         $http.post('/edit/artist', data).success(function(rdata) {
           $state.go('^.home');
@@ -334,6 +334,10 @@ app.config(function ($stateProvider, $urlRouterProvider) {
       };
     }],
     onEnter: ['$rootScope','$http','$state', function($scope,$http,$state) {
+      $scope.profile = {};
+      $http.get('/edit/artist').success(function(data) {
+        $scope.profile = data;
+      });
       $http.get('/loggedin').success(function(data){
         console.log(data);
         $scope.user = data;

@@ -371,6 +371,22 @@ app.post('/nearby', function(req, res) {
 //     }
 //   });
 // });
+app.get('/edit/artist', function(req, res) {
+  var user = req.user;
+  if(!user) {
+    res.status(403);
+  }
+  db.artist.findOne({
+    where: {facebookID: user.id},
+  }).then(function(artist) {
+    res.status(200).json({
+      name: artist.name,
+      description: artist.description,
+      email: artist.email,
+      url: artist.artistUrl,
+    });
+  });
+});
 
 // Edit an already created artist page
 app.post('/edit/artist', function(req, res) {
