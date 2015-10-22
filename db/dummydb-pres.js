@@ -29,9 +29,9 @@ var dummyArtists = [
 ];
 
 var positions = [
-  [33.9637225, -83.444641], // the Foundry
-  [33.9582088, -83.4500383], // Watt Club
-  [33.9583192, -83.4472341], // Georgia Theatre
+  [33.9637373, -83.4096203], // the Foundry
+  [33.9582286, -83.3799982], // 40 Watt Club
+  [33.958339, -83.377194], // Georgia Theatre
 ];
 
 // var venues = [
@@ -49,7 +49,7 @@ var dummyShows = [
     stopTime: '2015-10-22 22:00:00-08',
   },
   {
-    venue: 'Watt Club',
+    venue: '40 Watt Club',
     latitude: positions[1][0],
     longitude: positions[1][1],
     startTime: '2015-10-22 13:30:00-08',
