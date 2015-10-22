@@ -34,6 +34,7 @@ app.controller('AppCtrl', ['$rootScope', '$scope', '$state', '$mdSidenav', '$htt
   $scope.changeState = function(stateName) {
       $state.go('^.'+stateName);
       $mdSidenav('left').toggle();
+      $scope.loaded = false;
   };
 
 /*===========================================================================/
@@ -154,8 +155,6 @@ $scope.bankingSubmit = function(){
       }
     });
   };
-  $scope.selectedArtist = "";
-  $scope.artists = artistsArray;
 /*===========================================================================/
 /                             TYPEAHEAD                                      /
 /===========================================================================*/
@@ -309,6 +308,8 @@ app.directive('sideButtons', ['$rootScope', '$state', '$mdSidenav', function($sc
           }
         });
       };
+      $scope.selectedArtist = "";
+      $scope.artists = artistsArray;
       $http.get('/loggedin').success(function(data){
         console.log(data);
         $scope.user = data;
