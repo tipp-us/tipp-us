@@ -137,6 +137,9 @@ sequelize.sync({force: true}).then(function() {
       global.db.show.create(dummyShows[index])
       .then(function(show) {
         show.setArtist(artist);
+      })
+      .then(function() {
+        process.exit(0);
       });
     });
   });
