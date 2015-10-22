@@ -279,8 +279,16 @@ app.config(function ($stateProvider, $urlRouterProvider) {
         $http.post('/edit/artist', data).success(function(rdata) {
           $state.go('^.home');
         });
-
       };
+    }],
+    onEnter: ['$rootScope','$http','$state', function($scope,$http,$state) {
+      $http.get('/loggedin').success(function(data){
+        console.log(data);
+        $scope.user = data;
+        if (data === '0') {
+          $state.go('^.home');
+        }
+      });
     }],
     controllerAs: 'editCtrl',
   });
