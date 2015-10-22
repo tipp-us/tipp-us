@@ -31,7 +31,11 @@ global.db.artist.associate(global.db);
 global.db.show.associate(global.db);
 
 // {force: true} drops tables
-sequelize.sync({force: true})
-.then(function() {
-  process.exit(0);
-});
+sequelize.sync({force: true});
+
+// might need to put this in to fix hang... somehow causes
+// data not to be loaded right in app though.
+
+// .then(function() {
+//   process.exit(0);
+// });
