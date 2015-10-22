@@ -31,4 +31,7 @@ global.db.artist.associate(global.db);
 global.db.show.associate(global.db);
 
 // {force: true} drops tables
-sequelize.sync({force: true});
+sequelize.sync({force: true})
+.then(function() {
+  process.exit(0);
+});
