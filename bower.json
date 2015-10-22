@@ -26,6 +26,7 @@
     "angular-typeahead": "~0.2.4",
     "angular": "~1.4.7",
     "angular-mocks": "~1.4.7",
-    "angular-strap": "~2.3.3"
+    "angular-strap": "~2.3.3",
+    "bootstrap": "~3.3.5"
   }
 }
