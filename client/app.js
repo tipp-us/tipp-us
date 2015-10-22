@@ -28,8 +28,8 @@ app.controller('AppCtrl', ['$scope', '$state', '$mdSidenav', '$http', '$location
 
     $scope.cancelShow = function() {
       $scope.currentShow = false;
-    }
-  }
+    };
+  };
 
   $scope.changeState = function(stateName) {
       $state.go('^.'+stateName);
@@ -130,8 +130,9 @@ $scope.bankingSubmit = function(){
       url: '/getAll',
     }).success(function(data){
         // $scope.searchableArtists= data;
+        console.log(data);
         data.forEach(function(element){
-          $scope.searchableArtists.push({artist: element.name});
+          $scope.searchableArtists.push({name: element.name, id: element.id});
         });
     });
   };
@@ -139,47 +140,53 @@ $scope.bankingSubmit = function(){
 
   $scope.search = function(artist){
     $scope.searchableArtists.forEach(function(element){
-      if(element.artist === artist.artist){
+      if(element.name === artist.name){
+        console.log(element);
         // redirecting to signup page for the time being
-        $location.url('/signup');
+        // $location.url('/signup');
+        $scope.artist = element;
+        $state.go('^.artists');
       }
     });
   };
 /*===========================================================================/
 /                             TYPEAHEAD                                      /
 /===========================================================================*/
-
   // bloodhound suggestion engine with sample data
-    // TODO delete this testing engine data when get is complete
   var artists = new Bloodhound({
-    datumTokenizer: function(d) { return Bloodhound.tokenizers.whitespace(d.artist); },
+    datumTokenizer: Bloodhound.tokenizers.obj.whitespace('name'),
     queryTokenizer: Bloodhound.tokenizers.whitespace,
+    sufficient: 3,
+    // search engine only working when you type the local data first
     local: [
-      {artist: 'The Joes'},
-      {artist: 'The Taylors'},
-      {artist: 'The Kevins'},
-      {artist: 'The Rods'},
-    ]
-    // prefetch: {
-    //   url: '/getAll',
-    //   filter: function(list){
-    //     return $.map(list, function(artist){
-    //       return {artist: artist};
-    //     });
-    //   }
-    // }
+      {name: 'The Always Local'},
+    ],
+    remote: {
+        url: '/getAll',
+        filter: function(artists){
+          return $.map(artists, function(artist){
+            return {
+              name: artist.name,
+            };
+          });
+        },
+        cache: true,
+    }
   });
 
   artists.initialize();
+  console.log(artists);
 
   $scope.artistData = {
-    displayKey: 'artist',
-    source: artists.ttAdapter()
+    displayKey: 'name',
+    source: artists.ttAdapter(),
   };
 
   // This option highlights the main option
   $scope.exampleOptions = {
-    highlight: true
+    highlight: true,
+    hint: true,
+    minLength: 1,
   };
   
 }]);
@@ -301,7 +308,7 @@ app.config(function ($stateProvider, $urlRouterProvider) {
         var self = this;
         geolocation.getLocation().then(function(data){
           var coords = {lat:data.coords.latitude, long:data.coords.longitude};
-          console.log(coords)
+          console.log(coords);
           self.lat = coords.lat;
           self.long = coords.long;
         });
@@ -314,11 +321,11 @@ app.config(function ($stateProvider, $urlRouterProvider) {
           start: this.start,
           end: this.end,
           id: this.id,
-        }
+        };
         $http.post('shows/add', data).success(function(rdata) {
           state.go("^.home");
-        })
-      }
+        });
+      };
 
     }],
     controllerAs: 'addCtrl',

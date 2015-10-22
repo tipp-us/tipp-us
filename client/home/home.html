@@ -7,7 +7,7 @@
     
   </md-input-container> -->
 
-  <form layout="row" layout-align="center" ng-submit="search(selectedArtist)">
+  <form layout="row" layout-align="center" class="searchForm" ng-submit="search(selectedArtist)">
     <input class="typeahead" type="text" placeholder="Find Artist by Name or Code" sf-typeahead options="exampleOptions" datasets="artistData" ng-model="selectedArtist">
     <input type="submit" class="hiddenSubmit"/>
   </form>
