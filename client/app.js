@@ -130,6 +130,7 @@ $scope.bankingSubmit = function(){
       url: '/getAll',
     }).success(function(data){
         // $scope.searchableArtists= data;
+        console.log(data);
         data.forEach(function(element){
           $scope.searchableArtists.push({artist: element.name});
         });
@@ -138,48 +139,57 @@ $scope.bankingSubmit = function(){
   $scope.getArtists();
 
   $scope.search = function(artist){
+    console.log('element in search bar')
+    console.log(artist);
     $scope.searchableArtists.forEach(function(element){
-      if(element.artist === artist.artist){
+      if(element.artist === artist.name){
         // redirecting to signup page for the time being
         $location.url('/signup');
+      }else{
+        console.log('element in array');
+        console.log(element.artist);
       }
     });
   };
 /*===========================================================================/
 /                             TYPEAHEAD                                      /
 /===========================================================================*/
-
   // bloodhound suggestion engine with sample data
-    // TODO delete this testing engine data when get is complete
   var artists = new Bloodhound({
-    datumTokenizer: function(d) { return Bloodhound.tokenizers.whitespace(d.artist); },
+    datumTokenizer: Bloodhound.tokenizers.obj.whitespace('name'),
     queryTokenizer: Bloodhound.tokenizers.whitespace,
+    sufficient: 3,
+    // search engine only working when you type the local data first
     local: [
-      {artist: 'The Joes'},
-      {artist: 'The Taylors'},
-      {artist: 'The Kevins'},
-      {artist: 'The Rods'},
-    ]
-    // prefetch: {
-    //   url: '/getAll',
-    //   filter: function(list){
-    //     return $.map(list, function(artist){
-    //       return {artist: artist};
-    //     });
-    //   }
-    // }
+      {name: 'The Always Local'},
+    ],
+    remote: {
+        url: '/getAll',
+        filter: function(artists){
+          console.log('getAlled')
+          return $.map(artists, function(artist){
+            return {
+              name: artist.name,
+            };
+          });
+        },
+        cache: true,
+    }
   });
 
   artists.initialize();
+  console.log(artists);
 
   $scope.artistData = {
-    displayKey: 'artist',
-    source: artists.ttAdapter()
+    displayKey: 'name',
+    source: artists.ttAdapter(),
   };
 
   // This option highlights the main option
   $scope.exampleOptions = {
-    highlight: true
+    highlight: true,
+    hint: true,
+    minLength: 1,
   };
   
 }]);
