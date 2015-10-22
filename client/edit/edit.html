@@ -1,22 +1,22 @@
 <md-input-container class="md-primary">
   <label>Name</label>
-  <input ng-model="editCtrl.name" type="text"> <!-- ng-model="user.name"> -->
+  <input ng-model="profile.name" type="text"> <!-- ng-model="user.name"> -->
 </md-input-container>
 <md-input-container class="md-primary">
   <label>description</label>
-  <input ng-model="editCtrl.description" type="text"> <!-- ng-model="user.name"> -->
+  <input ng-model="profile.description" type="text"> <!-- ng-model="user.name"> -->
 </md-input-container>
 <md-input-container class="md-primary">
   <label>Email</label>
-  <input ng-model="editCtrl.email" type="email"> <!-- ng-model="user.name"> -->
+  <input ng-model="profile.email" type="email"> <!-- ng-model="user.name"> -->
 </md-input-container>
 <md-input-container class="md-primary">
   <label>passsword</label>
-  <input ng-model="editCtrl.pass" type="password"> <!-- ng-model="user.name"> -->
+  <input ng-model="profile.pass" type="password"> <!-- ng-model="user.name"> -->
 </md-input-container>
 <md-input-container class="md-primary">
   <label>Url</label>
-  <input ng-model="editCtrl.url" type="text"> <!-- ng-model="user.name"> -->
+  <input ng-model="profile.url" type="text"> <!-- ng-model="user.name"> -->
 </md-input-container>
 <md-input-container class="md-primary">
   <label>Image</label>
@@ -37,7 +37,7 @@
     fr.readAsDataURL(document.getElementById('photo').files[0]);
   }
   </script>
-  <input id='photo' onchange="addToCanvas()" ng-model="editCtrl.image" type="file"> <!-- ng-model="user.name"> -->
+  <input id='photo' onchange="addToCanvas()" ng-model="profile.image" type="file"> <!-- ng-model="user.name"> -->
 
 </md-input-container>
 <div flex layout-align="end center" layout="column">
