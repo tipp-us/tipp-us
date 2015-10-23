@@ -1,0 +1,15 @@
+<!-- Artists: {{artists}} -->
+<div class='md-padding' layout="row" layout-wrap>
+  <md-card style="width: 300px;" ng-repeat="artist in artists" ng-click="viewArtist(artist)">
+    <img ng-src="{{artist.pic}}" class="md-card-image" alt="artist pic">
+    <md-card-content>
+      <h2>{{artist.name}}<small>{{artist.location | distance}}</small></h2>
+      <p>{{artist.description}}</p>
+    </md-card-content>
+    <!-- Action buttons are a bit redundant since we redirect to artist profile on click -->
+    <!-- <div class="md-actions" layout="row" layout-align="end center">
+      <md-button class="md-raised md-primary">Go</md-button>
+      <md-button class="md-raised md-accent">Tip!</md-button>
+    </div> -->
+  </md-card>
+</div>
