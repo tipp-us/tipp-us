@@ -1,4 +1,4 @@
-var app = angular.module('StarterApp', ['ngMaterial','ui.router', 'geolocation', 'siyfion.sfTypeahead', 'mgcrea.ngStrap'])
+var app = angular.module('StarterApp', ['submerchant', 'ngMaterial','ui.router', 'geolocation', 'siyfion.sfTypeahead', 'mgcrea.ngStrap'])
 .config(function($mdThemingProvider) {
   $mdThemingProvider.theme('default')
     .primaryPalette('indigo')
@@ -36,146 +36,7 @@ app.controller('AppCtrl', ['$rootScope', '$scope', '$state', '$mdSidenav', '$htt
       $mdSidenav('left').toggle();
       $scope.loaded = false;
       $scope.isPaid = false;
-      // $scope.showDropinContainer = true;
-      // $scope.message = 'Please specify tip amount in the form below:';
   };
-
-/*===========================================================================/
-/                             BRAINTREE DROPIN                               /
-/===========================================================================*/
-
-var paymentConfirm = function(paid) {
-  if(paid){
-    alert = $mdDialog.alert({
-      title: 'Success!',
-      content: 'Your payment has been authorized, thanks for your support!',
-      ok: 'Close'
-    });
-  }else{
-    alert = $mdDialog.alert({
-      title: 'Sorry!',
-      content: 'Your payment method failed, please refresh the page and try again.',
-      ok: 'Close'
-    });
-  }
-  $mdDialog
-    .show( alert )
-    .finally(function() {
-      alert = undefined;
-    });
-  };
-  $scope.message = 'Please specify tip amount in the form below:';
-    $scope.showDropinContainer = true;
-    $scope.loaded = false;
-    $scope.isError = false;
-    $scope.isPaid = false;
-    $scope.getToken = function () {
-      if($scope.loaded){
-        alert = $mdDialog.confirm({
-          title: 'Again?',
-          content: 'You\'re so kind! Are you sure you would like to tip again?',
-          ok: 'Yes',
-          cancel: 'No',
-        });
-        $mdDialog
-          .show( alert )
-          .finally(function() {
-            alert = undefined;
-            $scope.loaded = false;
-            $scope.showDropinContainer = true;
-          });
-      } else {
-        $http({
-          method: 'GET',
-          url: '/client_token'
-        }).success(function (data) {
-          // testing to see if correct client token accepted
-          // console.log(data.clientToken);
-          braintree.setup(data.clientToken, 'dropin', {
-            container: 'tip-payment',
-            // Form is not submitted by default when paymentMethodNonceReceived is implemented
-            paymentMethodNonceReceived: function (event, nonce) {
-              // $scope.message = 'Processing your payment...';
-              // $scope.showDropinContainer = false;
-              $http({
-                method: 'POST',
-                url: '/checkout',
-                data: {
-                  amount: $scope.amount,
-                  payment_method_nonce: nonce
-                }
-              }).success(function (data) {
-                paymentConfirm(data.success);
-
-                // if (data.success) {
-                //   $scope.message = 'Payment authorized, thanks for your support!';
-                  $scope.showDropinContainer = false;
-                  $scope.message = null;
-                //   $scope.isError = false;
-                //   $scope.isPaid = true;
-                // } else {
-                //   $scope.message = 'Payment failed: ' + data.message + ' Please refresh the page and try again.';
-                //   $scope.isError = true;
-                // }
-              });
-            }
-          });
-        $scope.loaded = true;
-        });
-      }
-    };
-  // $scope.getToken();
-
-/*===========================================================================/
-/                             BRAINTREE MARKETPLACE                          /
-/===========================================================================*/
-  $scope.submerchant = {
-    individual: {
-      firstName: null,
-      lastName: null,
-      email: null,
-      phone: null,
-      dateOfBirth: null,
-      ssn: null,
-      address: {
-        streetAddress: null,
-        locality: null,
-        region: null,
-        postalCode: null,
-      }
-    },
-    funding: {
-      destination: 'bank', 
-      accountNumber: null, 
-      routingNumber: null,
-    },
-    tosAccepted: true,
-    masterMerchantAccountId: "starvingartists",
-};
-
-$scope.showAlert = function() {
-  alert = $mdDialog.alert({
-    title: 'Success!',
-    content: 'Your banking information has been stored. You can now receive tips!',
-    ok: 'Close'
-  });
-  $mdDialog
-    .show( alert )
-    .finally(function() {
-      alert = undefined;
-    });
-  };
-
-$scope.bankingSubmit = function(){
-  $http.post('/submerchant', {submerchantInfo: $scope.submerchant}).success(function(data) {
-    if(data.success){
-      // Let the user know that they successfully signed up to receive tips
-      $state.go('^.home');
-      $scope.showAlert();
-    }  
-  });
-};
-
 
 /*===========================================================================/
 /                             SEARCH BAR                                     /
@@ -187,7 +48,6 @@ $scope.bankingSubmit = function(){
       method: 'GET',
       url: '/getAll',
     }).success(function(data){
-        // $scope.searchableArtists= data;
         data.forEach(function(element){
           $scope.searchableArtists.push({name: element.name, id: element.id});
           artistsArray.push(element.name);
@@ -200,58 +60,15 @@ $scope.bankingSubmit = function(){
     console.log(artist);
     $scope.searchableArtists.forEach(function(element){
       if(element.name === artist){
-        console.log(element);
-        // redirecting to signup page for the time being
-        // $location.url('/signup');
         $scope.artist = element;
         var self = {};
-        console.log(self);
         self.artistList = [];
         $state.go('^.artists');
       }
     });
   };
-/*===========================================================================/
-/                             TYPEAHEAD                                      /
-/===========================================================================*/
-  // bloodhound suggestion engine with sample data
-  var artists = new Bloodhound({
-    datumTokenizer: Bloodhound.tokenizers.obj.whitespace('name'),
-    queryTokenizer: Bloodhound.tokenizers.whitespace,
-    sufficient: 3,
-    // search engine only working when you type the local data first
-    local: [
-      {name: 'The Always Local'},
-    ],
-    remote: {
-        url: '/getAll',
-        filter: function(artists){
-          return $.map(artists, function(artist){
-            return {
-              name: artist.name,
-            };
-          });
-        },
-        cache: true,
-    }
-  });
-
-  artists.initialize();
-
-  $scope.artistData = {
-    displayKey: 'name',
-    source: artists.ttAdapter(),
-  };
-
-  // This option highlights the main option
-  $scope.exampleOptions = {
-    highlight: true,
-    hint: true,
-    minLength: 1,
-  };
   
 }]);
-
 
 app.filter('distance', function () {
   return function (input) {
@@ -276,6 +93,7 @@ app.config(function ($stateProvider, $urlRouterProvider) {
   $stateProvider.state('banking', {
     url: '/banking',
     templateUrl: 'views/submerchant.html',
+    controller: 'submerchCtrl',
   });
 
   // NEARBY ARTISTS //
