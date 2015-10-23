@@ -35,6 +35,9 @@ app.controller('AppCtrl', ['$rootScope', '$scope', '$state', '$mdSidenav', '$htt
       $state.go('^.'+stateName);
       $mdSidenav('left').toggle();
       $scope.loaded = false;
+      $scope.isPaid = false;
+      $scope.showDropinContainer = true;
+      $scope.message = 'Please specify tip amount in the form below:';
   };
 
 /*===========================================================================/
