@@ -483,12 +483,11 @@ app.post('/checkout', function(req, res) {
 });
 
 app.post('/submerchant', function(req, res){
-  console.log(req.body);
   gateway.merchantAccount.create(req.body.submerchantInfo, function(err, result){
     if(err){
       console.log(err);
     }
-    console.log(result);
+    res.json(result);
   });
 });
 
