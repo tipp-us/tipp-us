@@ -1,7 +1,7 @@
 app.directive('artistDisplay', ['$rootScope', '$state', function($scope, $state){
   return {
     restrict: 'E',
-    templateUrl: 'artistDisplay.html',
+    templateUrl: 'views/artistDisplay.html',
     controller: ['$http', function($http) {
       if(!$scope.artist) {
         $state.go('^.home');

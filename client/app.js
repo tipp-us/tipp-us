@@ -265,24 +265,24 @@ app.config(function ($stateProvider, $urlRouterProvider) {
 
   $stateProvider.state('home', {
     url: '/home',
-    templateUrl: 'home/home.html',
+    templateUrl: 'views/home.html',
   });
 
   $stateProvider.state('artists', {
     url: '/artists',
-    templateUrl: 'artists/artist.html',
+    templateUrl: 'views/artist.html',
   });
 
   $stateProvider.state('banking', {
     url: '/banking',
-    templateUrl: 'artists/submerchant.html',
+    templateUrl: 'views/submerchant.html',
   });
 
   // NEARBY ARTISTS //
 
   $stateProvider.state('nearby', {
     url: '/nearby',
-    templateUrl: 'nearbyArtists.html',
+    templateUrl: 'views/nearbyArtists.html',
     controller: ['$rootScope', '$http', '$state', function($scope, $http, $state) {
       $scope.artists = [];
       $scope.viewArtist = function(artist) {
@@ -310,7 +310,7 @@ app.config(function ($stateProvider, $urlRouterProvider) {
 
   $stateProvider.state('edit', {
     url: '/edit',
-    templateUrl: 'edit/edit.html',
+    templateUrl: 'views/edit.html',
     controller: ['$rootScope','$http','$state', function($scope, $http,$state) {
       this.save = function() {
         var data = $scope.profile;
@@ -338,7 +338,7 @@ app.config(function ($stateProvider, $urlRouterProvider) {
 
   $stateProvider.state('add', {
     url: '/add',
-    templateUrl: 'shows/addshow.html',
+    templateUrl: 'views/addshow.html',
     controller: ['$http','$state', 'geolocation', function($http,$state, geolocation) {
       this.location = function() {
         var self = this;
@@ -369,7 +369,7 @@ app.config(function ($stateProvider, $urlRouterProvider) {
 
   $stateProvider.state('login', {
   url: '/login',
-  templateUrl: 'login/login.html',
+  templateUrl: 'views/login.html',
   controller: ['$rootScope', '$http', '$state',function($scope, $http, $state) {
     this.formValid = true;
     this.login = function() {
@@ -390,7 +390,7 @@ app.config(function ($stateProvider, $urlRouterProvider) {
 
   $stateProvider.state('signup', {
     url: '/signup',
-    templateUrl: 'signup/signup.html',
+    templateUrl: 'views/signup.html',
     controller: ['$rootScope', '$http', '$state',function($scope, $http, $state) {
       this.formValid = true;
       this.signup = function() {
