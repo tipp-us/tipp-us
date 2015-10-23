@@ -6,7 +6,7 @@ var app = angular.module('StarterApp', ['ngMaterial','ui.router', 'geolocation',
     // .dark();
 });
 
-app.controller('AppCtrl', ['$rootScope', '$scope', '$state', '$mdSidenav', '$http', '$location','geolocation', function($rootScope, $scope, $state, $mdSidenav, $http, $location,geolocation){
+app.controller('AppCtrl', ['$rootScope', '$scope', '$state', '$mdSidenav', '$http', '$location','geolocation', '$mdDialog', function($rootScope, $scope, $state, $mdSidenav, $http, $location, geolocation, $mdDialog){
   $scope.toggleSidenav = function(menuId) {
     $mdSidenav(menuId).toggle();
   };
@@ -107,7 +107,7 @@ app.controller('AppCtrl', ['$rootScope', '$scope', '$state', '$mdSidenav', '$htt
       }
     },
     funding: {
-      destination: 'Chase Bank', 
+      destination: 'bank', 
       accountNumber: null, 
       routingNumber: null,
     },
@@ -115,11 +115,29 @@ app.controller('AppCtrl', ['$rootScope', '$scope', '$state', '$mdSidenav', '$htt
     masterMerchantAccountId: "starvingartists",
 };
 
+$scope.showAlert = function() {
+  alert = $mdDialog.alert({
+    title: 'Success!',
+    content: 'Your banking information has been stored. You can now receive tips!',
+    ok: 'Close'
+  });
+  $mdDialog
+    .show( alert )
+    .finally(function() {
+      alert = undefined;
+    });
+  };
+
 $scope.bankingSubmit = function(){
   $http.post('/submerchant', {submerchantInfo: $scope.submerchant}).success(function(data) {
-    console.log(data);  
+    if(data.success){
+      // Let the user know that they successfully signed up to receive tips
+      $state.go('^.home');
+      $scope.showAlert();
+    }  
   });
 };
+
 
 /*===========================================================================/
 /                             SEARCH BAR                                     /
