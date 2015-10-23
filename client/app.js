@@ -252,136 +252,15 @@ $scope.bankingSubmit = function(){
   
 }]);
 
-app.directive('artistList', ['$rootScope', '$state', function($scope, $state){
-  return {
-    restrict: 'E',
-    templateUrl: 'artistList.html',
-    controller: function($http,geolocation) {
-      var self = this;
-      this.artistList = [];
-      this.click = function(artist) {
-        $scope.artist = artist;
-        $state.go('^.artists');
-      };
-      geolocation.getLocation().then(function(data){
-        var coords = {position: {lat:data.coords.latitude, long:data.coords.longitude}};
-        $http.post('/nearby',coords).success(function(data) {
-          self.artistList = data;
-        });
-      });
-
-    },
-    controllerAs: 'artistCtrl'
-  };
-}]);
 
 app.filter('distance', function () {
   return function (input) {
     return (input).toFixed(2) + ' miles';
   };
 });
-
-app.directive('artistDisplay', ['$rootScope', '$state', function($scope, $state){
-  return {
-    restrict: 'E',
-    templateUrl: 'artistDisplay.html',
-    controller: ['$http', function($http) {
-      if(!$scope.artist) {
-        $state.go('^.home');
-      } else {
-        var self = this;
-        this.artistInfo = {};
-        // as of 10-16, server still responding with dummy data
-        $http.post('/artist', {artistId: $scope.artist.id}).success(function(data) {
-          console.log('in artistDisplay. $scope.artist is...');
-          console.log($scope.artist);
-          console.log(data);
-          self.info = data;
-        });
-        this.click = function(artist) {
-          // console.log(artist);
-        };
-        this.go = function() {
-          var art = $scope.artist;
-          window.location.href = ("http://maps.google.com/maps?q="+art.position.lat+","+art.position.long+"+(My+Point)&z=14&ll="+art.position.lat+","+art.position.long);
-        };
-      }
-    }],
-    controllerAs: 'selectedArtist'
-  };
-}]);
-
-app.directive('sideButtons', ['$rootScope', '$state', '$mdSidenav', function($scope, $state, $mdSidenav){
-  return {
-    restrict: 'E',
-    templateUrl: 'sideButtons.html',
-    controller: function($http, geolocation) {
-      $scope.searchableArtists = [];
-      $scope.nearbyArtists = null;
-      var artistsArray = [];
-      $scope.getArtists = function(){
-        $http({
-          method: 'GET',
-          url: '/getAll',
-        }).success(function(data){
-            data.forEach(function(element){
-              $scope.searchableArtists.push({name: element.name, id: element.id});
-              artistsArray.push(element.name);
-            });
-        });
-      };
-      $scope.getArtists();
-
-      geolocation.getLocation().then(function(data){
-        var coords = {position: {lat:data.coords.latitude, long:data.coords.longitude}};
-        $http.post('/nearby',coords).success(function(data) {
-          $scope.nearbyArtists = data.artists;
-        });
-      });
-
-      this.click = function(artist) {
-        console.log($scope.nearbyArtists);
-        $mdSidenav('left').toggle();
-        $scope.searchableArtists.forEach(function(element){
-          if(element.name === artist){
-            $scope.artist = element;
-            $state.go('^.artists');
-          }
-        });
-        $scope.nearbyArtists.forEach(function(element){
-          if(element.name === artist){
-            $scope.artist = element;
-            $state.go('^.artists');
-          }
-        });
-      };
-      this.clickNoSide = function(artist) {
-        console.log($scope.nearbyArtists);
-        $scope.searchableArtists.forEach(function(element){
-          if(element.name === artist){
-            $scope.artist = element;
-            $state.go('^.artists');
-          }
-        });
-        $scope.nearbyArtists.forEach(function(element){
-          if(element.name === artist){
-            $scope.artist = element;
-            $state.go('^.artists');
-          }
-        });
-      };
-      $scope.selectedArtist = "";
-      $scope.artists = artistsArray;
-      $http.get('/loggedin').success(function(data){
-        console.log(data);
-        $scope.user = data;
-      });
-    },
-    controllerAs: 'sideButtons'
-  };
-}]);
-
-
+/*===========================================================================/
+/                             UI Routes                                      /
+/===========================================================================*/
 app.config(function ($stateProvider, $urlRouterProvider) {
 
   $stateProvider.state('home', {
@@ -505,35 +384,3 @@ app.config(function ($stateProvider, $urlRouterProvider) {
 
 });
 
-//http://stackoverflow.com/questions/14012239
-app.directive("passwordVerify", function() {
-   return {
-      require: "ngModel",
-      scope: {
-        passwordVerify: '='
-      },
-      link: function(scope, element, attrs, ctrl) {
-        scope.$watch(function() {
-            var combined;
-
-            if (scope.passwordVerify || ctrl.$viewValue) {
-               combined = scope.passwordVerify + '_' + ctrl.$viewValue; 
-            }                    
-            return combined;
-        }, function(value) {
-            if (value) {
-                ctrl.$parsers.unshift(function(viewValue) {
-                    var origin = scope.passwordVerify;
-                    if (origin !== viewValue) {
-                        ctrl.$setValidity("passwordVerify", false);
-                        return undefined;
-                    } else {
-                        ctrl.$setValidity("passwordVerify", true);
-                        return viewValue;
-                    }
-                });
-            }
-        });
-     }
-   };
-});
