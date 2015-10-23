@@ -1,7 +1,7 @@
 app.directive('artistList', ['$rootScope', '$state', function($scope, $state){
   return {
     restrict: 'E',
-    templateUrl: 'artistList.html',
+    templateUrl: 'views/artistList.html',
     controller: function($http,geolocation) {
       var self = this;
       this.artistList = [];

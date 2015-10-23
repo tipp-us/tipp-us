@@ -1,7 +1,7 @@
 app.directive('sideButtons', ['$rootScope', '$state', '$mdSidenav', function($scope, $state, $mdSidenav){
   return {
     restrict: 'E',
-    templateUrl: 'sideButtons.html',
+    templateUrl: 'views/sideButtons.html',
     controller: function($http, geolocation) {
       $scope.searchableArtists = [];
       $scope.nearbyArtists = null;
