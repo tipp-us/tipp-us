@@ -10,6 +10,9 @@
     </form>
   </div>
   <div flex layout-align="end center" layout="column">
+    <md-button class="md-raised md-accent" ng-click="changeState('nearby')">Nearby</md-button>
+  </div>
+  <div flex layout-align="end center" layout="column">
     <md-button class="md-raised md-primary" ng-show="user==='0'" ng-click="changeState('login')" >Artist Login</md-button>
     <md-button class="md-raised md-primary" ng-show="user==='0'" ng-click="changeState('signup')" >Artist Sign Up</md-button>
     <md-button class="md-raised md-primary" ng-show="user!=='0' && !currentShow" ng-click="startNow()">Start Show</md-button>

@@ -278,6 +278,36 @@ app.config(function ($stateProvider, $urlRouterProvider) {
     templateUrl: 'artists/submerchant.html',
   });
 
+  // NEARBY ARTISTS //
+
+  $stateProvider.state('nearby', {
+    url: '/nearby',
+    templateUrl: 'nearbyArtists.html',
+    controller: ['$rootScope', '$http', '$state', function($scope, $http, $state) {
+      $scope.artists = [];
+      $scope.viewArtist = function(artist) {
+        // console.log(artist);
+        $scope.artist = artist;
+        $state.go('^.artists');
+      };
+    }],
+    onEnter: ['$rootScope', '$http', '$state', 'geolocation', function($scope, $http, $state, geolocation) {
+      geolocation.getLocation().then(function(data){
+        var params = {
+          position: {
+            lat: data.coords.latitude,
+            long:data.coords.longitude
+          },
+          numberOfArtists: 10,
+        };
+        $http.post('/nearby',params).success(function(data) {
+          $scope.artists= data.artists;
+        });
+      });
+    }],
+    controllerAs: 'nearbyCtrl',
+  });
+
   $stateProvider.state('edit', {
     url: '/edit',
     templateUrl: 'edit/edit.html',
@@ -383,4 +413,3 @@ app.config(function ($stateProvider, $urlRouterProvider) {
   $urlRouterProvider.otherwise('home');
 
 });
-
