@@ -35,11 +35,35 @@ app.controller('AppCtrl', ['$rootScope', '$scope', '$state', '$mdSidenav', '$htt
       $state.go('^.'+stateName);
       $mdSidenav('left').toggle();
       $scope.loaded = false;
+      $scope.isPaid = false;
+      // $scope.showDropinContainer = true;
+      // $scope.message = 'Please specify tip amount in the form below:';
   };
 
 /*===========================================================================/
 /                             BRAINTREE DROPIN                               /
 /===========================================================================*/
+
+var paymentConfirm = function(paid) {
+  if(paid){
+    alert = $mdDialog.alert({
+      title: 'Success!',
+      content: 'Your payment has been authorized, thanks for your support!',
+      ok: 'Close'
+    });
+  }else{
+    alert = $mdDialog.alert({
+      title: 'Sorry!',
+      content: 'Your payment method failed, please refresh the page and try again.',
+      ok: 'Close'
+    });
+  }
+  $mdDialog
+    .show( alert )
+    .finally(function() {
+      alert = undefined;
+    });
+  };
   $scope.message = 'Please specify tip amount in the form below:';
     $scope.showDropinContainer = true;
     $scope.loaded = false;
@@ -47,7 +71,19 @@ app.controller('AppCtrl', ['$rootScope', '$scope', '$state', '$mdSidenav', '$htt
     $scope.isPaid = false;
     $scope.getToken = function () {
       if($scope.loaded){
-        return;
+        alert = $mdDialog.confirm({
+          title: 'Again?',
+          content: 'You\'re so kind! Are you sure you would like to tip again?',
+          ok: 'Yes',
+          cancel: 'No',
+        });
+        $mdDialog
+          .show( alert )
+          .finally(function() {
+            alert = undefined;
+            $scope.loaded = false;
+            $scope.showDropinContainer = true;
+          });
       } else {
         $http({
           method: 'GET',
@@ -59,8 +95,8 @@ app.controller('AppCtrl', ['$rootScope', '$scope', '$state', '$mdSidenav', '$htt
             container: 'tip-payment',
             // Form is not submitted by default when paymentMethodNonceReceived is implemented
             paymentMethodNonceReceived: function (event, nonce) {
-              $scope.message = 'Processing your payment...';
-              $scope.showDropinContainer = false;
+              // $scope.message = 'Processing your payment...';
+              // $scope.showDropinContainer = false;
               $http({
                 method: 'POST',
                 url: '/checkout',
@@ -69,16 +105,18 @@ app.controller('AppCtrl', ['$rootScope', '$scope', '$state', '$mdSidenav', '$htt
                   payment_method_nonce: nonce
                 }
               }).success(function (data) {
-                console.log(data.success);
-                if (data.success) {
-                  $scope.message = 'Payment authorized, thanks for your support!';
+                paymentConfirm(data.success);
+
+                // if (data.success) {
+                //   $scope.message = 'Payment authorized, thanks for your support!';
                   $scope.showDropinContainer = false;
-                  $scope.isError = false;
-                  $scope.isPaid = true;
-                } else {
-                  $scope.message = 'Payment failed: ' + data.message + ' Please refresh the page and try again.';
-                  $scope.isError = true;
-                }
+                  $scope.message = null;
+                //   $scope.isError = false;
+                //   $scope.isPaid = true;
+                // } else {
+                //   $scope.message = 'Payment failed: ' + data.message + ' Please refresh the page and try again.';
+                //   $scope.isError = true;
+                // }
               });
             }
           });
