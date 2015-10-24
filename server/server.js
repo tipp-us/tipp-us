@@ -8,6 +8,7 @@ var morgan = require('morgan');
 var session = require('express-session');
 var cookieParser = require('cookie-parser');
 var db = require('../db/config.js');
+var validator = require('express-validator');
 
 /*===========================================================================/
 /                             MIDDLEWARE                                     /
@@ -18,6 +19,7 @@ app.use(express.static(__dirname + '/../client'));
 app.use(morgan('dev'));
 app.use(cookieParser('keyboard cat'));
 app.use(bodyParser.json());
+app.use(validator([])); // this line must be immediately after express.bodyParser()!
 app.use(bodyParser.urlencoded({ extended: false }));
 
 app.use(session({
