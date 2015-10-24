@@ -8,22 +8,24 @@ var facebookAppId;
 var facebookAppSecret;
 var facebookCB;
 
+// For venmo auth:
+// var request = require('request');
+// var venmoId, venmoSecret;
 
-// Instantiate the braintree gateway.
-// Note: Must change these values for production
-
-// if running on Heroku
-if (process.env.BRAINTREE_MERCHANTID) {
-
+if (process.env.NODE_MODE === 'prod') { // Running on Heroku production server
   // For venmo auth:
   // venmoId = process.env.VENMO_CLIENT_ID;
   // venmoSecret = process.env.VENMO_CLIENT_SECRET;
   facebookAppId = process.env.FACEBOOK_APP_ID;
   facebookAppSecret = process.env.FACEBOOK_APP_SECRET;
   facebookCB = 'http://starvingartists-staging.herokuapp.com/auth/facebook/callback';
+} else if (process.env.NODE_MODE === 'staging') { // Running on Heroku staging server
+  facebookAppId = process.env.FACEBOOK_APP_ID;
+  facebookAppSecret = process.env.FACEBOOK_APP_SECRET;
+  facebookCB = 'http://starvingartists.herokuapp.com/auth/facebook/callback';
 } else { // running locally
   var config = require('./config.js');
-  
+
   // For venmo auth:
   // venmoId = config.venmo.client_id;
   // venmoSecret = config.venmo.client_secret;
@@ -31,10 +33,6 @@ if (process.env.BRAINTREE_MERCHANTID) {
   facebookAppSecret = config.facebook.app_secret;
   facebookCB = 'http://localhost:3000/auth/facebook/callback';
 }
-
-// For venmo auth:
-// var request = require('request');
-// var venmoId, venmoSecret;
 
 // Simple route middleware to ensure user is authenticated.
 // Use this route middleware on any resource that needs to be protected. If
