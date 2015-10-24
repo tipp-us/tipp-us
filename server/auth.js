@@ -18,11 +18,11 @@ if (process.env.NODE_MODE === 'prod') { // Running on Heroku production server
   // venmoSecret = process.env.VENMO_CLIENT_SECRET;
   facebookAppId = process.env.FACEBOOK_APP_ID;
   facebookAppSecret = process.env.FACEBOOK_APP_SECRET;
-  facebookCB = 'http://starvingartists-staging.herokuapp.com/auth/facebook/callback';
+  facebookCB = 'http://starvingartists.herokuapp.com/auth/facebook/callback';
 } else if (process.env.NODE_MODE === 'staging') { // Running on Heroku staging server
   facebookAppId = process.env.FACEBOOK_APP_ID;
   facebookAppSecret = process.env.FACEBOOK_APP_SECRET;
-  facebookCB = 'http://starvingartists.herokuapp.com/auth/facebook/callback';
+  facebookCB = 'http://starvingartists-staging.herokuapp.com/auth/facebook/callback';
 } else { // running locally
   var config = require('./config.js');
 
