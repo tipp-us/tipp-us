@@ -74,7 +74,7 @@ app.post('/shows/startNow', function(req, res) {
     return;
   }
 
-  db.artist.findOne({where: {facebookID: req.user.id}}).then(function(artist) {
+  db.artist.findOne({where: {id: req.user.artistId}}).then(function(artist) {
     if (!artist) {
       res.status(403);
       return;
@@ -180,12 +180,13 @@ app.post('/nearby', function(req, res) {
 // });
 app.get('/edit/artist', function(req, res) {
   var user = req.user;
+  console.log(user)
   if (!user) {
     res.status(403);
   }
 
   db.artist.findOne({
-    where: {facebookID: user.id},
+    where: {id: user.artistId},
   }).then(function(artist) {
     res.status(200).json({
       name: artist.name,
@@ -199,17 +200,15 @@ app.get('/edit/artist', function(req, res) {
 // Edit an already created artist page
 app.post('/edit/artist', function(req, res) {
   var user = req.user;
-
   // Escape dangerous characters from user input
   req.sanitize('name').escape();
   req.sanitize('description').escape();
   req.sanitize('email').escape();
   req.sanitize('url').escape();
   req.sanitize('pass').escape();
-
   var data = req.body;
   db.artist.findOne({
-    where: {facebookID: req.user.id},
+    where: {id: req.user.artistId},
   }).then(function(artist) {
     if (data.image) {
       cloudinary.uploader.upload(data.image, function(result) {
@@ -249,7 +248,7 @@ app.post('/shows/add', function(req, res) {
   }
 
   // Show auth and check authed user email instead of sent ID
-  db.artist.findOne({where: {facebookID: user.id}}).then(function(artist) {
+  db.artist.findOne({where: {id: user.artistId}}).then(function(artist) {
     db.show.create({
       venue: data.venue,
       latitude: data.lat,
