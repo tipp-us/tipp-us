@@ -208,7 +208,6 @@ app.post('/edit/artist', function(req, res) {
   req.sanitize('pass').escape();
 
   var data = req.body;
-
   db.artist.findOne({
     where: {facebookID: req.user.id},
   }).then(function(artist) {
