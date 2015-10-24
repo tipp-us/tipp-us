@@ -1,6 +1,6 @@
 var app = require('./server/server.js');
-var routes = require('./server/routes.js');
 var auth = require('./server/auth.js');
+var routes = require('./server/routes.js');
 
 var port = process.env.PORT || 3000;
 
