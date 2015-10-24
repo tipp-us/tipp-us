@@ -283,8 +283,6 @@ app.post('/checkout', function(req, res) {
     if (err) {
       throw error;
     }
-
-    console.log(util.inspect(result));
     res.json(result);
   });
 });

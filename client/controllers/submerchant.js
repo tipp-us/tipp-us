@@ -34,8 +34,8 @@ angular.module('submerchant', [])
         .show( alert )
         .finally(function() {
           alert = undefined;
-        });
-      };
+      });
+    };
 
     $scope.bankingSubmit = function(){
       $http.post('/submerchant', {submerchantInfo: $scope.submerchant}).success(function(data) {
