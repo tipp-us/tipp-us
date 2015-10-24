@@ -13,19 +13,21 @@ module.exports = function(config) {
 
     // list of files / patterns to load in the browser
     files: [
+      'client/lib/braintree-web/dist/braintree.js',
+      'client/lib/jquery/dist/jquery.js',
+      'client/lib/typeahead.js/dist/typeahead.bundle.js',
+      'client/lib/typeahead.js/dist/bloodhound.js',
       'client/lib/angular/angular.js',
       'client/lib/angular-animate/angular-animate.js',
       'client/lib/angular-aria/angular-aria.js',
-      'client/lib/braintree-web/dist/braintree.js',
       'client/lib/angular-material/angular-material.js',
       'client/lib/angular-ui-router/release/angular-ui-router.js',
       'client/lib/angularjs-geolocation/src/geolocation.js',
       'client/lib/angular-mocks/angular-mocks.js',
-      'client/lib/jquery/dist/jquery.js',
-      'client/lib/typeahead.js/dist/typeahead.bundle.js',
-      'client/lib/typeahead.js/dist/bloodhound.js',
       'client/lib/angular-typeahead/angular-typeahead.js',
-      'client/*.js',
+      'client/lib/angular-strap/dist/angular-strap.min.js',
+      'client/lib/angular-strap/dist/angular-strap.tpl.min.js',
+      'client/dist/**/*.js',
       'spec/**/*.js',
     ],
 
