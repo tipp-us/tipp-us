@@ -129,12 +129,25 @@ app.config(function ($stateProvider, $urlRouterProvider) {
   $stateProvider.state('edit', {
     url: '/edit',
     templateUrl: 'views/edit.html',
-    controller: ['$rootScope','$http','$state', function($scope, $http,$state) {
+    controller: ['$rootScope','$http','$state', '$mdDialog', function($scope, $http, $state, $mdDialog) {
       this.save = function() {
         var data = $scope.profile;
         data.image = window.image;
         $http.post('/edit/artist', data).success(function(rdata) {
           $state.go('^.home');
+        });
+      };
+      this.info = function(){
+        $state.go('^.banking');
+        alert = $mdDialog.alert({
+          title: 'Get Paid!',
+          content: 'Link your bank account and start collecting tips instantly.',
+          ok: 'Close'
+        });
+        $mdDialog
+          .show( alert )
+          .finally(function() {
+            alert = undefined;
         });
       };
     }],
