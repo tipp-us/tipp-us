@@ -199,8 +199,16 @@ app.get('/edit/artist', function(req, res) {
 // Edit an already created artist page
 app.post('/edit/artist', function(req, res) {
   var user = req.user;
-  console.log(user);
+
+  // Escape dangerous characters from user input
+  req.sanitize('name').escape();
+  req.sanitize('description').escape();
+  req.sanitize('email').escape();
+  req.sanitize('url').escape();
+  req.sanitize('pass').escape();
+
   var data = req.body;
+
   db.artist.findOne({
     where: {facebookID: req.user.id},
   }).then(function(artist) {
