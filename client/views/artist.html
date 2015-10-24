@@ -5,11 +5,8 @@
       <md-button class="md-primary md-raised" type="submit">Tip</md-button>
       <md-button class="md-primary md-raised" ng-click="form=false">Cancel</md-button>
   </form> -->
-    <md-toolbar>
-    <div class="md-toolbar-tools" flex layout-align="center">
-      <span class="md-flex">Payment</span>
-    </div>
-  </md-toolbar>
+
+  <h3 class="md-headline" layout="row" flex layout-align="center">Payment</h3>
   <md-content class="md-padding">
     <md-whiteframe layout="column" layout-align="center center" ng-class="{error: isError, success: isPaid}">
       <span><p ng-bind="message"></p></span>
