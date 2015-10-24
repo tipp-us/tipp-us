@@ -75,10 +75,23 @@ passport.use(new FacebookStrategy({
   function(accessToken, refreshToken, profile, done) {
     // asynchronous verification, for effect...
     process.nextTick(function() {
-
+      db.artist.findOne({where: {facebookID: profile.id}}).then(function(artist) {
+        //if we did not find a artist with that ID create one
+        if (!artist) {
+          db.artist.create({
+            facebookID: req.user.id,
+          }).then(function(art) {
+            console.log('Created new artist');
+            profile.artistId = art.id;
+            return done(null, profile);
+          });
+        } else {
+          profile.artistId = artist.id;
+          return done(null, profile);
+        }
+      });
       // TODO: associate the Facebook account with a user record in
       // database, and return that user instead.
-      return done(null, profile);
     });
   }
 ));
@@ -100,6 +113,7 @@ passport.use('local-signup', new LocalStrategy({
             email: email,
             password: hash,
           }).then(function(newArtist) {
+            newArtist.artistId = newArtist.id;
             return done(null, newArtist);
           });
         });
@@ -122,6 +136,9 @@ passport.use('local-login', new LocalStrategy({
       db.artist.verifyPassword(artist, password, function(isVerified) {
         if (isVerified) {
           console.log('User credentials matched locally!');
+          console.log(artist)
+          artist.artistId = artist.dataValues.id;
+          artist.dataValues.artistId = artist.dataValues.id;
           return done(null, artist);
         } else {
           console.log('Incorrect password, try again.');
@@ -153,16 +170,7 @@ app.get('/auth/facebook',
 app.get('/auth/facebook/callback',
   passport.authenticate('facebook', { failureRedirect: '/#/login' }),
   function(req, res) {
-    db.artist.findOne({where: {facebookID: req.user.id}}).then(function(artist) {
-      //if we did not find a artist with that ID create one
-      if (!artist) {
-        db.artist.create({
-          facebookID: req.user.id,
-        }).then(function(art) {
-          console.log('Created new artist');
-        });
-      }
-    });
+
 
     res.redirect('/#/edit');
   });
