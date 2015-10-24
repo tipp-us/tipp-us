@@ -30,7 +30,7 @@ gulp.task('dropdb', shell.task('node db/dropdb.js'));
 
 gulp.task('check', ['lint', 'test']);
 
-gulp.task('uglyCat', function() {
+gulp.task('build', function() {
   return gulp.src(['./client/app.js', './client/controllers/*.js', './client/directives/*.js'])
     .pipe(concat('starvingall.js'))
     .pipe(uglify({mangle: false}))
@@ -41,7 +41,7 @@ gulp.task('nodeIndex', function() {
   run('node index.js').exec();
 });
 
-gulp.task('build', ['uglyCat', 'nodeIndex']);
+gulp.task('serve', ['uglyCat', 'nodeIndex']);
 
 gulp.task('default', function() {
   // place code for your default task here
