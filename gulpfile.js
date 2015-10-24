@@ -41,7 +41,7 @@ gulp.task('nodeIndex', function() {
   run('node index.js').exec();
 });
 
-gulp.task('serve', ['uglyCat', 'nodeIndex']);
+gulp.task('serve', ['build', 'nodeIndex']);
 
 gulp.task('default', function() {
   // place code for your default task here
