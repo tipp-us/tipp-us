@@ -7,7 +7,7 @@ var uglify = require('gulp-uglify');
 var run = require('gulp-run');
 
 gulp.task('lint', function() {
-  return gulp.src(['./server/**/*.js', './client/**/*.js', '!./client/lib/**/*.js', './*.js'])
+  return gulp.src(['./server/**/*.js', './client/**/*.js', '!./client/lib/**/*.js', '!./client/dist/**/*.js', './*.js'])
     .pipe(jshint())
     .pipe(jshint.reporter('jshint-stylish'));
 });
