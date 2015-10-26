@@ -79,7 +79,7 @@ passport.use(new FacebookStrategy({
         //if we did not find a artist with that ID create one
         if (!artist) {
           db.artist.create({
-            facebookID: req.user.id,
+            facebookID: profile.id,
           }).then(function(art) {
             console.log('Created new artist');
             profile.artistId = art.id;
