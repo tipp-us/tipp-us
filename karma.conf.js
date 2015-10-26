@@ -27,7 +27,11 @@ module.exports = function(config) {
       'client/lib/angular-typeahead/angular-typeahead.js',
       'client/lib/angular-strap/dist/angular-strap.min.js',
       'client/lib/angular-strap/dist/angular-strap.tpl.min.js',
-      'client/dist/**/*.js',
+
+      // 'client/dist/**/*.js',
+      'client/*.js',
+      'client/controllers/**/*.js',
+      'client/directives/**/*.js',
       'server/helpers.js',
       'spec/**/*.js',
     ],
@@ -40,12 +44,21 @@ module.exports = function(config) {
     // available preprocessors: https://npmjs.org/browse/keyword/karma-preprocessor
     preprocessors: {
       'spec/server/**/*.js': ['browserify'],
+      'client/*.js': ['coverage'],
+      'client/controllers/**/*.js': ['coverage'],
+      'client/directives/**/*.js': ['coverage'],
+      'server/helpers.js': ['coverage'],
     },
 
     // test results reporter to use
     // possible values: 'dots', 'progress'
     // available reporters: https://npmjs.org/browse/keyword/karma-reporter
-    reporters: ['mocha'],
+    reporters: ['mocha', 'coverage'],
+
+    coverageReporter: {
+      type: 'html',
+      dir: 'coverage/',
+    },
 
     // web server port
     port: 9876,

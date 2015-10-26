@@ -57,7 +57,7 @@ app.controller('AppCtrl', ['$rootScope', '$scope', '$state', '$mdSidenav', '$htt
   $scope.getArtists();
 
   $scope.search = function(artist){
-    console.log(artist);
+    // console.log(artist);
     $scope.searchableArtists.forEach(function(element){
       if(element.name === artist){
         $scope.artist = element;
