@@ -6,18 +6,18 @@
       <md-button class="md-primary md-raised" ng-click="form=false">Cancel</md-button>
   </form> -->
 
-  <h3 class="md-headline" layout="row" flex layout-align="center">Payment</h3>
+  <h3 class="md-headline textColor" layout="row" flex layout-align="center">Payment</h3>
   <md-content class="md-padding">
     <md-whiteframe layout="column" layout-align="center center" ng-class="{error: isError, success: isPaid}">
-      <span><p ng-bind="message"></p></span>
+      <span class="textColor"><p ng-bind="message"></p></span>
       <div class="dropin-container" ng-show="showDropinContainer">
         <form name="payment">
           <md-input-container>
-            <label>${{amount}}</label>
+            <label class="textColor">${{amount}}</label>
             <input type="number" ng-model="amount">
           </md-input-container>
           <div id="tip-payment"></div>
-          <md-button class="md-raised md-accent" type="submit">Tip Now</md-button>
+          <md-button class="md-raised md-accent textColor" type="submit">Tip Now</md-button>
         </form>
       </div>
     </md-whiteframe>
