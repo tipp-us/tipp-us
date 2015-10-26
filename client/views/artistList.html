@@ -1,12 +1,12 @@
-<h4 ng-show="artistCtrl.artistList.artists.length" style="color:white" class="md-title" layout="row" flex layout-align="center">Artists Nearby:</h4>
+<h4 ng-show="artistCtrl.artistList.artists.length" class="md-title textColor" layout="row" flex layout-align="center">Artists Nearby:</h4>
 <md-list>
   <md-list-item ng-click="artistCtrl.click(artist)" ng-repeat="artist in artistCtrl.artistList.artists">
 <!--     <md-button class="md-fab" aria-label="Eat cake">
       <img md-icon src="{{artist.pic}}" height="50" width="50"></md-icon>
     </md-button>-->
     <img ng-src="{{artist.pic}}" class="md-avatar">
-    <p style="color:white" >{{artist.name}}</p>
-    <span style="color:white" class="md-caption">{{artist.location | distance}}</span>
+    <p class="textColor">{{artist.name}}</p>
+    <span class="md-caption textColor">{{artist.location | distance}}</span>
     <md-divider ng-if="!$last"></md-divider>
   </md-list-item>
 </md-list>
