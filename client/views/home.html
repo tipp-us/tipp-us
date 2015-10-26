@@ -1,22 +1,24 @@
-<h3 class="md-display-2 textColor" layout="row" layout-align="center" style="margin-top:20px">Starving Artist</h3>
-<h4 class="md-headline textColor" layout="row" layout-align="center" style="text-align:center">Love to support local artists musicians and causes</h4>
-<div layout="column" layout-align="center">
-  <!-- <md-input-container flex  class="md-primary md-text-float">
-    <label>Find Artist by Name or Code</label>
-    <input type="text" ng-model="artist.name"> 
-    
-  </md-input-container> -->
-
-  <!-- <form layout="row" layout-align="center" class="searchForm" ng-submit="search(selectedArtist)">
-    <input class="typeahead" type="text" placeholder="Find Artist by Name or Code" sf-typeahead options="exampleOptions" datasets="artistData" ng-model="selectedArtist">
-    <input type="submit" class="hiddenSubmit"/>
-  </form> -->
-  <div append-source>
-    <form class="form-inline" role="form" layout="row" layout-align="center" ng-submit="sideButtons.clickNoSide(selectedArtist)">
-      <div class="form-group">
-        <input type="text" style="margin-top:15px" class="form-control typeahead" ng-model="selectedArtist" bs-options="artist for artist in artists" placeholder="Search by Artist" bs-typeahead>
-        <input type="submit" class="hiddenSubmit"/>
-      </div>
-    </form>
+<div layout="row" layout-align="center start" flex="100" layout-wrap>
+  <div flex="100" layout="row" layout-align="center start">
+    <div flex="5"></div>
+    <h4 class="md-display-1 textColor" layout="row" layout-align="center" flex="90" layout-wrap style="text-align:center">Tipp your hat to local artists and musicians</h4>
+    <div flex="5"></div>
   </div>
-<artist-list></artist-list>
+
+  <div flex="5"></div>
+  <div layout="column" flex layout-align="center">
+    <div append-source>
+      <form class="form-inline" role="form" layout="row" layout-align="center" ng-submit="sideButtons.clickNoSide(selectedArtist)">
+        <div class="form-group">
+          <input type="text" style="margin-top:15px" class="form-control typeahead" ng-model="selectedArtist" bs-options="artist for artist in artists" placeholder="Search by Artist" bs-typeahead>
+          <input type="submit" class="hiddenSubmit"/>
+        </div>
+      </form>
+    </div>
+    <artist-list></artist-list>
+  </div>
+  <div flex="5"></div>
+</div>
+<div layout="row" flex="100" layout-align="center" >
+  <md-button class="md-raised md-accent" layout="row" layout-align="center" ng-click="changeState('nearby')">ALL NEARBY ARTISTS</md-button>
+</div>

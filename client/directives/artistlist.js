@@ -6,11 +6,19 @@ app.controller('artistCtrl', ['$rootScope', '$state', '$http', 'geolocation', fu
     $state.go('^.artists');
   };
   geolocation.getLocation().then(function(data){
-    var coords = {position: {lat:data.coords.latitude, long:data.coords.longitude}};
-    $http.post('/nearby',coords).success(function(data) {
+    var params = {
+          position: {
+            lat: data.coords.latitude,
+            long:data.coords.longitude
+          },
+          numberOfArtists: 3,
+          width: 200,
+          height: 200,
+        };
+    $http.post('/nearby', params).success(function(data) {
       self.artistList = data;
     });
-  });
+  };
 }]);
 
 app.directive('artistList', ['$rootScope', '$state', function($scope, $state){

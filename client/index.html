@@ -7,26 +7,28 @@
     <meta name="viewport" content="initial-scale=1" />
   </head>
   <body layout="column" ng-controller="AppCtrl">
-
     <div layout="row" flex>
         <side-buttons></side-buttons>
         <div layout="column" flex id="content">
+
           <md-toolbar layout="row">
             <div class="md-toolbar-tools">
               <md-button flex='15' ng-click="toggleSidenav('left')" hide-gt-sm class="md-icon-button">
                 <md-icon aria-label="Menu" md-svg-icon="https://s3-us-west-2.amazonaws.com/s.cdpn.io/68133/menu.svg"></md-icon>
               </md-button>
+              <div hide-sm flex='15'></div>
               <div flex='70' layout="row" layout-align='center center'>
-                <img ng-src="/assets/wehearttips03.png" height="80%">
+                <span>tipp</span><img ng-src="/assets/wehearttips03.png" height="80%"><span>us  </span>
               </div>
               <div flex='15'></div>
             </div>
           </md-toolbar>
-            <md-content layout="column" flex class="md-padding">
+
+            <md-content layout="row" flex class="md-padding">
 
               <!-- This is the MAIN VIEW. -->
               <div ng-hide='form'></div>
-              <ui-view>
+              <ui-view flex="100">
             </md-content>
         </div>
     </div>
