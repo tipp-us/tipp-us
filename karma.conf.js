@@ -34,7 +34,18 @@ module.exports = function(config) {
       'client/directives/**/*.js',
       'server/helpers.js',
       'spec/**/*.js',
+      'client/views/**/*.html',
     ],
+
+    ngHtml2JsPreprocessor: {
+      // If your build process changes the path to your templates,
+      // use stripPrefix and prependPrefix to adjust it.
+      stripPrefix: 'client/',
+      // prependPrefix: "web/path/to/templates/",
+
+      // the name of the Angular module to create
+      moduleName: 'my.templates',
+    },
 
     // list of files to exclude
     exclude: [
@@ -48,6 +59,7 @@ module.exports = function(config) {
       'client/controllers/**/*.js': ['coverage'],
       'client/directives/**/*.js': ['coverage'],
       'server/helpers.js': ['coverage'],
+      'client/views/**/*.html': ['ng-html2js'],
     },
 
     // test results reporter to use
