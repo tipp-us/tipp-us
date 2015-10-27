@@ -1,39 +1,64 @@
-describe('artistlist', function() {
-  var scope, $compile, $rootScope, element, httpBackend, $controller;
+describe('artistCtrl', function() {
+  var ctrl, state, rootScope, element, $compile;
+
   var createDirective = function() {
-    $compile(element)(scope);
-    scope.$digest();
+    element = angular.element('<artist-list></artist-list>');
+    $compile(element)(rootScope);
+    rootScope.$digest();
   };
 
   beforeEach(module('StarterApp'));
+  beforeEach(module('my.templates'));
 
-  beforeEach(inject(function(_$compile_, _$rootScope_, _$controller_, $httpBackend) {
+  beforeEach(inject(function($controller, $rootScope, $state, geolocation, _$compile_) {
+    state = $state;
+    rootScope = $rootScope;
     $compile = _$compile_;
-    $rootScope = _$rootScope_;
-    scope = $rootScope.$new();
-    httpBackend = $httpBackend;
-    $controller = _$controller_;
+    ctrl = $controller('artistCtrl', {
+      $scope: $rootScope,
+      geolocation: geolocation,
+    });
 
-    httpBackend.expectGET('views/artistList.html').respond({});
-    httpBackend.expectGET('views/home.html').respond({});
-    element = angular.element('<artist-list></artist-list>');
-    createDirective();
+    state.go('home');
+    $rootScope.$digest();
   }));
 
-  // afterEach(function() {
-  //   $httpBackend.verifyNoOutstandingExpectation();
-  //   $httpBackend.verifyNoOutstandingRequest();
-  // });
+  describe('artistCtrl', function() {
+    it('should exist', function() {
+      expect(ctrl).to.exist;
+    });
 
-  // // These don't work, possibly due to the way that they are
-  // // defined with this.click, etc, in the directive's controller.
-  // // TODO: investigate how to actually access these...
-  // it('should have a click function', function() {
-  //   // expect(scope.click).to.be.a('function');
-  // });
+    it('should have a click function', function() {
+      expect(ctrl.click).to.exist;
+      expect(ctrl.click).to.be.a('function');
+    });
 
-  // it('should initialize artistlist to an empty list', function() {
-  //   // expect(scope.artistlist.length).to.equal(0);
-  // });
+    it('should have an artistList array', function() {
+      expect(ctrl.artistList).to.exist;
+      expect(ctrl.artistList).to.be.a('array');
+    });
 
+    it('have the right url', function() {
+      expect(state.href('home')).to.equal('#/home');
+    });
+
+    it('should change states', function() {
+      expect(state.current.name).to.equal('home');
+      state.go('^.artists');
+      rootScope.$digest();
+      expect(state.current.name).to.equal('artists');
+    });
+
+    it('should actually click', function() {
+      var clickSpy = sinon.spy(ctrl, 'click');
+      ctrl.click('');
+      expect(clickSpy.calledOnce).to.equal(true);
+    });
+
+    it('should create the correct html element', function() {
+      createDirective();
+      expect(element.html()).to.contain("md-list");
+    });
+
+  });
 });
