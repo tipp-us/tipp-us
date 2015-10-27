@@ -115,6 +115,8 @@ app.post('/artist', function(req, res) {
 // Get list of specified number of nearby artists
 app.post('/nearby', function(req, res) {
   var numArtists = req.body.numberOfArtists || 3;
+  var picWidth = req.body.width || 50;
+  var picHeight = req.body.height || 50;
   var position = req.body.position;
 
   db.show.findAll({include: [db.artist]}).then(function(shows) {
@@ -127,7 +129,8 @@ app.post('/nearby', function(req, res) {
         if (show.startTime < now && now < show.stopTime) {
           var dist = helpers.getDistanceFromLatLonInKm(position.lat, position.long, show.latitude, show.longitude) / 1.60934;
           var splits = artist.imageUrl.split('/');
-          splits[splits.length - 2] = 'w_50,h_50';
+          // crops picture to desired width and height
+          splits[splits.length - 2] = 'w_' + picWidth + ',h_' + picHeight + ',c_fill';
           var img = splits.join('/');
 
           closest.push({

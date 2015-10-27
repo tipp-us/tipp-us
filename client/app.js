@@ -125,6 +125,8 @@ app.config(function ($stateProvider, $urlRouterProvider) {
             long:data.coords.longitude
           },
           numberOfArtists: 10,
+          width: 200,
+          height: 200,
         };
         $http.post('/nearby',params).success(function(data) {
           $scope.artists= data.artists;
