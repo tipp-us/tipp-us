@@ -10,6 +10,7 @@ var {
   StyleSheet,
   Text,
   View,
+  TextInput,
 } = React;
 
 var tippus = React.createClass({
@@ -17,14 +18,10 @@ var tippus = React.createClass({
     return (
       <View style={styles.container}>
         <Text style={styles.welcome}>
-          Welcome to React Native!
+          tippus
         </Text>
         <Text style={styles.instructions}>
-          To get started, edit index.ios.js
-        </Text>
-        <Text style={styles.instructions}>
-          Press Cmd+R to reload,{'\n'}
-          Cmd+D or shake for dev menu
+          Love to support local artists, musicians, and causes
         </Text>
       </View>
     );
@@ -36,7 +33,7 @@ var styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: '#F5FCFF',
+    backgroundColor: '#5C6BC0',
   },
   welcome: {
     fontSize: 20,

@@ -1,4 +1,4 @@
-var app = angular.module('StarterApp', ['submerchant', 'ngMaterial','ui.router', 'geolocation', 'siyfion.sfTypeahead', 'mgcrea.ngStrap'])
+var app = angular.module('StarterApp', ['submerchant', 'ngMaterial','ui.router', 'geolocation', 'mgcrea.ngStrap'])
 .config(function($mdThemingProvider) {
   $mdThemingProvider.theme('default')
     .primaryPalette('indigo', {
