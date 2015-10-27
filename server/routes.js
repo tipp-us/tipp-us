@@ -118,7 +118,6 @@ app.post('/nearby', function(req, res) {
   var picWidth = req.body.width || 50;
   var picHeight = req.body.height || 50;
   var position = req.body.position;
-  console.log('picWidth: ' + req.body.width);
 
   db.show.findAll({include: [db.artist]}).then(function(shows) {
     var closest = [];

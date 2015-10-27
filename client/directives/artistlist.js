@@ -18,7 +18,7 @@ app.controller('artistCtrl', ['$rootScope', '$state', '$http', 'geolocation', fu
     $http.post('/nearby', params).success(function(data) {
       self.artistList = data;
     });
-  };
+  });
 }]);
 
 app.directive('artistList', ['$rootScope', '$state', function($scope, $state){
