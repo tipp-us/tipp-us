@@ -159,28 +159,6 @@ app.post('/nearby', function(req, res) {
   });
 });
 
-// app.post('/create/artist', function(req, res) {
-
-//   // TODO: fill in necessary fields to create a user
-//   var artistData = {
-//     email: req.body.email,
-//     password: req.body.password,
-//   };
-
-//   // TODO: Check to see if we need this, probably won't after
-//   // implementing local auth strategy
-//   db.artist.findOne({
-//     where: {email: artistData.email},
-//   }).then(function(artist) {
-//     if (artist) {
-//       res.status(200).end('Sorry, email already registered');
-//     } else {
-//       db.artist.create(artistData).then(function(artist) {
-//         res.status(201).json(artist);
-//       });
-//     }
-//   });
-// });
 app.get('/edit/artist', function(req, res) {
   var user = req.user;
   console.log(user)
