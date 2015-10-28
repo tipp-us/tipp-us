@@ -93,8 +93,8 @@ app.post('/shows/startNow', function(req, res) {
 });
 
 // Get info of single artist
-app.post('/artist', function(req, res) {
-  var artistId = req.body.artistId;
+app.get('/artist/:id', function(req, res) {
+  var artistId = req.query.artistId;
 
   db.artist.findById(artistId)
     .then(function(artist) {
