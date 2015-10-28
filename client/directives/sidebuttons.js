@@ -19,12 +19,22 @@ app.directive('sideButtons', ['$rootScope', '$state', '$mdSidenav', function($sc
       };
       $scope.getArtists();
 
-      geolocation.getLocation().then(function(data) {
-        var params = {position: {lat:data.coords.latitude, long:data.coords.longitude}};
-        $http.get('/artists/nearby', params).success(function(data) {
-          $scope.nearbyArtists = data.artists;
-        });
-      });
+      // geolocation.getLocation().then(function(data) {
+      //   // var params = {position: {lat:data.coords.latitude, long:data.coords.longitude}};
+      //   // var params = {lat: data.coords.latitude, long: data.coords.longitude};
+      //   // $http.get('/artists/nearby', {params: {lat: data.coords.latitude, long: data.coords.longitude}}).success(function(data) {
+      //   //   $scope.nearbyArtists = data.artists;
+      //   // });
+      //   $http.get('/artists/nearby', {params: {
+      //       lat: data.coords.latitude,
+      //       long: data.coords.longitude,
+      //     },}).success(function(data) {
+      //     $scope.nearbyArtists = data.artists;
+      //   });
+      //   // $http.get('/artists/nearby', params).success(function(data) {
+      //   //   $scope.nearbyArtists = data.artists;
+      //   // });
+      // });
 
       this.click = function(artist) {
         console.log($scope.nearbyArtists);

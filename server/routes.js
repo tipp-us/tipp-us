@@ -118,12 +118,10 @@ app.get('/artists/nearby', function(req, res) {
   var numArtists = req.query.numberOfArtists || 3;
   var picWidth = req.query.width || 50;
   var picHeight = req.query.height || 50;
-  // var position = req.query.position;
   var position = {
     lat: req.query.lat,
     long: req.query.long,
   };
-  // console.log(req.params.lat);
 
   db.show.findAll({include: [db.artist]}).then(function(shows) {
     var closest = [];

@@ -120,41 +120,16 @@ app.config(function ($stateProvider, $urlRouterProvider) {
 
     onEnter: ['$rootScope', '$http', '$state', 'geolocation', function($scope, $http, $state, geolocation) {
       geolocation.getLocation().then(function(data) {
-        var params = {
-          // position: {
-            lat: data.coords.latitude,
-            long: data.coords.longitude,
-          // },
-          numberOfArtists: 10,
-          width: 200,
-          height: 200,
-        };
-        // console.log(params);
-        // $http({
-        //   url: '/artists/nearby',
-        //   method: 'GET',
-        //   params: {
-        //     lat: data.coords.latitude,
-        //     long: data.coords.longitude,
-        //     numberOfArtists: 10,
-        //     width: 200,
-        //     height: 200,
-        //   }
-        // }).success(function(data) {
-        //   $scope.artists = data.artists;
-        // });
         $http.get('/artists/nearby', {params: {
             lat: data.coords.latitude,
             long: data.coords.longitude,
             numberOfArtists: 10,
             width: 200,
             height: 200,
-          }}).success(function(data) {
+          },}).success(function(data) {
           $scope.artists = data.artists;
         });
-        // $http.get('/artists/nearby', params).success(function(data) {
-        //   $scope.artists = data.artists;
-        // });
+
       });
     },],
 
