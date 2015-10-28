@@ -1,6 +1,6 @@
-<!-- Artists: {{artists}} -->
+<!-- Artists: {{artistList}} -->
 <div class='md-padding' layout="row" layout-align="center" layout-wrap>
-  <md-card style="width: 200px;" ng-repeat="artist in artists" ng-click="viewArtist(artist)" class="md-primary md-hue-1">
+  <md-card style="width: 200px;" ng-repeat="artist in artistList" ng-click="viewArtist(artist)" class="md-primary md-hue-1">
     <img ng-src="{{artist.pic}}" class="md-card-image" alt="artist pic">
     <md-card-content>
       <h2 class="textColor">{{artist.name}}</h2>

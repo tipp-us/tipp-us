@@ -110,7 +110,7 @@ app.config(function ($stateProvider, $urlRouterProvider) {
     url: '/nearby',
     templateUrl: 'views/nearbyArtists.html',
     controller: ['$rootScope', '$http', '$state', function($scope, $http, $state) {
-      $scope.artists = [];
+      $scope.artistList = [];
       $scope.viewArtist = function(artist) {
         // console.log(artist);
         $scope.artist = artist;
@@ -127,7 +127,7 @@ app.config(function ($stateProvider, $urlRouterProvider) {
             width: 200,
             height: 200,
           },}).success(function(data) {
-          $scope.artists = data.artists;
+          $scope.artistList = data.artists;
         });
 
       });
