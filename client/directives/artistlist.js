@@ -13,7 +13,6 @@ app.controller('artistCtrl', ['$rootScope', '$state', '$http', 'geolocation', fu
       params: {
         lat: data.coords.latitude,
         long: data.coords.longitude,
-        numberOfArtists: 10,
         width: 200,
         height: 200,
       },
