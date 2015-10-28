@@ -1,22 +1,22 @@
 <md-input-container class="md-primary">
-  <label>name</label>
-  <input ng-model="profile.name" type="text"> <!-- ng-model="user.name"> -->
+  <label style="color:white">name</label>
+  <input style="color:white" ng-model="profile.name" type="text"> <!-- ng-model="user.name"> -->
 </md-input-container>
 <md-input-container class="md-primary">
-  <label>description</label>
-  <input ng-model="profile.description" type="text"> <!-- ng-model="user.name"> -->
+  <label style="color:white">description</label>
+  <input style="color:white" ng-model="profile.description" type="text"> <!-- ng-model="user.name"> -->
 </md-input-container>
 <md-input-container class="md-primary">
-  <label>email</label>
-  <input ng-model="profile.email" type="email" placeholder="mail@example.com"> <!-- ng-model="user.name"> -->
+  <label style="color:white">email</label>
+  <input style="color:white" ng-model="profile.email" type="email" placeholder="mail@example.com"> <!-- ng-model="user.name"> -->
 </md-input-container>
 <md-input-container class="md-primary">
-  <label>password</label>
-  <input ng-model="profile.pass" type="password"> <!-- ng-model="user.name"> -->
+  <label style="color:white">password</label>
+  <input style="color:white" ng-model="profile.pass" type="password"> <!-- ng-model="user.name"> -->
 </md-input-container>
 <md-input-container class="md-primary">
-  <label>web site</label>
-  <input ng-model="profile.url" type="text" placeholder="www.example.com"> <!-- ng-model="user.name"> -->
+  <label style="color:white">web site</label>
+  <input style="color:white" ng-model="profile.url" type="text" placeholder="www.example.com"> <!-- ng-model="user.name"> -->
 </md-input-container>
 <md-input-container class="md-primary">
   <label>image</label>
@@ -41,7 +41,7 @@
 
 </md-input-container>
 <div flex layout-align="end center" layout="column">
-  <md-button ng-click="editCtrl.save()">Save</md-button>
-  <md-button ng-click="startNow()">Add Show</md-button>
-  <md-button ng-click="editCtrl.info()">Edit Banking Information</md-button>
+  <md-button class="md-raised md-primary" ng-click="editCtrl.save()">Save</md-button>
+  <md-button class="md-raised md-primary" ng-click="startNow()">Add Show</md-button>
+  <md-button class="md-raised md-accent" ng-click="editCtrl.info()">Edit Banking Information</md-button>
 </div>
