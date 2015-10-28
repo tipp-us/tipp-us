@@ -113,11 +113,15 @@ app.post('/artist', function(req, res) {
 });
 
 // Get list of specified number of nearby artists
-app.post('/nearby', function(req, res) {
-  var numArtists = req.body.numberOfArtists || 3;
-  var picWidth = req.body.width || 50;
-  var picHeight = req.body.height || 50;
-  var position = req.body.position;
+app.get('/artists/nearby', function(req, res) {
+  var numArtists = req.params.numberOfArtists || 3;
+  var picWidth = req.params.width || 50;
+  var picHeight = req.params.height || 50;
+  // var position = req.params.position;
+  var position = {
+    lat: req.params.lat,
+    long: req.params.long,
+  };
 
   db.show.findAll({include: [db.artist]}).then(function(shows) {
     var closest = [];

@@ -116,23 +116,25 @@ app.config(function ($stateProvider, $urlRouterProvider) {
         $scope.artist = artist;
         $state.go('^.artists');
       };
-    }],
+    },],
+
     onEnter: ['$rootScope', '$http', '$state', 'geolocation', function($scope, $http, $state, geolocation) {
-      geolocation.getLocation().then(function(data){
+      geolocation.getLocation().then(function(data) {
         var params = {
-          position: {
+          // position: {
             lat: data.coords.latitude,
-            long:data.coords.longitude
-          },
+            long: data.coords.longitude,
+          // },
           numberOfArtists: 10,
           width: 200,
           height: 200,
         };
-        $http.post('/nearby',params).success(function(data) {
-          $scope.artists= data.artists;
+        $http.get('/artists/nearby', params).success(function(data) {
+          $scope.artists = data.artists;
         });
       });
-    }],
+    },],
+
     controllerAs: 'nearbyCtrl',
   });
 
@@ -180,7 +182,7 @@ app.config(function ($stateProvider, $urlRouterProvider) {
   $stateProvider.state('add', {
     url: '/add',
     templateUrl: 'views/addshow.html',
-    controller: ['$http','$state', 'geolocation', function($http,$state, geolocation) {
+    controller: ['$http','$state', 'geolocation', function($http, $state, geolocation) {
       this.location = function() {
         var self = this;
         geolocation.getLocation().then(function(data){
