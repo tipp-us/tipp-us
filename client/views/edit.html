@@ -1,46 +1,26 @@
-<md-input-container class="md-primary">
-  <label style="color:white">name</label>
-  <input style="color:white" ng-model="profile.name" type="text"> <!-- ng-model="user.name"> -->
-</md-input-container>
-<md-input-container class="md-primary">
-  <label style="color:white">description</label>
-  <input style="color:white" ng-model="profile.description" type="text"> <!-- ng-model="user.name"> -->
-</md-input-container>
-<md-input-container class="md-primary">
-  <label style="color:white">email</label>
-  <input style="color:white" ng-model="profile.email" type="email" placeholder="mail@example.com"> <!-- ng-model="user.name"> -->
-</md-input-container>
-<md-input-container class="md-primary">
-  <label style="color:white">password</label>
-  <input style="color:white" ng-model="profile.pass" type="password"> <!-- ng-model="user.name"> -->
-</md-input-container>
-<md-input-container class="md-primary">
-  <label style="color:white">web site</label>
-  <input style="color:white" ng-model="profile.url" type="text" placeholder="www.example.com"> <!-- ng-model="user.name"> -->
-</md-input-container>
-<md-input-container class="md-primary">
-  <label>image</label>
-  <!-- <canvas id="showImage"></canvas> -->
-  <script type="text/javascript">
-  function addToCanvas() {
-    //Added preview to image upload
-    //var canvas = document.getElementById('showImage');
-    var fr = new FileReader();
-    fr.onload = function() {
-      // var baseImage = new Image();
-      // baseImage.onload = function() {
-      //   canvas.getContext("2d").drawImage(baseImage,0,0, 50,150);
-      // }
-      //baseImage.src = fr.result;
-      window.image = fr.result;
-    }
-    fr.readAsDataURL(document.getElementById('photo').files[0]);
-  }
-  </script>
-  <input id='photo' onchange="addToCanvas()" ng-model="profile.image" type="file"> <!-- ng-model="user.name"> -->
-
-</md-input-container>
+<div>
+  <md-input-container class="md-primary">
+    <label style="color:white">name</label>
+    <input style="color:white" ng-model="profile.name" type="text"> <!-- ng-model="user.name"> -->
+  </md-input-container>
+  <md-input-container class="md-primary">
+    <label style="color:white">description</label>
+    <input style="color:white" ng-model="profile.description" type="text"> <!-- ng-model="user.name"> -->
+  </md-input-container>
+  <md-input-container class="md-primary">
+    <label style="color:white">email</label>
+    <input style="color:white" ng-model="profile.email" type="email" placeholder="mail@example.com"> <!-- ng-model="user.name"> -->
+  </md-input-container>
+  <md-input-container class="md-primary">
+    <label style="color:white">password</label>
+    <input style="color:white" ng-model="profile.pass" type="password"> <!-- ng-model="user.name"> -->
+  </md-input-container>
+  <md-input-container class="md-primary">
+    <label style="color:white">web site</label>
+    <input style="color:white" ng-model="profile.url" type="text" placeholder="www.example.com"> <!-- ng-model="user.name"> -->
+  
 <div flex layout-align="end center" layout="column">
   <md-button class="md-raised md-primary" ng-click="editCtrl.save()">Save</md-button>
+  <md-button class="md-raised md-primary" ng-click="startNow()">Add Show</md-button>
   <md-button class="md-raised md-accent" ng-click="editCtrl.info()">Edit Banking Information</md-button>
 </div>
