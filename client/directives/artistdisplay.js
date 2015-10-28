@@ -3,7 +3,7 @@ app.directive('artistDisplay', ['$rootScope', '$state', '$mdDialog', function($s
     restrict: 'E',
     templateUrl: 'views/artistDisplay.html',
     controller: ['$http', function($http) {
-      if(!$scope.artist) {
+      if (!$scope.artist) {
         $state.go('^.home');
       } else {
         var self = this;
@@ -23,6 +23,7 @@ app.directive('artistDisplay', ['$rootScope', '$state', '$mdDialog', function($s
           window.location.href = ("http://maps.google.com/maps?q="+art.position.lat+","+art.position.long+"+(My+Point)&z=14&ll="+art.position.lat+","+art.position.long);
         };
       }
+
 /*===========================================================================/
 /                             BRAINTREE DROPIN                               /
 /===========================================================================*/
