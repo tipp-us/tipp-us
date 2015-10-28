@@ -129,9 +129,32 @@ app.config(function ($stateProvider, $urlRouterProvider) {
           width: 200,
           height: 200,
         };
-        $http.get('/artists/nearby', params).success(function(data) {
+        // console.log(params);
+        // $http({
+        //   url: '/artists/nearby',
+        //   method: 'GET',
+        //   params: {
+        //     lat: data.coords.latitude,
+        //     long: data.coords.longitude,
+        //     numberOfArtists: 10,
+        //     width: 200,
+        //     height: 200,
+        //   }
+        // }).success(function(data) {
+        //   $scope.artists = data.artists;
+        // });
+        $http.get('/artists/nearby', {params: {
+            lat: data.coords.latitude,
+            long: data.coords.longitude,
+            numberOfArtists: 10,
+            width: 200,
+            height: 200,
+          }}).success(function(data) {
           $scope.artists = data.artists;
         });
+        // $http.get('/artists/nearby', params).success(function(data) {
+        //   $scope.artists = data.artists;
+        // });
       });
     },],
 
