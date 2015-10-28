@@ -57,7 +57,7 @@ app.get('/loggedin', function(req, res) {
 /===========================================================================*/
 
 // Get names and IDs for all artists in db
-app.get('/getAll', function(req, res) {
+app.get('/artists', function(req, res) {
   // TODO: Needs to filter for only artists with ids and names
   db.artist.findAll({
     attributes: ['id', 'name'],

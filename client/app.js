@@ -54,7 +54,7 @@ app.controller('AppCtrl', ['$rootScope', '$scope', '$state', '$mdSidenav', '$htt
   $scope.getArtists = function(){
     $http({
       method: 'GET',
-      url: '/getAll',
+      url: '/artists',
     }).success(function(data){
         data.forEach(function(element){
           $scope.searchableArtists.push({name: element.name, id: element.id});
