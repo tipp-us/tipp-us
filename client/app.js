@@ -54,7 +54,7 @@ app.controller('AppCtrl', ['$rootScope', '$scope', '$state', '$mdSidenav', '$htt
   $scope.getArtists = function(){
     $http({
       method: 'GET',
-      url: '/getAll',
+      url: '/artists',
     }).success(function(data){
         data.forEach(function(element){
           $scope.searchableArtists.push({name: element.name, id: element.id});
@@ -116,20 +116,21 @@ app.config(function ($stateProvider, $urlRouterProvider) {
         $scope.artist = artist;
         $state.go('^.artists');
       };
-    }],
+    },],
+
     onEnter: ['$rootScope', '$http', '$state', 'geolocation', function($scope, $http, $state, geolocation) {
-      geolocation.getLocation().then(function(data){
+      geolocation.getLocation().then(function(data) {
         var params = {
           position: {
             lat: data.coords.latitude,
-            long:data.coords.longitude
+            long:data.coords.longitude,
           },
           numberOfArtists: 10,
           width: 200,
           height: 200,
         };
-        $http.post('/nearby',params).success(function(data) {
-          $scope.artists= data.artists;
+        $http.post('/artists/nearby',params).success(function(data) {
+          $scope.artists = data.artists;
         });
       });
     }],

@@ -9,7 +9,7 @@ app.directive('sideButtons', ['$rootScope', '$state', '$mdSidenav', function($sc
       $scope.getArtists = function(){
         $http({
           method: 'GET',
-          url: '/getAll',
+          url: '/artists',
         }).success(function(data){
             data.forEach(function(element){
               $scope.searchableArtists.push({name: element.name, id: element.id});
@@ -21,7 +21,7 @@ app.directive('sideButtons', ['$rootScope', '$state', '$mdSidenav', function($sc
 
       geolocation.getLocation().then(function(data){
         var coords = {position: {lat:data.coords.latitude, long:data.coords.longitude}};
-        $http.post('/nearby',coords).success(function(data) {
+        $http.post('/artists/nearby',coords).success(function(data) {
           $scope.nearbyArtists = data.artists;
         });
       });

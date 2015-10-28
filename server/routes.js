@@ -57,7 +57,7 @@ app.get('/loggedin', function(req, res) {
 /===========================================================================*/
 
 // Get names and IDs for all artists in db
-app.get('/getAll', function(req, res) {
+app.get('/artists', function(req, res) {
   // TODO: Needs to filter for only artists with ids and names
   db.artist.findAll({
     attributes: ['id', 'name'],
@@ -93,7 +93,7 @@ app.post('/shows/startNow', function(req, res) {
 });
 
 // Get info of single artist
-app.post('/artist', function(req, res) {
+app.get('/artist', function(req, res) {
   var artistId = req.body.artistId;
 
   db.artist.findById(artistId)
@@ -113,7 +113,7 @@ app.post('/artist', function(req, res) {
 });
 
 // Get list of specified number of nearby artists
-app.post('/nearby', function(req, res) {
+app.post('/artists/nearby', function(req, res) {
   var numArtists = req.body.numberOfArtists || 3;
   var picWidth = req.body.width || 50;
   var picHeight = req.body.height || 50;

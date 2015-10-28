@@ -15,7 +15,7 @@ app.controller('artistCtrl', ['$rootScope', '$state', '$http', 'geolocation', fu
           width: 200,
           height: 200,
         };
-    $http.post('/nearby', params).success(function(data) {
+    $http.post('/artists/nearby', params).success(function(data) {
       self.artistList = data;
     });
   });
