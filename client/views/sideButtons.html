@@ -8,14 +8,17 @@
       </div>
     </form>
   </div>
-  <md-button style="text-align:left" ng-click="changeState('home')">Home</md-button>
-  <md-button style="text-align:left" ng-click="changeState('nearby')">Nearby</md-button>
 
-  <div flex layout-align="end" layout="column">
+  <div layout-align="start" layout="column">
+    <md-button style="text-align:left" ng-click="changeState('home')">Home</md-button>
+    <md-button style="text-align:left" ng-click="changeState('nearby')">Nearby</md-button>
+  </div>
+  <div flex></div>
+  <div layout-align="end" layout="column">
     <p style="text-align:center">ARTIST SECTION</p>
     <md-divider></md-divider>
     <md-button style="text-align:left" ng-show="user==='0'" ng-click="changeState('login')" >Artist Login</md-button>
-    <md-button style="text-align:left" ng-show="user==='0'" ng-click="changeState('signup')" >Artist Sign Up</md-button>
+    <md-button style="text-align:left;" ng-show="user==='0'" ng-click="changeState('signup')" >Artist Sign Up</md-button>
     <md-button style="text-align:left" ng-show="user!=='0' && !currentShow" ng-click="startNow()">Start Show</md-button>
     <md-button style="text-align:left" ng-show="user!=='0' && currentShow" ng-click="cancelShow()">Cancel Show</md-button>
     <md-button style="text-align:left" ng-show="user!=='0'" ng-click="changeState('add')">Add Show</md-button>
