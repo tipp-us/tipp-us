@@ -9,7 +9,7 @@ app.directive('artistDisplay', ['$rootScope', '$state', '$mdDialog', function($s
         var self = this;
         this.artistInfo = {};
         // as of 10-16, server still responding with dummy data
-        $http.get('/artists/' + $scope.artist.id).success(function(data) {
+        $http.get('/artists/id/' + $scope.artist.id).success(function(data) {
         // $http.get('/artists/id', {params: {artistId: $scope.artist.id}}).success(function(data) {
         // $http.post('/artist', {artistId: $scope.artist.id}).success(function(data) {
           console.log('in artistDisplay. $scope.artist is...');
