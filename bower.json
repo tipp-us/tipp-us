@@ -28,6 +28,6 @@
     "angular-mocks": "~1.4.7",
     "angular-strap": "~2.3.3",
     "bootstrap": "~3.3.5",
-    "ng-flow": "~2"
+    "cloudinary": "cloudinary_js#~1.0.25"
   }
 }

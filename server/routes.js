@@ -2,7 +2,6 @@ var app = require('./server');
 var passport = require('passport');
 var helpers = require('./helpers.js');
 var braintree = require('braintree');
-var cloudinary = require('cloudinary');
 
 var gateway;
 
@@ -14,11 +13,6 @@ if (process.env.BRAINTREE_MERCHANTID) {
     publicKey: process.env.BRAINTREE_PUBLICKEY,
     privateKey: process.env.BRAINTREE_PRIVATEKEY,
   });
-  cloudinary.config({
-    cloud_name: process.env.CLOUD_NAME,
-    api_key: process.env.CLOUD_KEY,
-    api_secret: process.env.CLOUD_SECRET,
-  });
 } else { // running locally
   var config = require('./config.js');
   gateway = braintree.connect({
@@ -27,7 +21,6 @@ if (process.env.BRAINTREE_MERCHANTID) {
     publicKey: config.braintree.publicKey,
     privateKey: config.braintree.privateKey,
   });
-  cloudinary.config(config.cloudConfig);
 }
 
 // TODO: Get rid of unnecessary redirects maybe, handled by angular
@@ -217,30 +210,18 @@ app.post('/edit/artist', function(req, res) {
   db.artist.findOne({
     where: {id: req.user.artistId},
   }).then(function(artist) {
-    if (data.image) {
-      cloudinary.uploader.upload(data.image, function(result) {
+    artist.name = data.name;
+    artist.description = data.description;
+    artist.password = data.pass;
+    artist.email = data.email;
 
-        // wait for image to upload!
-        finish(result.url);
-      });
-    } else {
-      finish();
-    }
+    //Check to see if new url is already used by someone
+    artist.artistUrl = data.url;
+    artist.imageUrl = data.imageUrl;
 
-    function finish(url) {
-      artist.name = data.name;
-      artist.description = data.description;
-      artist.password = data.pass;
-      artist.email = data.email;
-      //Check to see if new url is already used by someone
-      artist.artistUrl = data.url;
-      if (url) {
-        artist.imageUrl = url;
-      }
-      artist.save().then(function() {
-        res.end('Success', 200);
-      });
-    }
+    artist.save().then(function() {
+      res.end('Success', 200);
+    });
   }).catch(function(err) {
     res.status(400).json({error: err});
   });
