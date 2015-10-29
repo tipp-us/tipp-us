@@ -1,4 +1,4 @@
-app.directive('artistDisplay', ['$rootScope', '$state', '$mdDialog', function($scope, $state, $mdDialog){
+app.directive('artistDisplay', ['$rootScope', '$state', '$mdDialog', '$location', '$anchorScroll', function($scope, $state, $mdDialog, $location, $anchorScroll){
   return {
     restrict: 'E',
     templateUrl: 'views/artistDisplay.html',
@@ -55,6 +55,8 @@ app.directive('artistDisplay', ['$rootScope', '$state', '$mdDialog', function($s
           $scope.isError = false;
           $scope.isPaid = false;
           $scope.getToken = function () {
+            $location.hash('bottom');
+            $anchorScroll();
             if($scope.loaded){
               alert = $mdDialog.confirm({
                 title: 'Again?',
