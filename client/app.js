@@ -1,12 +1,60 @@
-var app = angular.module('StarterApp', ['ngMaterial','ui.router', 'geolocation', 'siyfion.sfTypeahead', 'mgcrea.ngStrap'])
+var app = angular.module('StarterApp', ['submerchant', 'ngMaterial','ui.router', 'geolocation', 'mgcrea.ngStrap', 'cloudinary','ngFileUpload'])
 .config(function($mdThemingProvider) {
   $mdThemingProvider.theme('default')
-    .primaryPalette('indigo')
-    .accentPalette('pink');
+    .primaryPalette('indigo', {
+      'default': '800', // by default use shade 400 from the pink palette for primary intentions
+      'hue-1': '50', // use shade 100 for the <code>md-hue-1</code> class
+      'hue-2': '600', // use shade 600 for the <code>md-hue-2</code> class
+      'hue-3': 'A100' // use shade A100 for the <code>md-hue-3</code> class
+    })
+    .accentPalette('pink')
+    .backgroundPalette('indigo', {
+      'default': '400', // by default use shade 400 from the pink palette for primary intentions
+    });
     // .dark();
 });
-
-app.controller('AppCtrl', ['$rootScope', '$scope', '$state', '$mdSidenav', '$http', '$location','geolocation', function($rootScope, $scope, $state, $mdSidenav, $http, $location,geolocation){
+app.controller('photoUploadCtrl', ['$scope', '$location', 'Upload', function($scope, $location, $upload) {
+  
+  $scope.uploadFiles = function(files) {
+    $scope.files = files;
+    angular.forEach(files, function(file){
+      if (file && !file.$error) {
+        file.upload = $upload.upload({
+          url: "https://api.cloudinary.com/v1_1/dalft4dfx/upload",
+          fields: {
+            upload_preset: "yx6jjrem",
+          },
+          file: file
+        }).progress(function (e) {
+          file.progress = Math.round((e.loaded * 100.0) / e.total);
+          file.status = "Uploading... " + file.progress + "%";
+        }).success(function (data, status, headers, config) {
+          // data.context = {custom: {photo: $scope.title}};
+          $scope.profile.imageUrl = data.url;
+        }).error(function (data, status, headers, config) {
+          file.result = data;
+        });
+      }
+    });
+    $scope.dragOverClass = function($event) {
+      var items = $event.dataTransfer.items;
+      var hasFile = false;
+      if (items != null) {
+        for (var i = 0 ; i < items.length; i++) {
+          if (items[i].kind == 'file') {
+            hasFile = true;
+            break;
+          }
+        }
+      } else {
+        hasFile = true;
+      }
+      return hasFile ? "dragover" : "dragover-err";
+    };
+    
+  }
+}])
+app.controller('AppCtrl', ['$rootScope', '$scope', '$state', '$mdSidenav', '$http', '$location','geolocation', '$mdDialog', function($rootScope, $scope, $state, $mdSidenav, $http, $location, geolocation, $mdDialog){
   $scope.toggleSidenav = function(menuId) {
     $mdSidenav(menuId).toggle();
   };
@@ -33,93 +81,10 @@ app.controller('AppCtrl', ['$rootScope', '$scope', '$state', '$mdSidenav', '$htt
 
   $scope.changeState = function(stateName) {
       $state.go('^.'+stateName);
-      $mdSidenav('left').toggle();
+      $mdSidenav('left').close();
       $scope.loaded = false;
+      $scope.isPaid = false;
   };
-
-/*===========================================================================/
-/                             BRAINTREE DROPIN                               /
-/===========================================================================*/
-  $scope.message = 'Please specify tip amount in the form below:';
-    $scope.showDropinContainer = true;
-    $scope.loaded = false;
-    $scope.isError = false;
-    $scope.isPaid = false;
-    $scope.getToken = function () {
-      if($scope.loaded){
-        return;
-      } else {
-        $http({
-          method: 'GET',
-          url: '/client_token'
-        }).success(function (data) {
-          // testing to see if correct client token accepted
-          // console.log(data.clientToken);
-          braintree.setup(data.clientToken, 'dropin', {
-            container: 'tip-payment',
-            // Form is not submitted by default when paymentMethodNonceReceived is implemented
-            paymentMethodNonceReceived: function (event, nonce) {
-              $scope.message = 'Processing your payment...';
-              $scope.showDropinContainer = false;
-              $http({
-                method: 'POST',
-                url: '/checkout',
-                data: {
-                  amount: $scope.amount,
-                  payment_method_nonce: nonce
-                }
-              }).success(function (data) {
-                console.log(data.success);
-                if (data.success) {
-                  $scope.message = 'Payment authorized, thanks for your support!';
-                  $scope.showDropinContainer = false;
-                  $scope.isError = false;
-                  $scope.isPaid = true;
-                } else {
-                  $scope.message = 'Payment failed: ' + data.message + ' Please refresh the page and try again.';
-                  $scope.isError = true;
-                }
-              });
-            }
-          });
-        $scope.loaded = true;
-        });
-      }
-    };
-  // $scope.getToken();
-
-/*===========================================================================/
-/                             BRAINTREE MARKETPLACE                          /
-/===========================================================================*/
-  $scope.submerchant = {
-    individual: {
-      firstName: null,
-      lastName: null,
-      email: null,
-      phone: null,
-      dateOfBirth: null,
-      ssn: null,
-      address: {
-        streetAddress: null,
-        locality: null,
-        region: null,
-        postalCode: null,
-      }
-    },
-    funding: {
-      destination: 'Chase Bank', 
-      accountNumber: null, 
-      routingNumber: null,
-    },
-    tosAccepted: true,
-    masterMerchantAccountId: "starvingartists",
-};
-
-$scope.bankingSubmit = function(){
-  $http.post('/submerchant', {submerchantInfo: $scope.submerchant}).success(function(data) {
-    console.log(data);  
-  });
-};
 
 /*===========================================================================/
 /                             SEARCH BAR                                     /
@@ -129,9 +94,8 @@ $scope.bankingSubmit = function(){
   $scope.getArtists = function(){
     $http({
       method: 'GET',
-      url: '/getAll',
+      url: '/artists',
     }).success(function(data){
-        // $scope.searchableArtists= data;
         data.forEach(function(element){
           $scope.searchableArtists.push({name: element.name, id: element.id});
           artistsArray.push(element.name);
@@ -141,82 +105,17 @@ $scope.bankingSubmit = function(){
   $scope.getArtists();
 
   $scope.search = function(artist){
-    console.log(artist);
+    // console.log(artist);
     $scope.searchableArtists.forEach(function(element){
       if(element.name === artist){
-        console.log(element);
-        // redirecting to signup page for the time being
-        // $location.url('/signup');
         $scope.artist = element;
         var self = {};
-        console.log(self);
         self.artistList = [];
         $state.go('^.artists');
       }
     });
   };
-/*===========================================================================/
-/                             TYPEAHEAD                                      /
-/===========================================================================*/
-  // bloodhound suggestion engine with sample data
-  var artists = new Bloodhound({
-    datumTokenizer: Bloodhound.tokenizers.obj.whitespace('name'),
-    queryTokenizer: Bloodhound.tokenizers.whitespace,
-    sufficient: 3,
-    // search engine only working when you type the local data first
-    local: [
-      {name: 'The Always Local'},
-    ],
-    remote: {
-        url: '/getAll',
-        filter: function(artists){
-          return $.map(artists, function(artist){
-            return {
-              name: artist.name,
-            };
-          });
-        },
-        cache: true,
-    }
-  });
-
-  artists.initialize();
-
-  $scope.artistData = {
-    displayKey: 'name',
-    source: artists.ttAdapter(),
-  };
-
-  // This option highlights the main option
-  $scope.exampleOptions = {
-    highlight: true,
-    hint: true,
-    minLength: 1,
-  };
   
-}]);
-
-app.directive('artistList', ['$rootScope', '$state', function($scope, $state){
-  return {
-    restrict: 'E',
-    templateUrl: 'artistList.html',
-    controller: function($http,geolocation) {
-      var self = this;
-      this.artistList = [];
-      this.click = function(artist) {
-        $scope.artist = artist;
-        $state.go('^.artists');
-      };
-      geolocation.getLocation().then(function(data){
-        var coords = {position: {lat:data.coords.latitude, long:data.coords.longitude}};
-        $http.post('/nearby',coords).success(function(data) {
-          self.artistList = data;
-        });
-      });
-
-    },
-    controllerAs: 'artistCtrl'
-  };
 }]);
 
 app.filter('distance', function () {
@@ -224,134 +123,80 @@ app.filter('distance', function () {
     return (input).toFixed(2) + ' miles';
   };
 });
-
-app.directive('artistDisplay', ['$rootScope', '$state', function($scope, $state){
-  return {
-    restrict: 'E',
-    templateUrl: 'artistDisplay.html',
-    controller: ['$http', function($http) {
-      if(!$scope.artist) {
-        $state.go('^.home');
-      } else {
-        var self = this;
-        this.artistInfo = {};
-        // as of 10-16, server still responding with dummy data
-        $http.post('/artist', {artistId: $scope.artist.id}).success(function(data) {
-          console.log('in artistDisplay. $scope.artist is...');
-          console.log($scope.artist);
-          console.log(data);
-          self.info = data;
-        });
-        this.click = function(artist) {
-          // console.log(artist);
-        };
-        this.go = function() {
-          var art = $scope.artist;
-          window.location.href = ("http://maps.google.com/maps?q="+art.position.lat+","+art.position.long+"+(My+Point)&z=14&ll="+art.position.lat+","+art.position.long);
-        };
-      }
-    }],
-    controllerAs: 'selectedArtist'
-  };
-}]);
-
-app.directive('sideButtons', ['$rootScope', '$state', '$mdSidenav', function($scope, $state, $mdSidenav){
-  return {
-    restrict: 'E',
-    templateUrl: 'sideButtons.html',
-    controller: function($http, geolocation) {
-      $scope.searchableArtists = [];
-      $scope.nearbyArtists = null;
-      var artistsArray = [];
-      $scope.getArtists = function(){
-        $http({
-          method: 'GET',
-          url: '/getAll',
-        }).success(function(data){
-            data.forEach(function(element){
-              $scope.searchableArtists.push({name: element.name, id: element.id});
-              artistsArray.push(element.name);
-            });
-        });
-      };
-      $scope.getArtists();
-
-      geolocation.getLocation().then(function(data){
-        var coords = {position: {lat:data.coords.latitude, long:data.coords.longitude}};
-        $http.post('/nearby',coords).success(function(data) {
-          $scope.nearbyArtists = data.artists;
-        });
-      });
-
-      this.click = function(artist) {
-        console.log($scope.nearbyArtists);
-        $mdSidenav('left').toggle();
-        $scope.searchableArtists.forEach(function(element){
-          if(element.name === artist){
-            $scope.artist = element;
-            $state.go('^.artists');
-          }
-        });
-        $scope.nearbyArtists.forEach(function(element){
-          if(element.name === artist){
-            $scope.artist = element;
-            $state.go('^.artists');
-          }
-        });
-      };
-      this.clickNoSide = function(artist) {
-        console.log($scope.nearbyArtists);
-        $scope.searchableArtists.forEach(function(element){
-          if(element.name === artist){
-            $scope.artist = element;
-            $state.go('^.artists');
-          }
-        });
-        $scope.nearbyArtists.forEach(function(element){
-          if(element.name === artist){
-            $scope.artist = element;
-            $state.go('^.artists');
-          }
-        });
-      };
-      $scope.selectedArtist = "";
-      $scope.artists = artistsArray;
-      $http.get('/loggedin').success(function(data){
-        console.log(data);
-        $scope.user = data;
-      });
-    },
-    controllerAs: 'sideButtons'
-  };
-}]);
-
-
+/*===========================================================================/
+/                             UI Routes                                      /
+/===========================================================================*/
 app.config(function ($stateProvider, $urlRouterProvider) {
 
   $stateProvider.state('home', {
     url: '/home',
-    templateUrl: 'home/home.html',
+    templateUrl: 'views/home.html',
   });
 
   $stateProvider.state('artists', {
     url: '/artists',
-    templateUrl: 'artists/artist.html',
+    templateUrl: 'views/artist.html',
   });
 
   $stateProvider.state('banking', {
     url: '/banking',
-    templateUrl: 'artists/submerchant.html',
+    templateUrl: 'views/submerchant.html',
+    controller: 'submerchCtrl',
+  });
+
+  // NEARBY ARTISTS //
+
+  $stateProvider.state('nearby', {
+    url: '/nearby',
+    templateUrl: 'views/nearbyArtists.html',
+    controller: ['$rootScope', '$http', '$state', function($scope, $http, $state) {
+      $scope.artistList = [];
+      $scope.viewArtist = function(artist) {
+        // console.log(artist);
+        $scope.artist = artist;
+        $state.go('^.artists');
+      };
+    },],
+
+    onEnter: ['$rootScope', '$http', '$state', 'geolocation', function($scope, $http, $state, geolocation) {
+      geolocation.getLocation().then(function(data) {
+        $http.get('/artists/nearby', {params: {
+            lat: data.coords.latitude,
+            long: data.coords.longitude,
+            numberOfArtists: 10,
+            width: 200,
+            height: 200,
+          },}).success(function(data) {
+          $scope.artistList = data.artists;
+        });
+
+      });
+    },],
+
+    controllerAs: 'nearbyCtrl',
   });
 
   $stateProvider.state('edit', {
     url: '/edit',
-    templateUrl: 'edit/edit.html',
-    controller: ['$rootScope','$http','$state', function($scope, $http,$state) {
+    templateUrl: 'views/edit.html',
+    controller: ['$rootScope','$http','$state', '$mdDialog', function($scope, $http, $state, $mdDialog) {
       this.save = function() {
         var data = $scope.profile;
-        data.image = window.image;
         $http.post('/edit/artist', data).success(function(rdata) {
           $state.go('^.home');
+        });
+      };
+      this.info = function(){
+        $state.go('^.banking');
+        alert = $mdDialog.alert({
+          title: 'Get Paid!',
+          content: 'Link your bank account and start collecting tips instantly.',
+          ok: 'Close'
+        });
+        $mdDialog
+          .show( alert )
+          .finally(function() {
+            alert = undefined;
         });
       };
     }],
@@ -373,8 +218,8 @@ app.config(function ($stateProvider, $urlRouterProvider) {
 
   $stateProvider.state('add', {
     url: '/add',
-    templateUrl: 'shows/addshow.html',
-    controller: ['$http','$state', 'geolocation', function($http,$state, geolocation) {
+    templateUrl: 'views/addshow.html',
+    controller: ['$http','$state', 'geolocation', function($http, $state, geolocation) {
       this.location = function() {
         var self = this;
         geolocation.getLocation().then(function(data){
@@ -404,7 +249,7 @@ app.config(function ($stateProvider, $urlRouterProvider) {
 
   $stateProvider.state('login', {
   url: '/login',
-  templateUrl: 'login/login.html',
+  templateUrl: 'views/login.html',
   controller: ['$rootScope', '$http', '$state',function($scope, $http, $state) {
     this.formValid = true;
     this.login = function() {
@@ -425,7 +270,7 @@ app.config(function ($stateProvider, $urlRouterProvider) {
 
   $stateProvider.state('signup', {
     url: '/signup',
-    templateUrl: 'signup/signup.html',
+    templateUrl: 'views/signup.html',
     controller: ['$rootScope', '$http', '$state',function($scope, $http, $state) {
       this.formValid = true;
       this.signup = function() {
@@ -447,37 +292,4 @@ app.config(function ($stateProvider, $urlRouterProvider) {
 
   $urlRouterProvider.otherwise('home');
 
-});
-
-//http://stackoverflow.com/questions/14012239
-app.directive("passwordVerify", function() {
-   return {
-      require: "ngModel",
-      scope: {
-        passwordVerify: '='
-      },
-      link: function(scope, element, attrs, ctrl) {
-        scope.$watch(function() {
-            var combined;
-
-            if (scope.passwordVerify || ctrl.$viewValue) {
-               combined = scope.passwordVerify + '_' + ctrl.$viewValue; 
-            }                    
-            return combined;
-        }, function(value) {
-            if (value) {
-                ctrl.$parsers.unshift(function(viewValue) {
-                    var origin = scope.passwordVerify;
-                    if (origin !== viewValue) {
-                        ctrl.$setValidity("passwordVerify", false);
-                        return undefined;
-                    } else {
-                        ctrl.$setValidity("passwordVerify", true);
-                        return viewValue;
-                    }
-                });
-            }
-        });
-     }
-   };
 });

@@ -15,6 +15,7 @@ pids
 # Compiled Dirs (http://nodejs.org/api/addons.html)
 build/
 dist/
+client/dist
 
 # Dependency directories
 # Deployed apps should consider commenting these lines out:
@@ -30,6 +31,7 @@ npm-debug.log
 */.DS_Store
 
 server/config.js
+coverage/
 
 .floo
 .flooignore

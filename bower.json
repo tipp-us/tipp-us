@@ -27,6 +27,10 @@
     "angular": "~1.4.7",
     "angular-mocks": "~1.4.7",
     "angular-strap": "~2.3.3",
-    "bootstrap": "~3.3.5"
+    "bootstrap": "~3.3.5",
+    "cloudinary": "cloudinary_js#~1.0.25",
+    "ng-file-upload": "~9.1.1",
+    "ng-file-upload-shim": "~9.1.1",
+    "cloudinary_ng": "~0.1.4"
   }
 }

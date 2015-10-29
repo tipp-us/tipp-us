@@ -45,22 +45,22 @@ var dummyShows = [
     venue: 'The Foundry',
     latitude: positions[0][0],
     longitude: positions[0][1],
-    startTime: '2015-10-22 13:30:00-08',
-    stopTime: '2015-10-22 22:00:00-08',
+    startTime: '2015-10-22 08:30:00',
+    stopTime: '2015-11-22 22:00:00',
   },
   {
     venue: '40 Watt Club',
     latitude: positions[1][0],
     longitude: positions[1][1],
-    startTime: '2015-10-22 13:30:00-08',
-    stopTime: '2015-10-22 22:00:00-08',
+    startTime: '2015-10-22 08:30:00',
+    stopTime: '2015-11-22 22:00:00',
   },
   {
     venue: 'Georgia Theatre',
     latitude: positions[2][0],
     longitude: positions[2][1],
-    startTime: '2015-10-22 13:30:00-08',
-    stopTime: '2015-10-22 22:00:00-08',
+    startTime: '2015-10-22 08:30:00',
+    stopTime: '2015-11-22 22:00:00',
   },
 ];
 

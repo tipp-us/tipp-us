@@ -1,0 +1,32 @@
+<div layout="row" layout-align="center start" layout-wrap>
+  <div flex="100" layout="row" layout-align="center start">
+    <div flex="5"></div>
+    <h4 class="md-display-1 textColor" layout="row" layout-align="center" flex="90" layout-wrap style="text-align:center">Tipp your hat to local artists and musicians</h4>
+    <div flex="5"></div>
+  </div>
+
+<!-- ARTISTS FOUND NEARBY -->
+  <div flex="5"></div>
+  <div layout="column" flex layout-align="center">
+    <div append-source>
+      <form class="form-inline" role="form" layout="row" layout-align="center" ng-submit="sideButtons.clickNoSide(selectedArtist)">
+        <div class="form-group">
+          <input type="text" style="margin-top:15px" class="form-control typeahead" ng-model="selectedArtist" bs-options="artist for artist in artists" placeholder="Search by Artist" bs-typeahead>
+          <input type="submit" class="hiddenSubmit"/>
+        </div>
+      </form>
+    </div>
+    <artist-list></artist-list>
+  </div>
+  <div flex="5"></div>
+</div>
+
+<!-- <div flex="100"></div> -->
+<div layout="row" layout-align="center" ng-show="artistCtrl.artistList.artists.length" >
+  <md-button class="md-raised md-accent" layout="row" layout-align="center" ng-click="changeState('nearby')">ALL NEARBY ARTISTS</md-button>
+</div>
+
+<!-- NO ARTISTS FOUND NEARBY YET -->
+<div layout="column" layout-align="center center" ng-hide="artistCtrl.artistList.artists.length">
+  <img ng-click="changeState('home')" ng-src="/assets/wehearttips04.png" height="35%">
+</div>

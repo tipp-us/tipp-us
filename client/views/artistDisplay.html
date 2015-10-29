@@ -1,0 +1,13 @@
+<div layout="row" layout-align="center start" flex="100" layout-wrap>
+
+  <h3 class="md-display-2" style="color:white" layout="row" flex="100" layout-align="center">{{selectedArtist.info.name}}</h3>
+  <div>
+    <img ng-src='{{artist.pic}}'>
+  </div>
+  <div flex="100"></div>
+  <h4 class="md-subhead" ng-show="artist.venue" style="color:white" layout="row" flex="100" layout-align="center">Now Playing at {{artist.venue}}</h4>
+  <md-button ng-show="artist.venue" class="md-primary md-raised" ng-click="selectedArtist.go()">MAP</md-button>
+  <div flex="100"></div>
+  <md-button class="md-accent md-raised" ng-click="form=true; getToken()" layout="row" layout-align="center">Tip {{selectedArtist.info.name}}</md-button>
+
+</div>

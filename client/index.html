@@ -1,30 +1,34 @@
 <html lang="en" ng-app="StarterApp">
   <head>
     <link rel="stylesheet" href="lib/angular-material/angular-material.css">
-    <link rel="stylesheet" type="text/css" href="lib/bootstrap/dist/css/bootstrap.css">
+    <link rel="stylesheet" type="text/css" href="lib/bootstrap/dist/css/bootstrap.min.css">
     <link rel="stylesheet" type="text/css" href="style.css">
     <!-- <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=RobotoDraft:300,400,500,700,400italic"> -->
     <meta name="viewport" content="initial-scale=1" />
   </head>
   <body layout="column" ng-controller="AppCtrl">
-    <md-toolbar layout="row">
-      <div class="md-toolbar-tools">
-        <md-button flex='15' ng-click="toggleSidenav('left')" hide-gt-sm class="md-icon-button">
-          <md-icon aria-label="Menu" md-svg-icon="https://s3-us-west-2.amazonaws.com/s.cdpn.io/68133/menu.svg"></md-icon>
-        </md-button>
-        <div flex='70' layout="row" layout-align='center center'>
-          <img ng-src="/assets/wehearttips03.png" height="80%">
-        </div>
-        <div flex='15'></div>
-      </div>
-    </md-toolbar>
     <div layout="row" flex>
         <side-buttons></side-buttons>
         <div layout="column" flex id="content">
-            <md-content layout="column" flex class="md-padding">
+
+          <md-toolbar layout="row">
+            <div class="md-toolbar-tools">
+              <md-button flex='15' ng-click="toggleSidenav('left')" hide-gt-sm class="md-icon-button">
+                <md-icon aria-label="Menu" md-svg-icon="https://s3-us-west-2.amazonaws.com/s.cdpn.io/68133/menu.svg"></md-icon>
+              </md-button>
+              <div hide-sm flex='15'></div>
+              <div flex='70' layout="row" layout-align='center center'>
+                <span>tipp</span><img ng-click="changeState('home')" ng-src="/assets/wehearttips03.png" height="80%"><span>us  </span>
+              </div>
+              <div flex='15'></div>
+            </div>
+          </md-toolbar>
+
+            <md-content layout="row" flex class="md-padding">
+
               <!-- This is the MAIN VIEW. -->
               <div ng-hide='form'></div>
-              <ui-view>
+              <ui-view flex="100">
             </md-content>
         </div>
     </div>
@@ -33,7 +37,6 @@
     <!-- Typeahead Dependencies -->
     <script src="lib/jquery/dist/jquery.js"></script>
     <script src="lib/typeahead.js/dist/typeahead.bundle.js"></script>
-    <script src="lib/typeahead.js/dist/bloodhound.js"></script>
     <!-- Angular Material Dependencies -->
     <script src="lib/angular/angular.js"></script>
     <script src="lib/angular-animate/angular-animate.js"></script>
@@ -41,11 +44,20 @@
     <script src="lib/angular-material/angular-material.js"></script>
     <script src="lib/angular-ui-router/release/angular-ui-router.js"></script>
     <script src="lib/angularjs-geolocation/src/geolocation.js"></script>
-    <script src="lib/angular-typeahead/angular-typeahead.js"></script>
     <script src="lib/angular-strap/dist/angular-strap.min.js"></script>
     <script src="lib/angular-strap/dist/angular-strap.tpl.min.js"></script>
-    <!-- App Scripts -->
-
+    <!-- Image uploading -->
+    <script src="lib/cloudinary_ng/js/angular.cloudinary.js"></script>
+    <script src="lib/ng-file-upload/ng-file-upload-shim.js"></script>
+    <script src="lib/ng-file-upload/ng-file-upload.js"></script>
+    <!-- Main app file -->
     <script src="app.js"></script>
+    <!-- Directives -->
+    <script src="directives/artistlist.js"></script>
+    <script src="directives/artistdisplay.js"></script>
+    <script src="directives/sidebuttons.js"></script>
+    <script src="directives/passwordverify.js"></script>
+    <script src="controllers/submerchant.js"></script>
+
   </body>
 </html>

@@ -1,0 +1,20 @@
+<!-- MOBILE VIEW -->
+<md-list hide-gt-sm>
+  <md-list-item ng-click="artistCtrl.click(artist)" ng-repeat="artist in artistCtrl.artistList.artists">
+    <img ng-src="{{artist.pic}}" class="md-avatar">
+    <p class="textColor">{{artist.name}}</p>
+    <span class="md-caption textColor">{{artist.location | distance}}</span>
+    <md-divider ng-if="!$last"></md-divider>
+  </md-list-item>
+</md-list>
+
+<!-- DESKTOP VIEW -->
+<md-content hide-sm class='md-padding' layout="row" layout-align="center" layout-wrap>
+  <md-card style="width: 200px" ng-click="artistCtrl.click(artist)" ng-repeat="artist in artistCtrl.artistList.artists" class="md-primary md-hue-1">
+    <img ng-src="{{artist.pic}}" class="md-card-image" alt="artist pic">
+    <md-card-content>
+      <h2 class="textColor">{{artist.name}}</h2>
+      <p class="textColor">{{artist.location | distance}}</p>
+    </md-card-content>
+  </md-card>
+</md-content>

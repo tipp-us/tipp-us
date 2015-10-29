@@ -25,6 +25,10 @@
     "cookie-parser": "^1.4.0",
     "express": "^4.13.3",
     "express-session": "^1.11.3",
+    "express-validator": "^2.17.1",
+    "gulp-concat": "^2.6.0",
+    "gulp-run": "^1.6.11",
+    "gulp-uglify": "^1.4.2",
     "method-override": "^2.3.5",
     "passport": "^0.3.0",
     "passport-facebook": "^2.0.0",
@@ -39,18 +43,24 @@
     "node": "4.2.1"
   },
   "devDependencies": {
+    "browserify": "^11.2.0",
     "chai": "^3.3.0",
     "gulp": "^3.9.0",
     "gulp-jshint": "^1.11.2",
     "gulp-shell": "^0.5.0",
     "jshint-stylish": "^2.0.1",
     "karma": "^0.13.11",
+    "karma-browserify": "^4.4.0",
     "karma-chai": "^0.1.0",
+    "karma-coverage": "^0.5.3",
     "karma-mocha": "^0.2.0",
     "karma-mocha-reporter": "^1.1.1",
+    "karma-ng-html2js-preprocessor": "^0.2.0",
     "karma-phantomjs-launcher": "^0.2.1",
+    "karma-sinon": "^1.0.4",
     "mocha": "^2.3.3",
     "morgan": "^1.6.1",
-    "phantomjs": "^1.9.18"
+    "phantomjs": "^1.9.18",
+    "sinon": "^1.17.2"
   }
 }

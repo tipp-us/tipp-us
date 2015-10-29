@@ -1,0 +1,73 @@
+<h3 class="md-headline textColor" layout="row" flex layout-align="center">Personal Information</h3>
+
+<div flex layout-align="center" layout="row" class="textColor">
+  <md-input-container class="md-primary">
+    <label class="textColor">First Name</label>
+    <input type="text" ng-model="submerchant.individual.firstName">
+  </md-input-container>
+  <md-input-container class="md-primary">
+    <label class="textColor">Last Name</label>
+    <input type="text" ng-model="submerchant.individual.lastName">
+  </md-input-container>
+</div>
+
+<div flex layout-align="center" layout="row">
+  <md-input-container class="md-primary">
+    <label class="textColor">Email</label>
+    <input type="email" ng-model="submerchant.individual.email">
+  </md-input-container>
+  <md-input-container class="md-primary">
+    <label class="textColor">Phone Number</label>
+    <input type="text" ng-model="submerchant.individual.phone">
+  </md-input-container>
+</div>
+
+<div flex layout-align="center" layout="row">
+  <md-input-container class="md-primary">
+    <label class="textColor">DOB (YYYY-MM-DD)</label>
+    <input type="text" ng-model="submerchant.individual.dateOfBirth">
+  </md-input-container>
+  <md-input-container class="md-primary">
+    <label class="textColor">SSN (optional)</label>
+    <input type="text" ng-model="submerchant.individual.ssn">
+  </md-input-container>
+</div>
+
+<div flex layout-align="center" layout="row">
+  <md-input-container class="md-primary" style="width: 345">
+    <label class="textColor">Address</label>
+    <input type="text" ng-model="submerchant.individual.address.streetAddress">
+  </md-input-container>
+</div>
+
+<div flex layout-align="center" layout="row">
+  <md-input-container class="md-primary" style="width: 160">
+    <label class="textColor">City</label>
+    <input type="text" ng-model="submerchant.individual.address.locality">
+  </md-input-container>
+  <md-input-container class="md-primary" style="width: 60">
+    <label class="textColor">State</label>
+    <input type="text" ng-model="submerchant.individual.address.region">
+    </md-input-container>
+  <md-input-container class="md-primary" style="width: 115">
+    <label class="textColor">ZIP</label>
+    <input type="text" ng-model="submerchant.individual.address.postalCode">
+  </md-input-container>
+</div>
+
+<h3 class="md-headline textColor" layout="row" flex layout-align="center">Banking Information</h3>
+
+<div flex layout-align="center" layout="row">
+  <md-input-container class="md-primary">
+    <label class="textColor">Account Number</label>
+    <input type="text" ng-model="submerchant.funding.accountNumber">
+  </md-input-container>
+  <md-input-container class="md-primary">
+    <label class="textColor">Routing Number</label>
+    <input type="text" ng-model="submerchant.funding.routingNumber">
+  </md-input-container>
+</div>
+
+<div flex layout-align="end center" layout="column">
+  <md-button class="md-primary md-raised" ng-click="bankingSubmit()" layout="row" flex layout-align="center">Submit</md-button>
+</div>
