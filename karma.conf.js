@@ -13,21 +13,26 @@ module.exports = function(config) {
 
     // list of files / patterns to load in the browser
     files: [
+      // Braintree Dependencies
       'client/lib/braintree-web/dist/braintree.js',
+      // Typeahead Dependencies
       'client/lib/jquery/dist/jquery.js',
       'client/lib/typeahead.js/dist/typeahead.bundle.js',
-      'client/lib/typeahead.js/dist/bloodhound.js',
+      //Angular Material Dependencies
       'client/lib/angular/angular.js',
       'client/lib/angular-animate/angular-animate.js',
       'client/lib/angular-aria/angular-aria.js',
       'client/lib/angular-material/angular-material.js',
       'client/lib/angular-ui-router/release/angular-ui-router.js',
       'client/lib/angularjs-geolocation/src/geolocation.js',
-      'client/lib/angular-mocks/angular-mocks.js',
-      'client/lib/angular-typeahead/angular-typeahead.js',
       'client/lib/angular-strap/dist/angular-strap.min.js',
       'client/lib/angular-strap/dist/angular-strap.tpl.min.js',
-
+      'client/lib/angular-mocks/angular-mocks.js',
+      // Image Uploading Dependencies
+      'client/lib/cloudinary_ng/js/angular.cloudinary.js',
+      'client/lib/ng-file-upload/ng-file-upload-shim.js',
+      'client/lib/ng-file-upload/ng-file-upload.js',
+      // App Files
       // 'client/dist/**/*.js',
       'client/*.js',
       'client/controllers/**/*.js',
