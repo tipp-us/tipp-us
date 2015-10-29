@@ -13,12 +13,6 @@
       <!-- <span><p ng-bind="message"></p></span> -->
       <div class="dropin-container" ng-show="showDropinContainer">
         <form name="payment">
-          <div ng-hide="amountInput">
-            <md-button class="md-fab" ng-click="amount=3">$3</md-button>
-            <md-button class="md-fab" ng-click="amount=5">$5</md-button>
-            <md-button class="md-fab" ng-click="amount=10">$10</md-button>
-            <md-button class="md-fab" ng-click="amountInput=true; amount=null">Other</md-button>
-          </div>
           <div ng-show="amountInput">
             <md-input-container>
               <label>Tip Amount (USD)</label>
@@ -27,7 +21,15 @@
           </div>
           <br>
           <div id="tip-payment"></div>
-          <md-button class="md-raised md-accent textColor" ng-show="amount" type="submit">Tip {{amount | currency}}</md-button>
+          <div ng-show="amountInput">
+            <md-button class="md-raised md-accent textColor" ng-show="amount" type="submit">Tip {{amount | currency}}</md-button>
+          </div>
+          <div ng-hide="amountInput">
+            <md-button class="md-fab" ng-click="amount=3">$3</md-button>
+            <md-button class="md-fab" ng-click="amount=5">$5</md-button>
+            <md-button class="md-fab" ng-click="amount=10">$10</md-button>
+            <md-button class="md-fab" ng-click="amountInput=true; amount=null">Other</md-button>
+          </div>
         </form>
       </div>
     </md-whiteframe>
