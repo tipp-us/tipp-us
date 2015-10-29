@@ -53,3 +53,8 @@ md-sidenav.md-locked-open {
   min-width: 225px;
   max-width: 225px;
 }
+
+.md-default-theme {
+  color: #E8EAF6;
+  background-color: #E8EAF6;
+}
