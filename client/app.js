@@ -174,9 +174,11 @@ app.config(function ($stateProvider, $urlRouterProvider) {
       }, function(data){
         $scope.geoCalled = true;
         $state.go('^.home');
+        alert('No artists found nearby.  Please turn on geolocation or search by artist/musician name.');
       });
       if ($scope.geoCalled && !($scope.artistList.length)) {
         $state.go('^.home');
+        alert('No artists found nearby.  Please turn on geolocation or search by artist/musician name.');
       }
     },],
 
