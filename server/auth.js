@@ -113,8 +113,11 @@ passport.use('local-signup', new LocalStrategy({
             email: email,
             password: hash,
           }).then(function(newArtist) {
-            newArtist.artistId = newArtist.id;
-            return done(null, newArtist);
+            var recreated = JSON.parse(JSON.stringify(newArtist.dataValues));
+            console.log("New artist created " + recreated.id)
+            recreated.artistId = recreated.id;
+            console.log(recreated.artistId)
+            return done(null, recreated);
           });
         });
       }
