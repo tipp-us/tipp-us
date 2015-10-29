@@ -10,7 +10,7 @@ describe('AppCtrl', function() {
     // geolocation = $injector.get('geolocation');
 
     $httpBackend = $injector.get('$httpBackend');
-    $httpBackend.expectGET('/getAll')
+    $httpBackend.expectGET('/artists')
       .respond([{id: 1, name: 'cats'}, {id: 2, name: 'dogs'}, {id: 3, name: 'ferrets'}]);
     $httpBackend.expectGET('views/home.html').respond({});
 
@@ -139,10 +139,10 @@ describe('AppCtrl', function() {
   // });
 
   describe('getArtists', function() {
-    it('should send a post to /getAll', function() {
+    it('should send a post to /artists', function() {
       var controller = createController();
       $httpBackend.flush();
-      $httpBackend.expectGET('/getAll').respond([{}]);
+      $httpBackend.expectGET('/artists').respond([{}]);
       scope.getArtists();
       $httpBackend.flush();
     });
@@ -150,7 +150,7 @@ describe('AppCtrl', function() {
     it('should put artists in searchableArtists', function() {
       var controller = createController();
       $httpBackend.flush();
-      $httpBackend.expectGET('/getAll').respond([{id: 4, name: 'kangaroos'}]);
+      $httpBackend.expectGET('/artists').respond([{id: 4, name: 'kangaroos'}]);
       expect(scope.searchableArtists.length).to.equal(3);
       scope.getArtists();
       $httpBackend.flush();
