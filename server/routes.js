@@ -184,10 +184,10 @@ app.get('/edit/artist', function(req, res) {
   if (!user) {
     res.status(403);
   }
-
   db.artist.findOne({
     where: {id: user.artistId},
   }).then(function(artist) {
+    console.log(artist.artistId)
     res.status(200).json({
       name: artist.name,
       description: artist.description,
@@ -217,7 +217,9 @@ app.post('/edit/artist', function(req, res) {
 
     //Check to see if new url is already used by someone
     artist.artistUrl = data.url;
-    artist.imageUrl = data.imageUrl;
+    if(data.imageUrl) {
+      artist.imageUrl = data.imageUrl;
+    }
 
     artist.save().then(function() {
       res.end('Success', 200);
