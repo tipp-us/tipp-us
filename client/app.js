@@ -1,4 +1,4 @@
-var app = angular.module('StarterApp', ['submerchant', 'ngMaterial','ui.router', 'geolocation', 'mgcrea.ngStrap'])
+var app = angular.module('StarterApp', ['submerchant', 'ngMaterial','ui.router', 'geolocation', 'mgcrea.ngStrap', 'cloudinary','ngFileUpload'])
 .config(function($mdThemingProvider) {
   $mdThemingProvider.theme('default')
     .primaryPalette('indigo', {
@@ -13,7 +13,47 @@ var app = angular.module('StarterApp', ['submerchant', 'ngMaterial','ui.router',
     });
     // .dark();
 });
-
+app.controller('photoUploadCtrl', ['$scope', '$location', 'Upload', function($scope, $location, $upload) {
+  
+  $scope.uploadFiles = function(files) {
+    $scope.files = files;
+    angular.forEach(files, function(file){
+      if (file && !file.$error) {
+        file.upload = $upload.upload({
+          url: "https://api.cloudinary.com/v1_1/dalft4dfx/upload",
+          fields: {
+            upload_preset: "yx6jjrem",
+          },
+          file: file
+        }).progress(function (e) {
+          file.progress = Math.round((e.loaded * 100.0) / e.total);
+          file.status = "Uploading... " + file.progress + "%";
+        }).success(function (data, status, headers, config) {
+          // data.context = {custom: {photo: $scope.title}};
+          $scope.profile.imageUrl = data.url;
+        }).error(function (data, status, headers, config) {
+          file.result = data;
+        });
+      }
+    });
+    $scope.dragOverClass = function($event) {
+      var items = $event.dataTransfer.items;
+      var hasFile = false;
+      if (items != null) {
+        for (var i = 0 ; i < items.length; i++) {
+          if (items[i].kind == 'file') {
+            hasFile = true;
+            break;
+          }
+        }
+      } else {
+        hasFile = true;
+      }
+      return hasFile ? "dragover" : "dragover-err";
+    };
+    
+  }
+}])
 app.controller('AppCtrl', ['$rootScope', '$scope', '$state', '$mdSidenav', '$http', '$location','geolocation', '$mdDialog', function($rootScope, $scope, $state, $mdSidenav, $http, $location, geolocation, $mdDialog){
   $scope.toggleSidenav = function(menuId) {
     $mdSidenav(menuId).toggle();
@@ -142,7 +182,6 @@ app.config(function ($stateProvider, $urlRouterProvider) {
     controller: ['$rootScope','$http','$state', '$mdDialog', function($scope, $http, $state, $mdDialog) {
       this.save = function() {
         var data = $scope.profile;
-        data.image = window.image;
         $http.post('/edit/artist', data).success(function(rdata) {
           $state.go('^.home');
         });

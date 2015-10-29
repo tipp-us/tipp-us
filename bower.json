@@ -27,6 +27,7 @@
     "angular": "~1.4.7",
     "angular-mocks": "~1.4.7",
     "angular-strap": "~2.3.3",
-    "bootstrap": "~3.3.5"
+    "bootstrap": "~3.3.5",
+    "cloudinary": "cloudinary_js#~1.0.25"
   }
 }
