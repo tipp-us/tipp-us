@@ -26,12 +26,42 @@ var dummyArtists = [
     imageUrl: 'http://res.cloudinary.com/dd2e2t0fb/image/upload/v1445536693/ferretViolin_jgsm5j.jpg',
     merchantAccountID: 'ferretMerchantAccountId',
   },
+  {
+    name: 'Kitty Hendrix',
+    description: 'I just want to rock and roll, man',
+    email: 'kitty@kitty.com',
+    password: 'kittypass',
+    artistUrl: 'https://en.wikipedia.org/wiki/kitten',
+    imageUrl: 'http://res.cloudinary.com/dd2e2t0fb/image/upload/v1446145375/kitty-hendrix_l3iwv1.jpg',
+    merchantAccountID: 'kittyMerchantAccountId',
+  },
+  {
+    name: 'Squirrley Gillespie',
+    description: 'Check out my cheeks',
+    email: 'squirrley@squirrley.com',
+    password: 'squirrleypass',
+    artistUrl: 'https://en.wikipedia.org/wiki/squirrel',
+    imageUrl: 'http://res.cloudinary.com/dd2e2t0fb/image/upload/v1446145373/squirrley-gillespie_aebwpa.jpg',
+    merchantAccountID: 'squirrleyMerchantAccountId',
+  },
+  {
+    name: 'The Sanford Bulldogs',
+    description: 'Winning is everything',
+    email: 'bulldog@bulldog.com',
+    password: 'bulldogpass',
+    artistUrl: 'https://en.wikipedia.org/wiki/bulldog',
+    imageUrl: 'http://res.cloudinary.com/dd2e2t0fb/image/upload/v1446145377/sanford-stadium-bulldog_q7lxk9.jpg',
+    merchantAccountID: 'bulldogMerchantAccountId',
+  },
 ];
 
 var positions = [
   [33.9637373, -83.4096203], // the Foundry
   [33.9582286, -83.3799982], // 40 Watt Club
   [33.958339, -83.377194], // Georgia Theatre
+  [33.960426, -83.3730553], // Classic Center
+  [33.9582061, -83.3797291], // Flicker Theatre & Bar
+  [33.9491796, -83.3734304], // Sanford Stadium
 ];
 
 // var venues = [
@@ -59,6 +89,27 @@ var dummyShows = [
     venue: 'Georgia Theatre',
     latitude: positions[2][0],
     longitude: positions[2][1],
+    startTime: '2015-10-22 08:30:00',
+    stopTime: '2015-11-22 22:00:00',
+  },
+  {
+    venue: 'Classic Center',
+    latitude: positions[3][0],
+    longitude: positions[3][1],
+    startTime: '2015-10-22 08:30:00',
+    stopTime: '2015-11-22 22:00:00',
+  },
+  {
+    venue: 'Flicker Theatre & Bar',
+    latitude: positions[4][0],
+    longitude: positions[4][1],
+    startTime: '2015-10-22 08:30:00',
+    stopTime: '2015-11-22 22:00:00',
+  },
+  {
+    venue: 'Sanford Stadium',
+    latitude: positions[5][0],
+    longitude: positions[5][1],
     startTime: '2015-10-22 08:30:00',
     stopTime: '2015-11-22 22:00:00',
   },
