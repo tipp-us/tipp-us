@@ -88,20 +88,37 @@ app.post('/shows/startNow', function(req, res) {
 // Get info of single artist
 app.get('/artists/id/:id', function(req, res) {
   var artistId = req.params.id;
-
-  db.artist.findById(artistId)
+  db.artist.findOne({where: {id: artistId}, include: [db.show]})
     .then(function(artist) {
+
       if (artist === null) {
         res.status(404).end('ArtistID ' + artistId + ' not found.');
       }
-
-      res.status(200).json({
+      var currentShow = null;
+      for(var i = 0; i < artist.Shows.length; i++) {
+        var show = artist.Shows[i];
+        var now = new Date(Date.now());
+        if (show.startTime < now && now < show.stopTime) {
+          currentShow = show;
+          break;
+        }
+      }
+      var send = {
         id: artist.id,
         name: artist.name,
         pic: artist.imageUrl,
         email: artist.email,
         artistUrl: artist.artistUrl,
-      });
+        venue: artist.venue,
+      }
+      if(currentShow) {
+        send.position =  {
+          lat: show.latitude,
+          long: show.longitude,
+        }
+        send.venue = show.venue;
+      } 
+      res.status(200).json(send);
     });
 });
 
