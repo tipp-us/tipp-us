@@ -7,20 +7,22 @@ var {
   View,
 } = React;
 
-var Submerchant = React.createClass({
+var Home = React.createClass({
   render: function() {
     return (
-      <View style={pageStyle.container}>
-        <Text style={pageStyle.welcome}>
-          Form to fill out banking information
+      <View style={style.container}>
+        <Text style={style.welcome}>
+          tippus
+        </Text>
+        <Text style={style.instructions}>
+          Tipp your hat to local artists and musicians
         </Text>
       </View>
     );
   }
 });
 
-
-var pageStyle = StyleSheet.create({
+var style = StyleSheet.create({
   container: {
     flex: 1,
     justifyContent: 'center',
@@ -32,7 +34,11 @@ var pageStyle = StyleSheet.create({
     textAlign: 'center',
     margin: 10,
   },
+  instructions: {
+    textAlign: 'center',
+    color: '#333333',
+    marginBottom: 5,
+  },
 });
 
-module.exports = Submerchant;
-
+module.exports = Home;
