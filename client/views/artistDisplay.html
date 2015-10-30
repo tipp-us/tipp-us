@@ -6,9 +6,8 @@
   </div>
   <div flex="100"></div>
   <h4 class="md-subhead" ng-show="selectedArtist.info.venue" style="color:white" layout="row" flex="100" layout-align="center">Now Playing at {{selectedArtist.info.venue}}</h4>
-  <md-button ng-show="selectedArtist.info.venue" class="md-primary md-raised" ng-click="selectedArtist.go()">MAP</md-button>
+  <md-button ng-show="selectedArtist.info.position" class="md-primary md-raised" ng-click="selectedArtist.go()">MAP</md-button>
   <div flex="100"></div>
   <md-button class="md-accent md-raised" ng-click="form=true; getToken();" layout="row" layout-align="center">Tip {{selectedArtist.info.name}}</md-button>
-
 </div>
 
