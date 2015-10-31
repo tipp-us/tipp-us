@@ -33,52 +33,68 @@ const styles = Object.assign({}, appStyles, StyleSheet.create({
     marginLeft: 7, marginRight: 7,
     // backgroundColor: MKColor.Lime,
   },
-  textfield: {
-    height: 28,  // have to do it on iOS
-    marginTop: 22,
-  },
-  textfieldWithFloatingLabel: {
+  emailWithFloatingLabel: {
     height: 38,  // have to do it on iOS
-    marginTop: 10,
+    marginTop: 30,
+    // alignSelf: 'center',
+  },
+  passwordWithFloatingLabel: {
+    height: 38,  // have to do it on iOS
+    marginTop: 20,
+    marginBottom: 30,
+    // alignSelf: 'center',
+  },
+  title: {
+    fontSize: 20,
+    fontWeight: 'bold',
   },
 }));
 
-const Textfield = MKTextField.textfield()
-  .withPlaceholder('Text...')
-  .withStyle(styles.textfield)
+const LoginButton = MKButton.coloredButton()
+  .withText('Log in')
+  .withStyle({
+    marginBottom: 10,
+  })
+  // Shadows not supported yet on Android...
+  // https://facebook.github.io/react-native/docs/known-issues.html#no-support-for-shadows-on-android
+  // .withShadowRadius(2)
+  // .withShadowOffset({width:0, height:2})
+  // .withShadowOpacity(.7)
+  // .withShadowColor('black')
+  .withOnPress(() => {
+    console.log("Login button pressed!");
+  })
   .build();
 
-const ColoredRaisedButton = MKButton.coloredButton()
-  .withText('BUTTON')
+const FacebookLoginButton = MKButton.coloredButton()
+  .withText('Log in with Facebook')
+  // .withStyle(
+  //   {backgroundColor: '#3B5998'}
+  // )
   .withOnPress(() => {
-    console.log("Hi, it's a colored button!");
+    console.log('Facebook Login button pressed!');
   })
   .build();
 
 const TextfieldWithFloatingLabel = MKTextField.textfieldWithFloatingLabel()
-  .withPlaceholder('Number...')
-  .withStyle(styles.textfieldWithFloatingLabel)
-  .withFloatingLabelFont({
-    fontSize: 10,
-    fontStyle: 'italic',
-    fontWeight: '200',
-  })
-  .withKeyboardType('numeric')
-  .build();
-
-const ColoredTextfield = mdl.Textfield.textfield()
-  .withPlaceholder('Text...')
-  .withStyle(styles.textfield)
-  .withTintColor(MKColor.Lime)
-  .withTextInputStyle({color: MKColor.Orange})
+  .withPlaceholder('Email')
+  .withStyle(styles.emailWithFloatingLabel)
+  .withHighlightColor(MKColor.Purple)
+  // .withFloatingLabelFont({
+  //   fontSize: 10,
+  //   fontStyle: 'italic',
+  //   fontWeight: '200',
+  // })
+  // .withKeyboardType('numeric')
   .build();
 
 const PasswordInput = mdl.Textfield.textfieldWithFloatingLabel()
   .withPassword(true)
   .withPlaceholder('Password')
-  .withDefaultValue('!123')
-  .withHighlightColor(MKColor.Lime)
-  .withStyle(styles.textfieldWithFloatingLabel)
+  // .withDefaultValue('!123')
+  // .withTintColor(MKColor.Lime)
+  .withHighlightColor(MKColor.Purple)
+  .withStyle(styles.passwordWithFloatingLabel)
   .withOnFocus(() => console.log('Focus'))
   .withOnBlur(() => console.log('Blur'))
   .withOnEndEditing((e) => console.log('EndEditing', e.nativeEvent.text))
@@ -87,36 +103,27 @@ const PasswordInput = mdl.Textfield.textfieldWithFloatingLabel()
   .withOnChangeText((e) => console.log('ChangeText', e))
   .build();
 
-var LoginSignup = React.createClass({
+var Login = React.createClass({
   componentDidMount: function() {
     this.refs.defaultInput.focus();
   },
   render: function() {
     return (
-      <ScrollView style={styles.scrollView}
-                  contentContainerStyle={styles.container}>
+      <View style={styles.container}>
+        <Text style={styles.title}>Login</Text>
         <View style={styles.row}>
-          <View style={styles.col}>
-            <Textfield/>
-            <Text style={styles.legendLabel}>Textfield</Text>
-          </View>
           <View style={styles.col}>
             <TextfieldWithFloatingLabel ref="defaultInput"/>
-            <Text style={styles.legendLabel}>With floating label</Text>
           </View>
         </View>
         <View style={styles.row}>
           <View style={styles.col}>
-            <ColoredTextfield/>
-            <Text style={styles.legendLabel}>Textfield</Text>
-          </View>
-          <View style={styles.col}>
             <PasswordInput/>
-            <Text style={styles.legendLabel}>With floating label</Text>
           </View>
         </View>
-        <ColoredRaisedButton />
-      </ScrollView>
+        <LoginButton />
+        <FacebookLoginButton />
+      </View>
     );
   },
 
@@ -125,4 +132,4 @@ var LoginSignup = React.createClass({
 
 
 
-module.exports = LoginSignup;
+module.exports = Login;

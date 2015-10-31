@@ -7,7 +7,8 @@ module.exports = StyleSheet.create({
   },
   container: {
     flex: 1,
-    alignItems: 'stretch',
+    // alignItems: 'center',
+    // justifyContent: 'center', 
     backgroundColor: '#5C6BC0',
     padding: 20,
   },
