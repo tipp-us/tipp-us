@@ -22,10 +22,18 @@ const UseCurrentLocationButton = MKButton.accentColoredButton()
   })
   .build();
 
+var serverString = 'dummytext';
 const AddShowButton = MKButton.accentColoredButton()
   .withText('ADD SHOW')
   .withOnPress(() => {
-    console.log("Hi, it's a colored button!");
+    fetch('https://tipp-us-staging.herokuapp.com/artists')
+      .then((response) => response.text())
+      .then((responseText) => {
+        console.log(responseText);
+      })
+      .catch((error) => {
+        console.warn(error);
+      });
   })
   .build();
 
@@ -36,6 +44,7 @@ var Shows = React.createClass({
 
         <Text style={pageStyle.welcome}>
           Shows
+          {serverString}
         </Text>
 
         <TextInput ref={component => this._textInput = component} 
@@ -61,6 +70,7 @@ var Shows = React.createClass({
             placeholder="End Time"></TextInput>
 
         <AddShowButton/>
+
       </View>
 
     );
