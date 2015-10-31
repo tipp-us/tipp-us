@@ -23,7 +23,7 @@ Once the project moves into development, the press release can be used as a touc
   > We help local artists make a living in today's cashless society
 
 ## Summary ##
-  > Starving Artist makes it easy to find and tip local artists right from your phone.
+  > **tipp.us** makes it easy to find and tip local artists right from your phone.
   We love local music and art which is why we work hard to support the community.  We know that many people don't carry cash anymore, which is why we created a solution to tip when you're short on cash.
 
 ## Problem ##
@@ -33,14 +33,14 @@ Once the project moves into development, the press release can be used as a touc
   > Now you can easily tip from your phone - no download required.
 
 ## Quote from You ##
-  > We are happy to help support local artists.
+  > "We are happy to help support local artists."
 
 ## How to Get Started ##
-  > Simply open our site, find an artist by location, name, or code, and tip right there.
+  > Simply open our site, find an artist by location or name, and tip right there.
 
 ## Customer Quote ##
-  > I'm so happy I can now get tips from folks who don't carry cash! -The Naked Cowboy
+  > "I'm so happy I can now get tips from folks who don't carry cash!" -The Naked Cowboy
 
 ## Closing and Call to Action ##
-  > Artists: you deserve to earn a living from what you do - sign up on Starving Artist today and don't miss out on any more tips!
-  > Tippers: show local artists your love by finding and tipping them on Starving Artist!
+  > Artists: you deserve to earn a living from what you do - sign up on **tipp.us** today and don't miss out on any more tips!
+  > Tippers: show local artists your love by finding and tipping them on **tipp.us**!
