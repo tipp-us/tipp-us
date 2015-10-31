@@ -19,6 +19,9 @@ const {
   mdl,
 } = MK;
 
+var email = '';
+var pass = '';
+
 // customize the material design theme
 // MK.setTheme({
 //   primaryColor: MKColor.Teal,
@@ -63,6 +66,26 @@ const LoginButton = MKButton.coloredButton()
   // .withShadowColor('black')
   .withOnPress(() => {
     console.log("Login button pressed!");
+    // for local dev, you will want to replace this with your IP and port +/rn/login/artist
+    fetch("http://tipp-us-staging.herokuapp.com/rn/login/artist", {
+      method: 'post',
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json'
+      },
+      credentials: 'same-origin',
+      body: JSON.stringify({
+        email: 'h@h.h',
+        password: 'hhh',
+      })
+    }).then(function(response) {
+      //Response from logging in
+      return response.json();      
+    }, function(err) {console.log(err)})
+    .then(function(jsonRes) {
+      GLOBAL.user = jsonRes;
+      console.log(GLOBAL.user);
+    });
   })
   .build();
 
@@ -71,9 +94,26 @@ const FacebookLoginButton = MKButton.coloredButton()
   // .withStyle(
   //   {backgroundColor: '#3B5998'}
   // )
-  .withOnPress(() => {
-    console.log('Facebook Login button pressed!');
-  })
+  // .withOnPress(() => {
+  //   console.log('Facebook Login button pressed!');
+  //   // for local dev, you will want to replace this with your IP and port +/rn/auth/facebook
+  //   fetch("http://tipp-us-staging.herokuapp.com/rn/auth/facebook", {
+  //     method: 'get',
+  //     headers: {
+  //       'Accept': 'application/json',
+  //       'Content-Type': 'application/json'
+  //     },
+  //     credentials: 'same-origin',
+  //   }).then(function(response) {
+  //     //Response from logging in
+  //     console.log('we got a reponse:', response);
+  //     return response.json();      
+  //   }, function(err) {console.log(err)})
+  //   .then(function(jsonRes) {
+  //     GLOBAL.user = jsonRes;
+  //     console.log(GLOBAL.user);
+  //   });
+  // })
   .build();
 
 const TextfieldWithFloatingLabel = MKTextField.textfieldWithFloatingLabel()
@@ -104,6 +144,12 @@ const PasswordInput = mdl.Textfield.textfieldWithFloatingLabel()
   .build();
 
 var Login = React.createClass({
+  getInitialState: function() {
+    return {
+      email: '',
+      pass: '',
+    }
+  },
   componentDidMount: function() {
     this.refs.defaultInput.focus();
   },
@@ -113,12 +159,13 @@ var Login = React.createClass({
         <Text style={styles.title}>Login</Text>
         <View style={styles.row}>
           <View style={styles.col}>
-            <TextfieldWithFloatingLabel ref="defaultInput"/>
+            <TextfieldWithFloatingLabel
+              ref="defaultInput" />
           </View>
         </View>
         <View style={styles.row}>
           <View style={styles.col}>
-            <PasswordInput/>
+            <PasswordInput />
           </View>
         </View>
         <LoginButton />
@@ -128,8 +175,5 @@ var Login = React.createClass({
   },
 
 });
-
-
-
 
 module.exports = Login;
