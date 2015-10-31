@@ -15,6 +15,15 @@ const {
   MKColor,
 } = MK;
 
+const dummyData = {
+          venue: 'React Native',
+          lat: 123,
+          long: 123,
+          start: 123,
+          end: 123,
+          id: 1,
+        };
+
 const UseCurrentLocationButton = MKButton.accentColoredButton()
   .withText('USE CURRENT LOCATION')
   .withOnPress(() => {
@@ -26,12 +35,14 @@ var serverString = 'dummytext';
 const AddShowButton = MKButton.accentColoredButton()
   .withText('ADD SHOW')
   .withOnPress(() => {
-    fetch('https://tipp-us-staging.herokuapp.com/artists')
-      .then((response) => response.text())
+    fetch('http://httpbin.org/post', {method: "POST", body: ({hello: 'world'})})
+      .then((response) => response.json())
       .then((responseText) => {
         console.log(responseText);
+        serverString = responseText;
       })
       .catch((error) => {
+        serverString = 'error';
         console.warn(error);
       });
   })
