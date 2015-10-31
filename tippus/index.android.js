@@ -15,8 +15,9 @@ var {
   View,
 } = React;
 
-var Submerchant = require('./scenes/submerchant.js');
 var Home = require('./scenes/home.js');
+var Submerchant = require('./scenes/submerchant.js');
+var Shows = require('./scenes/shows.js');
 
 var tippus = React.createClass({
   getInitialState: function(fragmentId) {
@@ -27,6 +28,8 @@ var tippus = React.createClass({
     switch (this.state.route) {
       case 'home':
         return <Home />;
+      case 'shows':
+        return <Shows />;
       case 'banking':
         return <Submerchant />;
     }
