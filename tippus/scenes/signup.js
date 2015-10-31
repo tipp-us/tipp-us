@@ -69,7 +69,7 @@ const SignupButton = MKButton.coloredButton()
   .withOnPress(() => {
     console.log("Signup button pressed!");
     // for local dev, you will want to replace this with your IP and port +/rn/create/artist
-    fetch("http://192.168.1.2:3000/rn/create/artist", {
+    fetch("http://tipp-us-staging.herokuapp.com/rn/create/artist", {
       method: 'post',
       headers: {
         'Accept': 'application/json',
