@@ -1,13 +1,17 @@
-# starvingartists
-> *"Tip Local Artists from Your Phone"*
+# tipp.us
+> *"Support Your Favorite Local Artists"*
 
-### [https://starvingartists-staging.herokuapp.com](https://starvingartists-staging.herokuapp.com/)
+## Mobile and Desktop Web App
+### [http://tipp.us](https://tipp.us/)
+
+## Product Page
+### [http://tipp-us.github.io](http://tipp-us.github.io)
 
 ## Team
 
   - __Product Owner__: [Taylor Hayduk](https://github.com/taylorhayduk)
   - __Scrum Master__: [Doug  Shamoo](https://github.com/dougshamoo)
-  - __Development Team Members__: [Kevin Lee](https://github.com/LeKeve), [Joseph  Brumaghim](https://github.com/Joby890), [Rod Machen](https://github.com/rodmachen)
+  - __Development Team Members__: [Kevin Lee](https://github.com/LeKeve), [Joseph Brumaghim](https://github.com/Joby890), [Rod Machen](https://github.com/rodmachen)
 
 ## Table of Contents
 
@@ -33,6 +37,7 @@
 - PostgreSQL 9.4.4
 - Angular Material 0.11.4
 - Braintree 1.29.0
+- React Native
 
 ## Development
 
