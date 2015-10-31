@@ -18,6 +18,7 @@ var {
 var Home = require('./scenes/home.js');
 var Submerchant = require('./scenes/submerchant.js');
 var Shows = require('./scenes/shows.js');
+var LoginSignup = require('./scenes/loginSignup.js');
 
 var tippus = React.createClass({
   getInitialState: function(fragmentId) {
@@ -32,6 +33,8 @@ var tippus = React.createClass({
         return <Shows />;
       case 'banking':
         return <Submerchant />;
+      case 'loginSignup':
+        return <LoginSignup />
     }
   },
 

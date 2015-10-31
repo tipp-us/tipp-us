@@ -30,6 +30,12 @@ var Menu = React.createClass({
             name='Banking'
             toggleSlideMenu={this.props.toggleSlideMenu}
             routeFrontView={this.props.routeFrontView}/>
+          
+          <Section
+            id='loginSignup'
+            name='Login/Signup'
+            toggleSlideMenu={this.props.toggleSlideMenu}
+            routeFrontView={this.props.routeFrontView}/>
 
           <Section
             id='shows'
