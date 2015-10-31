@@ -21,6 +21,42 @@ var Shows = require('./scenes/shows.js');
 var Login = require('./scenes/login.js');
 var Signup = require('./scenes/signup.js');
 
+// Unfinished toolbar
+
+// var ToolbarAndroid = require('ToolbarAndroid');
+
+// var tippus = React.createClass({
+//   render: function(){
+//     return (
+//     <View style={styles.container}>
+//       <ToolbarAndroid
+//         title="Hello"
+//         style={styles.toolbar} />
+//       <Text style={styles.welcome}>
+//       test
+//       </Text>
+//     </View>
+//     )
+//   }
+// });
+
+// var styles = StyleSheet.create({
+//   container: {
+//     flex: 1,
+//     alignItems: 'stretch',
+//     backgroundColor: "f5cff",
+//   },
+//   welcome: {
+//     fontSize: 28,
+//     textAlign: 'center',
+//     margin: 10,
+//   },
+//   toolbar: {
+//     height: 56,
+//     backgroundColor: '#e9eaed',
+//   }
+// }); 
+
 var tippus = React.createClass({
   getInitialState: function(fragmentId) {
     return ({ route: 'home' });
