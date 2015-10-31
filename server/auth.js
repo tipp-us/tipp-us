@@ -96,6 +96,35 @@ passport.use(new FacebookStrategy({
   }
 ));
 
+passport.use('rn-facebook', new FacebookStrategy({
+    clientID: facebookAppId,
+    clientSecret: facebookAppSecret,
+    callbackURL: 'http://localhost:3000/rn/auth/facebook/callback',
+  },
+  function(accessToken, refreshToken, profile, done) {
+    // asynchronous verification, for effect...
+    process.nextTick(function() {
+      db.artist.findOne({where: {facebookID: profile.id}}).then(function(artist) {
+        //if we did not find a artist with that ID create one
+        if (!artist) {
+          db.artist.create({
+            facebookID: profile.id,
+          }).then(function(art) {
+            console.log('Created new artist');
+            profile.artistId = art.id;
+            return done(null, profile);
+          });
+        } else {
+          profile.artistId = artist.id;
+          return done(null, profile);
+        }
+      });
+      // TODO: associate the Facebook account with a user record in
+      // database, and return that user instead.
+    });
+  }
+));
+
 passport.use('local-signup', new LocalStrategy({
     usernameField: 'email',
     passwordField: 'password',
@@ -173,7 +202,18 @@ app.get('/auth/facebook',
 app.get('/auth/facebook/callback',
   passport.authenticate('facebook', { failureRedirect: '/#/login' }),
   function(req, res) {
-
-
     res.redirect('/#/edit');
+  });
+
+app.get('/rn/auth/facebook',
+  passport.authenticate('rn-facebook'),
+  function(req, res) {
+    // not called
+  });
+
+app.get('/rn/auth/facebook/callback',
+  passport.authenticate('rn-facebook'),
+  function(req, res) {
+    // console.log('LINE 188: RN REQ:', req);
+    res.status(200).json({id: req.user.artistId});
   });

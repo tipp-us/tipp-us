@@ -36,6 +36,20 @@ app.post('/login/artist',
     res.redirect('/#/edit');
   });
 
+// react-native android local create artist
+app.post('/rn/create/artist',
+  passport.authenticate('local-signup', { failureRedirect: '/#/signup' }),
+  function(req, res) {
+    res.status(200).json({id: req.user.artistId});
+  });
+
+// react-native android local login
+app.post('/rn/login/artist',
+  passport.authenticate('local-login', { failureRedirect: '/#/login' }),
+  function(req, res) {
+    res.status(200).json({id: req.user.artistId});
+  });
+
 app.get('/logout', function(req, res) {
   req.logout();
   res.redirect('/');

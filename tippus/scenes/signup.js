@@ -68,6 +68,26 @@ const SignupButton = MKButton.coloredButton()
   // .withShadowColor('black')
   .withOnPress(() => {
     console.log("Signup button pressed!");
+    // for local dev, you will want to replace this with your IP and port +/rn/create/artist
+    fetch("http://192.168.1.2:3000/rn/create/artist", {
+      method: 'post',
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json'
+      },
+      credentials: 'same-origin',
+      body: JSON.stringify({
+        email: 'i@i.i',
+        password: 'iii',
+      })
+    }).then(function(response) {
+      //Response from logging in
+      return response.json();      
+    }, function(err) {console.log(err)})
+    .then(function(jsonRes) {
+      GLOBAL.user = jsonRes;
+      console.log(GLOBAL.user);
+    });
   })
   .build();
 
@@ -76,9 +96,26 @@ const FacebookSignupButton = MKButton.coloredButton()
   // .withStyle(
   //   {backgroundColor: '#3B5998'}
   // )
-  .withOnPress(() => {
-    console.log('Facebook Signup button pressed!');
-  })
+  // .withOnPress(() => {
+  //   console.log('Facebook Signup button pressed!');
+  //   // for local dev, you will want to replace this with your IP and port +/rn/auth/facebook
+  //   fetch("http://tipp-us-staging.herokuapp.com/rn/auth/facebook", {
+  //     method: 'get',
+  //     headers: {
+  //       'Accept': 'application/json',
+  //       'Content-Type': 'application/json'
+  //     },
+  //     credentials: 'same-origin',
+  //   }).then(function(response) {
+  //     //Response from logging in
+  //     console.log('we got a reponse:', response);
+  //     return response.json();      
+  //   }, function(err) {console.log(err)})
+  //   .then(function(jsonRes) {
+  //     GLOBAL.user = jsonRes;
+  //     console.log(GLOBAL.user);
+  //   });
+  // })
   .build();
 
 const TextfieldWithFloatingLabel = MKTextField.textfieldWithFloatingLabel()
