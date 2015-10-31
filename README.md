@@ -63,4 +63,4 @@ View the project roadmap [here](https://github.com/starvingartists/starvingartis
 
 ## Contributing
 
-See [CONTRIBUTING.md](CONTRIBUTING.md) for contribution guidelines.
+See our [contribution guide](CONTRIBUTING.md) for guidelines.

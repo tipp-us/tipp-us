@@ -189,3 +189,4 @@ no problem getting your changes merged in.
 [DRY]: https://en.wikipedia.org/wiki/Don%27t_repeat_yourself
 [boy scout rule]: http://programmer.97things.oreilly.com/wiki/index.php/The_Boy_Scout_Rule
 [Squash]: http://gitready.com/advanced/2009/02/10/squashing-commits-with-rebase.html
+[pull request]: https://github.com/tipp-us/tipp-us/pulls
