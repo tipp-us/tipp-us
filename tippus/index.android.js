@@ -7,7 +7,7 @@
 var React = require('react-native');
 var SlideMenu = require('react-native-navigation-drawer');
 var Menu = require('./menu.js');
-
+GLOBAL.url = "tipp-us-staging.herokuapp.com";
 var {
   AppRegistry,
   StyleSheet,
@@ -20,6 +20,7 @@ var Submerchant = require('./scenes/submerchant.js');
 var Shows = require('./scenes/shows.js');
 var Login = require('./scenes/login.js');
 var Signup = require('./scenes/signup.js');
+var Edit = require('./scenes/edit.js')
 
 // Unfinished toolbar
 
@@ -74,6 +75,8 @@ var tippus = React.createClass({
         return <Login />
       case 'signup':
         return <Signup />
+      case 'edit':
+        return <Edit />;
     }
   },
 

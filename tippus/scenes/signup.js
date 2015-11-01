@@ -150,7 +150,7 @@ var Signup = React.createClass({
   signupSubmit: function() {
     if (this.state.isMatched && this.state.email && this.state.pass && this.state.confirmPass) {
       // for local dev, you will want to replace this with your IP and port +/rn/create/artist
-      fetch("http://tipp-us-staging.herokuapp.com/rn/create/artist", {
+      fetch("http://"+GLOBAL.url+"/rn/create/artist", {
         method: 'post',
         headers: {
           'Accept': 'application/json',
