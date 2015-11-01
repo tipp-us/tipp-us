@@ -228,7 +228,8 @@ app.config(function ($stateProvider, $urlRouterProvider) {
   $stateProvider.state('add', {
     url: '/add',
     templateUrl: 'views/addshow.html',
-    controller: ['$http','$state', 'geolocation', function($http, $state, geolocation) {
+    controller: ['$rootScope', '$http','$state', 'geolocation', function($scope, $http, $state, geolocation) {
+      $scope.upcomingShows = 'nothing here';
       this.location = function() {
         var self = this;
         geolocation.getLocation().then(function(data){
@@ -251,8 +252,22 @@ app.config(function ($stateProvider, $urlRouterProvider) {
           state.go("^.home");
         });
       };
+      this.updateUpcomingShows = function() {
+        $http.get('/upcomingShows')
+          .success(function(data) {
+          $scope.upcomingShows = data;
+        });
+      };
 
     }],
+
+    onEnter: ['$rootScope', '$http', '$state', function($scope, $http, $state) {
+      $http.get('/upcomingShows')
+        .success(function(data) {
+        $scope.upcomingShows = data;
+      });
+    },],
+
     controllerAs: 'addCtrl',
   });
 

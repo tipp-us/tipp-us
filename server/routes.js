@@ -136,6 +136,20 @@ app.get('/artists/id/:id', function(req, res) {
     });
 });
 
+app.get('/upcomingShows', function(req, res) {
+  var artistId = req.session.passport.user.artistId;
+
+  db.artist.findOne({where: {id: artistId}, include: [db.show]})
+    .then(function(artist) {
+
+      if (artist === null) {
+        res.status(404).end('ArtistID ' + artistId + ' not found.');
+      }
+
+      res.status(200).json(artist.Shows);
+    });
+});
+
 // Get list of specified number of nearby artists
 app.get('/artists/nearby', function(req, res) {
   console.log(req.query);
@@ -186,6 +200,7 @@ app.get('/artists/nearby', function(req, res) {
     });
   });
 });
+
 
 // app.post('/create/artist', function(req, res) {
 
