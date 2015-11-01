@@ -275,6 +275,38 @@ app.post('/edit/artist', function(req, res) {
   });
 });
 
+// react-native android edit artist
+app.post('/rn/edit/artist', function(req, res) {
+  var user = req.body.user;
+  // Escape dangerous characters from user input
+  req.sanitize('name').escape();
+  req.sanitize('description').escape();
+  req.sanitize('email').escape();
+  req.sanitize('url').escape();
+  req.sanitize('pass').escape();
+  var data = req.body;
+  db.artist.findOne({
+    where: {id: user.id},
+  }).then(function(artist) {
+    artist.name = data.name;
+    artist.description = data.description;
+    artist.password = data.pass;
+    artist.email = data.email;
+
+    //Check to see if new url is already used by someone
+    artist.artistUrl = data.url;
+    if(data.imageUrl) {
+      artist.imageUrl = data.imageUrl;
+    }
+
+    artist.save().then(function() {
+      res.end('Success', 200);
+    });
+  }).catch(function(err) {
+    res.status(400).json({error: err});
+  });
+});
+
 app.post('/shows/add', function(req, res) {
   var user = req.user;
   var data = req.body;
