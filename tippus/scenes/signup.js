@@ -19,6 +19,7 @@ const {
   mdl,
 } = MK;
 
+// TODO: investigate themes... would make coloring easier
 // customize the material design theme
 // MK.setTheme({
 //   primaryColor: MKColor.Teal,
@@ -66,29 +67,6 @@ const SignupButton = MKButton.coloredButton()
   // .withShadowOffset({width:0, height:2})
   // .withShadowOpacity(.7)
   // .withShadowColor('black')
-  .withOnPress(() => {
-    console.log("Signup button pressed!");
-    // for local dev, you will want to replace this with your IP and port +/rn/create/artist
-    fetch("http://tipp-us-staging.herokuapp.com/rn/create/artist", {
-      method: 'post',
-      headers: {
-        'Accept': 'application/json',
-        'Content-Type': 'application/json'
-      },
-      credentials: 'same-origin',
-      body: JSON.stringify({
-        email: 'i@i.i',
-        password: 'iii',
-      })
-    }).then(function(response) {
-      //Response from logging in
-      return response.json();      
-    }, function(err) {console.log(err)})
-    .then(function(jsonRes) {
-      GLOBAL.user = jsonRes;
-      console.log(GLOBAL.user);
-    });
-  })
   .build();
 
 const FacebookSignupButton = MKButton.coloredButton()
@@ -118,51 +96,80 @@ const FacebookSignupButton = MKButton.coloredButton()
   // })
   .build();
 
-const TextfieldWithFloatingLabel = MKTextField.textfieldWithFloatingLabel()
+const EmailInput = MKTextField.textfieldWithFloatingLabel()
   .withPlaceholder('Email')
   .withStyle(styles.emailWithFloatingLabel)
   .withHighlightColor(MKColor.Purple)
-  // .withFloatingLabelFont({
-  //   fontSize: 10,
-  //   fontStyle: 'italic',
-  //   fontWeight: '200',
-  // })
-  // .withKeyboardType('numeric')
   .build();
 
 const PasswordInput = mdl.Textfield.textfieldWithFloatingLabel()
   .withPassword(true)
   .withPlaceholder('Password')
-  // .withDefaultValue('!123')
+  // this doesn't seem to work, investigate
   // .withTintColor(MKColor.Lime)
   .withHighlightColor(MKColor.Purple)
   .withStyle(styles.passwordWithFloatingLabel)
-  .withOnFocus(() => console.log('Focus'))
-  .withOnBlur(() => console.log('Blur'))
-  .withOnEndEditing((e) => console.log('EndEditing', e.nativeEvent.text))
-  .withOnSubmitEditing((e) => console.log('SubmitEditing', e.nativeEvent.text))
-  .withOnTextChange((e) => console.log('TextChange', e))
-  .withOnChangeText((e) => console.log('ChangeText', e))
   .build();
 
 const PasswordConfirm = mdl.Textfield.textfieldWithFloatingLabel()
   .withPassword(true)
   .withPlaceholder('Confirm Password')
-  // .withDefaultValue('!123')
+  // this doesn't seem to work, investigate
   // .withTintColor(MKColor.Lime)
   .withHighlightColor(MKColor.Purple)
   .withStyle(styles.confirmWithFloatingLabel)
-  .withOnFocus(() => console.log('Focus'))
-  .withOnBlur(() => console.log('Blur'))
-  .withOnEndEditing((e) => console.log('EndEditing', e.nativeEvent.text))
-  .withOnSubmitEditing((e) => console.log('SubmitEditing', e.nativeEvent.text))
-  .withOnTextChange((e) => console.log('TextChange', e))
-  .withOnChangeText((e) => console.log('ChangeText', e))
   .build();
 
 var Signup = React.createClass({
+  getInitialState: function() {
+    return {
+      email: '',
+      pass: '',
+      confirmPass: '',
+      isMatched: false,
+    }
+  },
   componentDidMount: function() {
     this.refs.defaultInput.focus();
+  },
+  onEmailChange: function(text) {
+    this.setState({email: text});
+  },
+  onPasswordChange: function(text) {
+    this.setState({pass: text});
+  },
+  onConfirmChange: function(text) {
+    this.setState({confirmPass: text});
+    if (this.state.pass === this.state.confirmPass) {
+      this.setState({isMatched: true});
+    } else {
+      this.setState({isMatched: false});
+    }
+    console.log(this.state.isMatched);
+  },
+  signupSubmit: function() {
+    if (this.state.isMatched && this.state.email && this.state.pass && this.state.confirmPass) {
+      // for local dev, you will want to replace this with your IP and port +/rn/create/artist
+      fetch("http://tipp-us-staging.herokuapp.com/rn/create/artist", {
+        method: 'post',
+        headers: {
+          'Accept': 'application/json',
+          'Content-Type': 'application/json'
+        },
+        credentials: 'same-origin',
+        body: JSON.stringify({
+          email: this.state.email,
+          password: this.state.pass,
+        })
+      }).then(function(response) {
+        return response.json(); // returns a promise
+      }, function(err) {console.log(err)})
+      .then(function(jsonRes) {
+        GLOBAL.user = jsonRes; // GLOBAL can be accessed from other views
+        console.log(GLOBAL.user);
+      })
+      .done();
+    }
   },
   render: function() {
     return (
@@ -170,28 +177,30 @@ var Signup = React.createClass({
         <Text style={styles.title}>Signup</Text>
         <View style={styles.row}>
           <View style={styles.col}>
-            <TextfieldWithFloatingLabel ref="defaultInput"/>
+            <EmailInput
+              ref="defaultInput"
+              onTextChange={this.onEmailChange} />
           </View>
         </View>
         <View style={styles.row}>
           <View style={styles.col}>
-            <PasswordInput/>
+            <PasswordInput
+            onTextChange={this.onPasswordChange} />
           </View>
         </View>
         <View style={styles.row}>
           <View style={styles.col}>
-            <PasswordConfirm/>
+            <PasswordConfirm
+            onTextChange={this.onConfirmChange} />
           </View>
         </View>
-        <SignupButton />
+        <SignupButton 
+          onPress={this.signupSubmit}/>
         <FacebookSignupButton />
       </View>
     );
   },
 
 });
-
-
-
 
 module.exports = Signup;

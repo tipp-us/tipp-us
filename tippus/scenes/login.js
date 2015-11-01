@@ -19,9 +19,7 @@ const {
   mdl,
 } = MK;
 
-var email = '';
-var pass = '';
-
+// TODO: investigate themes... would make coloring easier
 // customize the material design theme
 // MK.setTheme({
 //   primaryColor: MKColor.Teal,
@@ -64,29 +62,6 @@ const LoginButton = MKButton.coloredButton()
   // .withShadowOffset({width:0, height:2})
   // .withShadowOpacity(.7)
   // .withShadowColor('black')
-  .withOnPress(() => {
-    console.log("Login button pressed!");
-    // for local dev, you will want to replace this with your IP and port +/rn/login/artist
-    fetch("http://tipp-us-staging.herokuapp.com/rn/login/artist", {
-      method: 'post',
-      headers: {
-        'Accept': 'application/json',
-        'Content-Type': 'application/json'
-      },
-      credentials: 'same-origin',
-      body: JSON.stringify({
-        email: 'h@h.h',
-        password: 'hhh',
-      })
-    }).then(function(response) {
-      //Response from logging in
-      return response.json();      
-    }, function(err) {console.log(err)})
-    .then(function(jsonRes) {
-      GLOBAL.user = jsonRes;
-      console.log(GLOBAL.user);
-    });
-  })
   .build();
 
 const FacebookLoginButton = MKButton.coloredButton()
@@ -116,31 +91,19 @@ const FacebookLoginButton = MKButton.coloredButton()
   // })
   .build();
 
-const TextfieldWithFloatingLabel = MKTextField.textfieldWithFloatingLabel()
+const EmailInput = MKTextField.textfieldWithFloatingLabel()
   .withPlaceholder('Email')
   .withStyle(styles.emailWithFloatingLabel)
   .withHighlightColor(MKColor.Purple)
-  // .withFloatingLabelFont({
-  //   fontSize: 10,
-  //   fontStyle: 'italic',
-  //   fontWeight: '200',
-  // })
-  // .withKeyboardType('numeric')
   .build();
 
 const PasswordInput = mdl.Textfield.textfieldWithFloatingLabel()
   .withPassword(true)
   .withPlaceholder('Password')
-  // .withDefaultValue('!123')
+  // this doesn't seem to work, investigate
   // .withTintColor(MKColor.Lime)
   .withHighlightColor(MKColor.Purple)
   .withStyle(styles.passwordWithFloatingLabel)
-  .withOnFocus(() => console.log('Focus'))
-  .withOnBlur(() => console.log('Blur'))
-  .withOnEndEditing((e) => console.log('EndEditing', e.nativeEvent.text))
-  .withOnSubmitEditing((e) => console.log('SubmitEditing', e.nativeEvent.text))
-  .withOnTextChange((e) => console.log('TextChange', e))
-  .withOnChangeText((e) => console.log('ChangeText', e))
   .build();
 
 var Login = React.createClass({
@@ -150,8 +113,37 @@ var Login = React.createClass({
       pass: '',
     }
   },
+  onEmailChange: function(text) {
+    this.setState({email: text});
+  },
+  onPasswordChange: function(text) {
+    this.setState({password: text});
+  },
   componentDidMount: function() {
     this.refs.defaultInput.focus();
+  },
+  loginSubmit: function() {
+    // for local dev, you will want to replace this with your IP and port +/rn/login/artist
+    fetch("http://tipp-us-staging.herokuapp.com/rn/login/artist", {
+      method: 'post',
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json'
+      },
+      credentials: 'same-origin',
+      body: JSON.stringify({
+        email: this.state.email,
+        password: this.state.password,
+      })
+    })
+    .then(function(response) {
+      return response.json(); // returns a promise      
+    }, function(err) {console.log(err)})
+    .then(function(jsonRes) {
+      GLOBAL.user = jsonRes; // GLOBAL can be accessed from other views  
+      console.log(GLOBAL.user);
+    })
+    .done();
   },
   render: function() {
     return (
@@ -159,16 +151,19 @@ var Login = React.createClass({
         <Text style={styles.title}>Login</Text>
         <View style={styles.row}>
           <View style={styles.col}>
-            <TextfieldWithFloatingLabel
-              ref="defaultInput" />
+            <EmailInput
+              ref="defaultInput"
+              onTextChange={this.onEmailChange} />
           </View>
         </View>
         <View style={styles.row}>
           <View style={styles.col}>
-            <PasswordInput />
+            <PasswordInput 
+              onTextChange={this.onPasswordChange} />
           </View>
         </View>
-        <LoginButton />
+        <LoginButton 
+          onPress={this.loginSubmit} />
         <FacebookLoginButton />
       </View>
     );
