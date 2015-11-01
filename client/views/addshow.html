@@ -2,40 +2,44 @@
   <label style="color:white">Venue Name</label>
   <input ng-model="addCtrl.venue" type="test"> <!-- ng-model="user.name"> -->
 </md-input-container>
+
 <md-input-container class="md-primary">
   <label style="color:white">Lat</label>
   <input style="color:white" ng-model="addCtrl.lat" type="text"> <!-- ng-model="user.name"> -->
 </md-input-container>
+
 <md-input-container class="md-primary">
   <label style="color:white">Long</label>
   <input style="color:white" ng-model="addCtrl.long" type="text"> <!-- ng-model="user.name"> -->
 </md-input-container>
+
 <div flex layout-align="end center" layout="column">
   <md-button class="md-raised md-accent" ng-click="addCtrl.location()">Use Current Location</md-button>
 </div>
+
 <md-input-container class="md-primary">
   <label style="color:white">Start Date & Time</label>
   <input style="color:white" ng-model="addCtrl.start" type="datetime-local"> <!-- ng-model="user.name"> -->
 </md-input-container>
-<!-- <md-input-container class="md-primary">
-  <label>Start Time</label>
-  
-  <input ng-model="addCtrl.starttime" type="time"> <!-- ng-model="user.name"> 
-</md-input-container> -->
  
 <md-input-container class="md-primary">
   <label style="color:white">End Date & Time</label>
   <input style="color:white" ng-model="addCtrl.end" type="datetime-local"> <!-- ng-model="user.name"> -->
 </md-input-container>
-<!-- <md-input-container class="md-primary">
-  <label>End Time</label>
-  <input ng-model="addCtrl.endtime" type="time"> <!-- ng-model="user.name"> 
-</md-input-container> -->
-<!-- This will not be an option once auth is implemented -->
-<!-- <md-input-container class="md-primary">
-  <label style="color:white">ArtistId Temp!!!</label>
-  <input ng-model="addCtrl.id" type="text">
-</md-input-container> -->
+
 <div flex layout-align="end center" layout="column">
   <md-button class="md-raised md-accent" ng-click="addCtrl.add()">Add Show</md-button>
+</div>
+
+<md-list>
+  <md-list-item ng-repeat="show in upcomingShows">
+    <p class="textColor">Venue: {{show.venue}}</p>
+    <p class="textColor">Start Time: {{show.startTime}}</p>
+    <p class="textColor">End Time: {{show.endTime}}</p>
+    <md-divider ng-if="!$last"></md-divider>
+  </md-list-item>
+</md-list>
+
+<div flex layout-align="end center" layout="column">
+  <md-button class="md-raised md-accent" ng-click="addCtrl.updateUpcomingShows()">Update Upcoming Shows</md-button>
 </div>
