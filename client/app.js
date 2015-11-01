@@ -229,7 +229,7 @@ app.config(function ($stateProvider, $urlRouterProvider) {
     url: '/add',
     templateUrl: 'views/addshow.html',
     controller: ['$rootScope', '$http','$state', 'geolocation', function($scope, $http, $state, geolocation) {
-      $scope.upcomingShows = 'nothing here';
+      $scope.upcomingShows;
       this.location = function() {
         var self = this;
         geolocation.getLocation().then(function(data){
