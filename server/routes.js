@@ -201,29 +201,6 @@ app.get('/artists/nearby', function(req, res) {
   });
 });
 
-
-// app.post('/create/artist', function(req, res) {
-
-//   // TODO: fill in necessary fields to create a user
-//   var artistData = {
-//     email: req.body.email,
-//     password: req.body.password,
-//   };
-
-//   // TODO: Check to see if we need this, probably won't after
-//   // implementing local auth strategy
-//   db.artist.findOne({
-//     where: {email: artistData.email},
-//   }).then(function(artist) {
-//     if (artist) {
-//       res.status(200).end('Sorry, email already registered');
-//     } else {
-//       db.artist.create(artistData).then(function(artist) {
-//         res.status(201).json(artist);
-//       });
-//     }
-//   });
-// });
 app.get('/edit/artist', function(req, res) {
   var user = req.user;
   console.log(user)
@@ -234,6 +211,20 @@ app.get('/edit/artist', function(req, res) {
     where: {id: user.artistId},
   }).then(function(artist) {
     console.log(artist.artistId)
+    res.status(200).json({
+      name: artist.name,
+      description: artist.description,
+      email: artist.email,
+      url: artist.artistUrl,
+    });
+  });
+});
+
+app.get('/rn/edit/artist/id/:id', function(req, res) {
+  var artistId = req.params.id;
+  db.artist.findOne({
+    where: {id: artistId},
+  }).then(function(artist) {
     res.status(200).json({
       name: artist.name,
       description: artist.description,
