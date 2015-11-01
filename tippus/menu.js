@@ -49,6 +49,12 @@ var Menu = React.createClass({
             toggleSlideMenu={this.props.toggleSlideMenu}
             routeFrontView={this.props.routeFrontView}/>
 
+          <Section
+            id='edit'
+            name='Edit'
+            toggleSlideMenu={this.props.toggleSlideMenu}
+            routeFrontView={this.props.routeFrontView}/>
+
           {/*put more sections here*/}
 
         </ScrollView>

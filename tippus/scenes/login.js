@@ -124,7 +124,7 @@ var Login = React.createClass({
   },
   loginSubmit: function() {
     // for local dev, you will want to replace this with your IP and port +/rn/login/artist
-    fetch("http://tipp-us-staging.herokuapp.com/rn/login/artist", {
+    fetch("http://"+GLOBAL.url+"/rn/login/artist", {
       method: 'post',
       headers: {
         'Accept': 'application/json',
