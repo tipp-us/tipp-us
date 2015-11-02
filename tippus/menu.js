@@ -105,4 +105,82 @@ var styles = StyleSheet.create({
   },
 });
 
+// var React = require('react-native');
+// var Dimensions = require('Dimensions');
+// var {
+//   StyleSheet,
+//   ScrollView,
+//   View,
+//   Image,
+//   Text,
+//   Component,
+//   TouchableOpacity,
+// } = React;
+
+// var window = Dimensions.get('window');
+// var uri = 'http://www.cineversity.tv/artist/DJ%20Kat/bio/DJ%20Kat.jpg';
+
+// var styles = StyleSheet.create({
+//   menu: {
+//     flex: 1,
+//     width: window.width,
+//     height: window.height,
+//     backgroundColor: '#E8EAF6',
+//     padding: 20,
+//   },
+//   avatarContainer: {
+//     marginBottom: 20,
+//     marginTop: 20,
+//   },
+//   avatar: {
+//     width: 48,
+//     height: 48,
+//     borderRadius: 24,
+//     flex: 1,
+//   },
+//   name: {
+//     position: 'absolute',
+//     left: 70,
+//     top: 20,
+//   },
+//   item: {
+//     fontSize: 14,
+//     fontWeight: '300',
+//     paddingTop: 5,
+//   },
+// });
+
+// module.exports = class Menu extends Component {
+//   render() {
+//     return (
+//       <ScrollView style={styles.menu}>
+//         <View style={styles.avatarContainer}>
+//           <Image
+//             style={styles.avatar}
+//             source={{ uri, }}/>
+//           <Text style={styles.name}>DJ Kat</Text>
+//         </View>
+//         <TouchableOpacity>
+//           <Text style={styles.item}>Home</Text>
+//         </TouchableOpacity>
+//         <TouchableOpacity>
+//           <Text style={styles.item}>Shows</Text>
+//         </TouchableOpacity>
+//         <TouchableOpacity>
+//           <Text style={styles.item}>Profile</Text>
+//         </TouchableOpacity>
+//         <TouchableOpacity>
+//           <Text style={styles.item}>Banking</Text>
+//         </TouchableOpacity>
+//         <TouchableOpacity>
+//           <Text style={styles.item}>Login</Text>
+//         </TouchableOpacity>
+//         <TouchableOpacity>
+//           <Text style={styles.item}>Signup</Text>
+//         </TouchableOpacity>
+//       </ScrollView>
+//     );
+//   }
+// }
+
 module.exports = Menu;
