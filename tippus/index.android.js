@@ -7,7 +7,9 @@
 var React = require('react-native');
 var SlideMenu = require('react-native-navigation-drawer');
 var Menu = require('./menu.js');
+var SideMenu = require('react-native-side-menu');
 GLOBAL.url = "tipp-us-staging.herokuapp.com";
+
 var {
   AppRegistry,
   StyleSheet,
@@ -20,43 +22,106 @@ var Submerchant = require('./scenes/submerchant.js');
 var Shows = require('./scenes/shows.js');
 var Login = require('./scenes/login.js');
 var Signup = require('./scenes/signup.js');
-var Edit = require('./scenes/edit.js')
+var Edit = require('./scenes/edit.js');
 
-// Unfinished toolbar
 
-// var ToolbarAndroid = require('ToolbarAndroid');
+// Sidebar without Navigation. Commented out until navigation is implemented
 
-// var tippus = React.createClass({
-//   render: function(){
-//     return (
-//     <View style={styles.container}>
-//       <ToolbarAndroid
-//         title="Hello"
-//         style={styles.toolbar} />
-//       <Text style={styles.welcome}>
-//       test
-//       </Text>
-//     </View>
-//     )
+// var SideMenu = require('react-native-side-menu');
+
+// var {
+//   StyleSheet,
+//   Text,
+//   View,
+//   TouchableOpacity,
+//   Component
+// } = React;
+
+// class Button extends Component {
+//   handlePress(event) {
+//     this.context.menuActions.toggle();
+//     if (this.props.onPress) {
+//       this.props.onPress(event);
+//     }
 //   }
-// });
 
-// var styles = StyleSheet.create({
+//   render() {
+//     return (
+//       <TouchableOpacity
+//         onPress={this.handlePress.bind(this)}
+//         style={this.props.style}>
+//         <Text>{this.props.children}</Text>
+//       </TouchableOpacity>
+//     );
+//   }
+// }
+
+// Button.contextTypes = {
+//   menuActions: React.PropTypes.object.isRequired
+// };
+
+// class tippus extends Component {
+//   constructor(props, ctx) {
+//     super(props, ctx);
+
+//     this.state = {
+//       touchToClose: false,
+//     };
+//   }
+
+//   handleChange(isOpen) {
+//     if (!isOpen) {
+//       this.setState({
+//         touchToClose: false,
+//       });
+//     }
+//   }
+
+//   render() {
+//     return (
+//       <SideMenu
+//         menu={<Menu />}
+//         touchToClose={this.state.touchToClose}
+//         onChange={this.handleChange.bind(this)}>
+//         <View style={style.container}>
+//           <Text style={style.welcome}>
+//             tippus
+//           </Text>
+//           <Text style={style.instructions}>
+//             Tipp your hat to local artists and musicians
+//           </Text>
+//         </View>
+//         <Button style={style.button}>
+//           Hamburger
+//         </Button>
+//       </SideMenu>
+//     );
+//   }
+// };
+
+// var style = StyleSheet.create({
+//   button: {
+//     position: 'absolute',
+//     top: 20,
+//   },
 //   container: {
 //     flex: 1,
-//     alignItems: 'stretch',
-//     backgroundColor: "f5cff",
+//     justifyContent: 'center',
+//     alignItems: 'center',
+//     backgroundColor: '#5C6BC0',
 //   },
 //   welcome: {
-//     fontSize: 28,
+//     fontSize: 20,
 //     textAlign: 'center',
 //     margin: 10,
 //   },
-//   toolbar: {
-//     height: 56,
-//     backgroundColor: '#e9eaed',
-//   }
-// }); 
+//   instructions: {
+//     textAlign: 'center',
+//     color: '#333333',
+//     marginBottom: 5,
+//   },
+// });
+
 
 var tippus = React.createClass({
   getInitialState: function(fragmentId) {
