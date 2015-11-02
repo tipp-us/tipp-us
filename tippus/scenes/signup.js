@@ -191,7 +191,8 @@ var Signup = React.createClass({
     .then(function(jsonRes) {
       GLOBAL.user = jsonRes;
       console.log(GLOBAL.user);
-    });
+    })
+    .done();
   },
   render: function() {
     return (
