@@ -9,7 +9,6 @@ var SlideMenu = require('react-native-navigation-drawer');
 var Menu = require('./menu.js');
 var SideMenu = require('react-native-side-menu');
 GLOBAL.url = "tipp-us-staging.herokuapp.com";
-
 var {
   AppRegistry,
   StyleSheet,
