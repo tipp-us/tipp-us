@@ -3,6 +3,7 @@
 var React = require('react-native');
 var MK = require('react-native-material-kit');
 var appStyles = require('../styles');
+var {FBLoginManager, FBLogin} = require('react-native-facebook-login/android');
 
 var {
   StyleSheet,
@@ -171,6 +172,27 @@ var Signup = React.createClass({
       .done();
     }
   },
+  onFacebookSignup: function(fbObj) {
+    // console.log(fbObj);
+    // for local dev, you will want to replace this with your IP and port +/rn/login/artist
+    fetch('http://' + GLOBAL.url + '/rn/auth/facebook', {
+      method: 'post',
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json'
+      },
+      credentials: 'same-origin',
+      body: JSON.stringify({
+        facebookId: fbObj.profile.id,
+      }),
+    }).then(function(response) {
+      return response.json();      
+    }, function(err) {console.log(err);})
+    .then(function(jsonRes) {
+      GLOBAL.user = jsonRes;
+      console.log(GLOBAL.user);
+    });
+  },
   render: function() {
     return (
       <View style={styles.container}>
@@ -195,8 +217,12 @@ var Signup = React.createClass({
           </View>
         </View>
         <SignupButton 
-          onPress={this.signupSubmit}/>
-        <FacebookSignupButton />
+          onPress={this.signupSubmit} />
+        <FBLogin
+          onLogin={this.onFacebookSignup}
+          onLogout={function(e){console.log(e)}}
+          onCancel={function(e){console.log(e)}}
+          onPermissionsMissing={function(e){console.log(e)}} />
       </View>
     );
   },

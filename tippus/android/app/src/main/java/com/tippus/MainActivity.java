@@ -3,6 +3,7 @@ package com.tippus;
 import android.app.Activity;
 import android.os.Bundle;
 import android.view.KeyEvent;
+import android.content.Intent;
 
 import com.facebook.react.LifecycleState;
 import com.facebook.react.ReactInstanceManager;
@@ -12,15 +13,21 @@ import com.facebook.react.shell.MainReactPackage;
 import com.facebook.soloader.SoLoader;
 import com.github.xinthink.rnmk.ReactMaterialKitPackage;
 
+import com.magus.fblogin.FacebookLoginPackage;
+
 public class MainActivity extends Activity implements DefaultHardwareBackBtnHandler {
 
     private ReactInstanceManager mReactInstanceManager;
     private ReactRootView mReactRootView;
 
+    private FacebookLoginPackage mFacebookLoginPackage;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         mReactRootView = new ReactRootView(this);
+
+        mFacebookLoginPackage = new FacebookLoginPackage(this);
 
         mReactInstanceManager = ReactInstanceManager.builder()
                 .setApplication(getApplication())
@@ -28,6 +35,9 @@ public class MainActivity extends Activity implements DefaultHardwareBackBtnHand
                 .setJSMainModuleName("index.android")
                 .addPackage(new MainReactPackage())
                 .addPackage(new ReactMaterialKitPackage())
+
+                .addPackage(mFacebookLoginPackage)
+
                 .setUseDeveloperSupport(BuildConfig.DEBUG)
                 .setInitialLifecycleState(LifecycleState.RESUMED)
                 .build();
@@ -76,5 +86,12 @@ public class MainActivity extends Activity implements DefaultHardwareBackBtnHand
         if (mReactInstanceManager != null) {
             mReactInstanceManager.onResume(this);
         }
+    }
+
+    @Override
+    public void onActivityResult(final int requestCode, final int resultCode, final Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        mFacebookLoginPackage.handleActivityResult(requestCode, resultCode, data);
     }
 }

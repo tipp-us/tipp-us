@@ -3,6 +3,7 @@
 var React = require('react-native');
 var MK = require('react-native-material-kit');
 var appStyles = require('../styles');
+var {FBLoginManager, FBLogin} = require('react-native-facebook-login/android');
 
 var {
   StyleSheet,
@@ -18,6 +19,7 @@ const {
   MKButton,
   mdl,
 } = MK;
+
 
 // TODO: investigate themes... would make coloring easier
 // customize the material design theme
@@ -62,33 +64,6 @@ const LoginButton = MKButton.coloredButton()
   // .withShadowOffset({width:0, height:2})
   // .withShadowOpacity(.7)
   // .withShadowColor('black')
-  .build();
-
-const FacebookLoginButton = MKButton.coloredButton()
-  .withText('Log in with Facebook')
-  // .withStyle(
-  //   {backgroundColor: '#3B5998'}
-  // )
-  // .withOnPress(() => {
-  //   console.log('Facebook Login button pressed!');
-  //   // for local dev, you will want to replace this with your IP and port +/rn/auth/facebook
-  //   fetch("http://tipp-us-staging.herokuapp.com/rn/auth/facebook", {
-  //     method: 'get',
-  //     headers: {
-  //       'Accept': 'application/json',
-  //       'Content-Type': 'application/json'
-  //     },
-  //     credentials: 'same-origin',
-  //   }).then(function(response) {
-  //     //Response from logging in
-  //     console.log('we got a reponse:', response);
-  //     return response.json();      
-  //   }, function(err) {console.log(err)})
-  //   .then(function(jsonRes) {
-  //     GLOBAL.user = jsonRes;
-  //     console.log(GLOBAL.user);
-  //   });
-  // })
   .build();
 
 const EmailInput = MKTextField.textfieldWithFloatingLabel()
@@ -145,6 +120,27 @@ var Login = React.createClass({
     })
     .done();
   },
+  onFacebookLogin: function(fbObj) {
+    // console.log(fbObj);
+    // for local dev, you will want to replace this with your IP and port +/rn/login/artist
+    fetch('http://' + GLOBAL.url + '/rn/auth/facebook', {
+      method: 'post',
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json'
+      },
+      credentials: 'same-origin',
+      body: JSON.stringify({
+        facebookId: fbObj.profile.id,
+      }),
+    }).then(function(response) {
+      return response.json();      
+    }, function(err) {console.log(err);})
+    .then(function(jsonRes) {
+      GLOBAL.user = jsonRes;
+      console.log(GLOBAL.user);
+    });
+  },
   render: function() {
     return (
       <View style={styles.container}>
@@ -164,7 +160,11 @@ var Login = React.createClass({
         </View>
         <LoginButton 
           onPress={this.loginSubmit} />
-        <FacebookLoginButton />
+        <FBLogin
+          onLogin={this.onFacebookLogin}
+          onLogout={function(e){console.log(e)}}
+          onCancel={function(e){console.log(e)}}
+          onPermissionsMissing={function(e){console.log(e)}} />
       </View>
     );
   },
