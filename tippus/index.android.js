@@ -14,6 +14,7 @@ var {
   StyleSheet,
   Text,
   View,
+  Navigator
 } = React;
 
 var Home = require('./scenes/home.js');
@@ -22,105 +23,6 @@ var Shows = require('./scenes/shows.js');
 var Login = require('./scenes/login.js');
 var Signup = require('./scenes/signup.js');
 var Edit = require('./scenes/edit.js');
-
-
-// Sidebar without Navigation. Commented out until navigation is implemented
-
-// var SideMenu = require('react-native-side-menu');
-
-// var {
-//   StyleSheet,
-//   Text,
-//   View,
-//   TouchableOpacity,
-//   Component
-// } = React;
-
-// class Button extends Component {
-//   handlePress(event) {
-//     this.context.menuActions.toggle();
-//     if (this.props.onPress) {
-//       this.props.onPress(event);
-//     }
-//   }
-
-//   render() {
-//     return (
-//       <TouchableOpacity
-//         onPress={this.handlePress.bind(this)}
-//         style={this.props.style}>
-//         <Text>{this.props.children}</Text>
-//       </TouchableOpacity>
-//     );
-//   }
-// }
-
-// Button.contextTypes = {
-//   menuActions: React.PropTypes.object.isRequired
-// };
-
-// class tippus extends Component {
-//   constructor(props, ctx) {
-//     super(props, ctx);
-
-//     this.state = {
-//       touchToClose: false,
-//     };
-//   }
-
-//   handleChange(isOpen) {
-//     if (!isOpen) {
-//       this.setState({
-//         touchToClose: false,
-//       });
-//     }
-//   }
-
-//   render() {
-//     return (
-//       <SideMenu
-//         menu={<Menu />}
-//         touchToClose={this.state.touchToClose}
-//         onChange={this.handleChange.bind(this)}>
-//         <View style={style.container}>
-//           <Text style={style.welcome}>
-//             tippus
-//           </Text>
-//           <Text style={style.instructions}>
-//             Tipp your hat to local artists and musicians
-//           </Text>
-//         </View>
-//         <Button style={style.button}>
-//           Hamburger
-//         </Button>
-//       </SideMenu>
-//     );
-//   }
-// };
-
-// var style = StyleSheet.create({
-//   button: {
-//     position: 'absolute',
-//     top: 20,
-//   },
-//   container: {
-//     flex: 1,
-//     justifyContent: 'center',
-//     alignItems: 'center',
-//     backgroundColor: '#5C6BC0',
-//   },
-//   welcome: {
-//     fontSize: 20,
-//     textAlign: 'center',
-//     margin: 10,
-//   },
-//   instructions: {
-//     textAlign: 'center',
-//     color: '#333333',
-//     marginBottom: 5,
-//   },
-// });
-
 
 var tippus = React.createClass({
   getInitialState: function(fragmentId) {
