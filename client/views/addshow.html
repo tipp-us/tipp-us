@@ -36,6 +36,8 @@
     <p class="textColor">Venue: {{show.venue}}</p>
     <p class="textColor">Start Time: {{show.startTime | date : 'medium'}}</p>
     <p class="textColor">End Time: {{show.stopTime | date : 'medium'}}</p>
+<!--     <p class="textColor">{{show.startTime | date:"MM/dd/yyyy 'at' h:mma"}}</p>
+    <p class="textColor">End Time: {{show.endTime}}</p> -->
     <md-divider ng-if="!$last"></md-divider>
   </md-list-item>
 </md-list>
