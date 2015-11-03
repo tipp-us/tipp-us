@@ -2,6 +2,7 @@
 
 var React = require('react-native');
 var MK = require('react-native-material-kit');
+const appStyles = require('./styles');
 
 var {
   StyleSheet,
@@ -15,75 +16,109 @@ const {
   MKColor,
 } = MK;
 
-const dummyData = {
-          venue: 'React Native',
-          lat: 123,
-          long: 123,
-          start: 123,
-          end: 123,
-          id: 1,
-        };
+const styles = Object.assign({}, appStyles, StyleSheet.create({
+  col: {
+    flex: 1,
+    flexDirection: 'column',
+    // alignItems: 'center', // this will prevent TFs from stretching horizontal
+    marginLeft: 7, marginRight: 7,
+    // backgroundColor: MKColor.Lime,
+  },
+  textfield: {
+    height: 28,  // have to do it on iOS
+    marginTop: 22,
+  },
+  textfieldWithFloatingLabel: {
+    height: 38,  // have to do it on iOS
+    marginTop: 10,
+  },
+}));
 
-const UseCurrentLocationButton = MKButton.accentColoredButton()
-  .withText('USE CURRENT LOCATION')
-  .withOnPress(() => {
-    console.log("Hi, it's a colored button!");
-  })
+const VenueField = MK.MKTextField.textfield()
+  .withPlaceholder('Venue')
+  .withStyle(styles.textfield)
+  .build();
+const LatField = MK.MKTextField.textfield()
+  .withPlaceholder('Lat')
+  .withStyle(styles.textfield)
+  .build();
+const LongField = MK.MKTextField.textfield()
+  .withPlaceholder('Long')
+  .withStyle(styles.textfield)
+  .build();
+const StartTimeField = MK.MKTextField.textfield()
+  .withPlaceholder('Start Time')
+  .withStyle(styles.textfield)
   .build();
 
-var serverString = 'dummytext';
-const AddShowButton = MKButton.accentColoredButton()
+const EndTimeField = MK.MKTextField.textfield()
+  .withPlaceholder('End Time')
+  .withStyle(styles.textfield)
+  .build();
+
+const ColoredRaisedButton = MK.MKButton.coloredButton()
   .withText('ADD SHOW')
-  .withOnPress(() => {
-    fetch('http://httpbin.org/post', {method: "POST", body: ({hello: 'world'})})
-      .then((response) => response.json())
-      .then((responseText) => {
-        console.log(responseText);
-        serverString = responseText;
-      })
-      .catch((error) => {
-        serverString = 'error';
-        console.warn(error);
-      });
-  })
   .build();
 
 var Shows = React.createClass({
+  getInitialState: function() {
+    return {
+      venue: '',
+      lat: '',
+      long: '',
+      startTime: '',
+      endTime: '',
+    };
+  },
+  onVenueChange: function(text) {
+    this.setState({venue: text});
+  },
+  onLatChange: function(text) {
+    this.setState({lat: text});
+  },
+  onLongChange: function(text) {
+    this.setState({long: text});
+  },
+  onStartTimeChange: function(text) {
+    this.setState({startTime: text});
+  },
+  onEndTimeChange: function(text) {
+    this.setState({endTime: text});
+  },
+  editSubmit: function() {
+    fetch("http://"+GLOBAL.url+"/rn/shows/add", {
+      method: "post",
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json'
+      },
+      credentials: 'same-origin',
+      body: JSON.stringify({
+        user: GLOBAL.user,
+        venue: this.state.venue,
+        lat: this.state.lat,
+        long: this.state.long,
+        start: this.state.startTime,
+        end: this.state.endTime,
+      })
+    })
+    .then(function(responce) {
+      console.log(responce);
+    }, function(err) {
+      console.log(err)
+    })
+    
+  },
   render: function() {
     return (
-      <View style={pageStyle.container}>
-
-        <Text style={pageStyle.welcome}>
-          Shows
-          {serverString}
-        </Text>
-
-        <TextInput ref={component => this._textInput = component} 
-            style={{height: 50, width: 300, borderWidth: 1, borderColor: '#888888 '}}
-            placeholder="Venue"></TextInput>
-
-        <TextInput ref={component => this._textInput = component} 
-            style={{height: 50, width: 300, borderWidth: 1, borderColor: '#888888 '}}
-            placeholder="Lat"></TextInput>
-
-        <TextInput ref={component => this._textInput = component} 
-            style={{height: 50, width: 300, borderWidth: 1, borderColor: '#888888 '}}
-            placeholder="Long"></TextInput>
-
-        <UseCurrentLocationButton/>
-
-        <TextInput ref={component => this._textInput = component} 
-            style={{height: 50, width: 300, borderWidth: 1, borderColor: '#888888 '}}
-            placeholder="Start Time"></TextInput>
-
-        <TextInput ref={component => this._textInput = component} 
-            style={{height: 50, width: 300, borderWidth: 1, borderColor: '#888888 '}}
-            placeholder="End Time"></TextInput>
-
-        <AddShowButton/>
-
+      <View style={styles.container}>
+        <VenueField     value={this.state.value}onTextChange={this.onVenueChange}/>
+        <LatField       value={this.state.lat}onTextChange={this.onLatChange}/>
+        <LongField      value={this.state.long}onTextChange={this.onLongChange}/>
+        <StartTimeField value={this.state.startTime}onTextChange={this.onStartTimeChange}/>
+        <EndTimeField   value={this.state.endTime}onTextChange={this.onEndTimeChange}/>
+        <ColoredRaisedButton onPress={this.editSubmit}/>
       </View>
-
     );
   }
 });
