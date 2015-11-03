@@ -1,47 +1,60 @@
 <md-input-container class="md-primary">
   <label style="color:white">Venue Name</label>
-  <input ng-model="addCtrl.venue" type="test"> <!-- ng-model="user.name"> -->
+  <input style="color:white" ng-model="addCtrl.venue" type="text"> <!-- ng-model="user.name"> -->
 </md-input-container>
 
-<md-input-container class="md-primary">
-  <label style="color:white">Lat</label>
-  <input style="color:white" ng-model="addCtrl.lat" type="text"> <!-- ng-model="user.name"> -->
-</md-input-container>
 
-<md-input-container class="md-primary">
-  <label style="color:white">Long</label>
-  <input style="color:white" ng-model="addCtrl.long" type="text"> <!-- ng-model="user.name"> -->
-</md-input-container>
+<div layout="row" layout-align="center center"> 
+  <div layout-align="end center" layout="column">
+    <md-button class="md-raised md-primary" ng-click="addCtrl.location()">My Location</md-button>
+  </div>
+  <md-input-container flex class="md-primary">
+    <label style="color:white">Lat</label>
+    <input style="color:white" ng-model="addCtrl.lat" type="text"> <!-- ng-model="user.name"> -->
+  </md-input-container>
 
-<div flex layout-align="end center" layout="column">
-  <md-button class="md-raised md-accent" ng-click="addCtrl.location()">Use Current Location</md-button>
+  <md-input-container flex class="md-primary">
+    <label style="color:white">Long</label>
+    <input style="color:white" ng-model="addCtrl.long" type="text"> <!-- ng-model="user.name"> -->
+  </md-input-container>
+
 </div>
 
-<md-input-container class="md-primary">
+<md-input-container flex class="md-primary">
   <label style="color:white">Start Date & Time</label>
   <input style="color:white" ng-model="addCtrl.start" type="datetime-local"> <!-- ng-model="user.name"> -->
 </md-input-container>
- 
-<md-input-container class="md-primary">
-  <label style="color:white">End Date & Time</label>
-  <input style="color:white" ng-model="addCtrl.end" type="datetime-local"> <!-- ng-model="user.name"> -->
-</md-input-container>
+   
+<div layout="row" flex layout-align="center center">
+  <md-input-container flex class="md-primary">
+    <label style="color:white">End Date & Time</label>
+    <input style="color:white" ng-model="addCtrl.end" type="datetime-local"> <!-- ng-model="user.name"> -->
+  </md-input-container> 
 
-<div flex layout-align="end center" layout="column">
-  <md-button class="md-raised md-accent" ng-click="addCtrl.add()">Add Show</md-button>
+  <div layout-align="end center" layout="column">
+    <md-button class="md-raised md-accent" ng-click="addCtrl.add(); addCtrl.updateUpcomingShows();">Add Show</md-button>
+  </div>
 </div>
 
-<md-list>
-  <md-list-item ng-repeat="show in upcomingShows">
-    <p class="textColor">Venue: {{show.venue}}</p>
-    <p class="textColor">Start Time: {{show.startTime | date : 'medium'}}</p>
-    <p class="textColor">End Time: {{show.stopTime | date : 'medium'}}</p>
-<!--     <p class="textColor">{{show.startTime | date:"MM/dd/yyyy 'at' h:mma"}}</p>
-    <p class="textColor">End Time: {{show.endTime}}</p> -->
-    <md-divider ng-if="!$last"></md-divider>
-  </md-list-item>
-</md-list>
+<md-content  style="height: 15px; background-color:#424242; margin-left:-16px; margin-right:-16px;"></md-content>
 
-<div flex layout-align="end center" layout="column">
-  <md-button class="md-raised md-accent" ng-click="addCtrl.updateUpcomingShows()">Update Upcoming Shows</md-button>
+<div style="background-color:white; margin-left:-16px; margin-right:-16px;">
+  
+  <div layout="row" layout-align="center center">
+    <h3 class="md-headline" style="margin-top:0px">Upcoming Shows</h3>
+  </div>
+  <md-list>
+    <md-list-item class="md-3-line" ng-repeat="show in upcomingShows">
+      <div class="md-list-item-text" layout="column">
+        <h3>{{show.venue}}</h3>
+        <h4>{{show.startTime | date:"MMM dd, yyyy"}}</h4>
+        <p>{{show.stopTime | date : 'h:mma'}} - {{show.startTime | date : 'h:mma'}}</p>
+      </div>
+      <md-divider ng-if="!$last"></md-divider>
+    </md-list-item>
+  </md-list>
+
+  <div flex layout-align="end center" layout="column">
+    <md-button class="md-raised md-accent" ng-click="addCtrl.updateUpcomingShows()">Update Upcoming Shows</md-button>
+  </div>
 </div>
