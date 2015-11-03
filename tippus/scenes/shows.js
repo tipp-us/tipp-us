@@ -57,11 +57,7 @@ const EndTimeField = MK.MKTextField.textfield()
   .build();
 
 const ColoredRaisedButton = MK.MKButton.coloredButton()
-  .withText('BUTTON')
-  .withOnPress(() => {
-    console.log("Hi, it's a colored button!");
-    console.log(this)
-  })
+  .withText('ADD SHOW')
   .build();
 
 var Shows = React.createClass({
