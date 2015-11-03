@@ -34,8 +34,8 @@
 <md-list>
   <md-list-item ng-repeat="show in upcomingShows">
     <p class="textColor">Venue: {{show.venue}}</p>
-    <p class="textColor">Start Time: {{show.startTime}}</p>
-    <p class="textColor">End Time: {{show.endTime}}</p>
+    <p class="textColor">Start Time: {{show.startTime | date : 'medium'}}</p>
+    <p class="textColor">End Time: {{show.stopTime | date : 'medium'}}</p>
     <md-divider ng-if="!$last"></md-divider>
   </md-list-item>
 </md-list>
