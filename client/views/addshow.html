@@ -5,19 +5,17 @@
 
 
 <div layout="row" layout-align="center center"> 
-  <div layout-align="end center" layout="column">
-    <md-button class="md-raised md-primary" ng-click="addCtrl.location()">My Location</md-button>
-  </div>
   <md-input-container flex class="md-primary">
     <label style="color:white">Lat</label>
     <input style="color:white" ng-model="addCtrl.lat" type="text"> <!-- ng-model="user.name"> -->
   </md-input-container>
-
   <md-input-container flex class="md-primary">
     <label style="color:white">Long</label>
     <input style="color:white" ng-model="addCtrl.long" type="text"> <!-- ng-model="user.name"> -->
   </md-input-container>
-
+  <div layout-align="end center" layout="column">
+    <md-button class="md-raised md-primary" ng-click="addCtrl.location()">Use My Location</md-button>
+  </div>
 </div>
 
 <md-input-container flex class="md-primary">
