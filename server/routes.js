@@ -321,6 +321,29 @@ app.post('/shows/add', function(req, res) {
   });
 });
 
+app.post('/rn/shows/add', function(req, res) {
+  var data = req.body;
+
+  if (!data.user) {
+    res.status(403);
+    return;
+  }
+
+  // Show auth and check authed user email instead of sent ID
+  db.artist.findOne({where: {id: data.user.id}}).then(function(artist) {
+    db.show.create({
+      venue: data.venue,
+      latitude: data.lat,
+      longitude: data.long,
+      startTime: data.start,
+      stopTime: data.end,
+    }).then(function(show) {
+      show.setArtist(artist);
+      show.save();
+    });
+  });
+});
+
 // Send a braintree client token to client
 app.get('/client_token', function(req, res) {
   gateway.clientToken.generate({}, function(err, response) {
