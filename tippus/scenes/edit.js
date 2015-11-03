@@ -103,69 +103,30 @@ var Edit = React.createClass({
 
 
   componentDidMount: function() {
-    // var obj = {email:"j@j.j", password:"asdf"};
-    // var string = JSON.stringify(obj);
-    // var xmlhttp = new XMLHttpRequest();   // new HttpRequest instance 
-    // xmlhttp.onreadystatechange = function(e) {
-    //   if (xmlhttp.readyState !== 4) {
-    //     return;
-    //   }
-    //   console.log(e)
-    //   if (xmlhttp.status === 200) {
-    //     console.log('success 1 ', xmlhttp);
-    //   } else {
-    //     console.warn('error');
-    //   }
-    //   var newXml = new XMLHttpRequest();
-    //   newXml.onreadystatechange = function(e) {
-    //     if (newXml.readyState !== 4) {
-    //       return;
-    //     }
-    //     console.log(newXml)
-    //     if (newXml.status === 200) {
-    //       console.log('success 2', newXml);
-    //     } else {
-    //       console.warn('error');
-    //     }
-    //   };
-    //   newXml.open("GET", "http://192.168.1.215:3000/edit/artist", true);
-    //   //newXml.setRequestHeader("Content-Type", "application/json");
-    //   newXml.send();
-    // };
-    // xmlhttp.open("POST", "http://192.168.1.215:3000/login/artist");
-    // xmlhttp.setRequestHeader("Content-Type", "application/json");
-    // xmlhttp.send(string);
-    //xmlhttp.send(JSON.stringify({});
-
-
-    //Temp login to server
-    // fetch("http://192.168.1.215:3000/login/artist", {
-    //   method: 'post',
-    //   headers: {
-    //     'Content-Type': 'application/json'
-    //   },
-    //   credentials: 'same-origin',
-    //   body: JSON.stringify({
-    //     email: 'j@j.j',
-    //     password: 'asdf',
-    //   })
-    // }).then(function(response) {
-    //   console.log(response)
-    //   //try to fetch from server now
-    //   fetch("http://192.168.1.215:3000/edit/artist", {
-    //     credentials: 'same-origin',
-    //   }).then(function(response) {
-    //     console.log(response)
-    //   })
-    // })
+    var self = this;
+    fetch("http://"+GLOBAL.url+"/rn/edit/artist/id/" + GLOBAL.user.id, {
+      headers: {
+        'Accept': 'application/json',
+      },
+      credentials: 'same-origin',
+    }).then(function(responce) {
+      return responce.json();
+    }).then(function(json) {
+      self.setState({
+        name: json.name,
+        description: json.description,
+        email: json.email,
+        url: json.url,
+      })
+    })
   },
   render: function() {
     return (
       <View style={styles.container}>
-        <NameField onTextChange={this.onNameChange}/>
-        <DescField onTextChange={this.onDescriptionChange}/>
-        <EmailField onTextChange={this.onEmailChange}/>
-        <WebField onTextChange={this.onWebsiteChange}/>
+        <NameField value={this.state.name} onTextChange={this.onNameChange}/>
+        <DescField value={this.state.description} onTextChange={this.onDescriptionChange}/>
+        <EmailField value={this.state.email} onTextChange={this.onEmailChange}/>
+        <WebField value={this.state.url} onTextChange={this.onWebsiteChange}/>
         
         <ColoredRaisedButton
         onPress={this.editSubmit}/>
