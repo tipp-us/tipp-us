@@ -9,7 +9,10 @@ var {
   ScrollView,
   Text,
   View,
+  Image,
 } = React;
+
+var uri = 'http://www.cineversity.tv/artist/DJ%20Kat/bio/DJ%20Kat.jpg';
 
 var Menu = React.createClass({
   render() {
@@ -18,10 +21,29 @@ var Menu = React.createClass({
         <ScrollView
           contentContainerStyle={styles.contentContainer}
           style={styles.scrollView}>
+          <View style={styles.avatarContainer}>
+          <Image
+            style={styles.avatar}
+            source={{ uri, }}/>
+          <Text style={styles.name}>DJ Kat</Text>
+        </View>
+
 
           <Section
             id='home'
             name='Home'
+            toggleSlideMenu={this.props.toggleSlideMenu}
+            routeFrontView={this.props.routeFrontView}/>
+
+          <Section
+            id='shows'
+            name='Shows'
+            toggleSlideMenu={this.props.toggleSlideMenu}
+            routeFrontView={this.props.routeFrontView}/>
+
+          <Section
+            id='edit'
+            name='Edit'
             toggleSlideMenu={this.props.toggleSlideMenu}
             routeFrontView={this.props.routeFrontView}/>
 
@@ -43,18 +65,6 @@ var Menu = React.createClass({
             toggleSlideMenu={this.props.toggleSlideMenu}
             routeFrontView={this.props.routeFrontView}/>
 
-          <Section
-            id='shows'
-            name='Shows'
-            toggleSlideMenu={this.props.toggleSlideMenu}
-            routeFrontView={this.props.routeFrontView}/>
-
-          <Section
-            id='edit'
-            name='Edit'
-            toggleSlideMenu={this.props.toggleSlideMenu}
-            routeFrontView={this.props.routeFrontView}/>
-
           {/*put more sections here*/}
 
         </ScrollView>
@@ -72,9 +82,9 @@ var Section = React.createClass({
   },
   render() {
     return (
-      <TouchableHighlight underlayColor='#DFDFDF' onPress={this.onPress}>
-        <View style={styles.section}>
-          <Text style={styles.sectionName}>{this.props.name.toUpperCase()}</Text>
+      <TouchableHighlight onPress={this.onPress} style={styles.button}>
+        <View style={styles.buttonView}>
+          <Text style={styles.buttonText}>{this.props.name.toUpperCase()}</Text>
         </View>
       </TouchableHighlight>
     );
@@ -83,14 +93,14 @@ var Section = React.createClass({
 
 var styles = StyleSheet.create({
   container: {
-    marginTop: 5,
     flex: 1,
+    backgroundColor: '#E8EAF6',
   },
   scrollView: {
     position: 'absolute',
     top: 0,
-    left: 0,
-    right: 0,
+    left: 20,
+    right: 20,
     bottom: 50,
   },
   section: {
@@ -103,84 +113,42 @@ var styles = StyleSheet.create({
     marginLeft: 10,
     color: '#E8EAF6',
   },
+  avatar: {
+    width: 48,
+    height: 48,
+    borderRadius: 24,
+    flex: 1,
+  },
+  avatarContainer: {
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginBottom: 20,
+    marginTop: 20,
+  },
+  buttonView: {
+    justifyContent: 'center',
+    padding: 4,
+    width: 180,
+    height: 50,
+    backgroundColor: '#EC407A',
+    borderRadius: 4
+  },
+
+  button: {
+    marginBottom: 20,
+    alignItems: 'center',
+  },
+
+  buttonText: {
+    fontSize: 16,
+    textAlign: 'center',
+    color: '#fff',
+    backgroundColor: 'rgba(0,0,0,0)'
+  },
+  name: {
+    top: 10,
+    bottom: 20
+  },
 });
-
-// var React = require('react-native');
-// var Dimensions = require('Dimensions');
-// var {
-//   StyleSheet,
-//   ScrollView,
-//   View,
-//   Image,
-//   Text,
-//   Component,
-//   TouchableOpacity,
-// } = React;
-
-// var window = Dimensions.get('window');
-// var uri = 'http://www.cineversity.tv/artist/DJ%20Kat/bio/DJ%20Kat.jpg';
-
-// var styles = StyleSheet.create({
-//   menu: {
-//     flex: 1,
-//     width: window.width,
-//     height: window.height,
-//     backgroundColor: '#E8EAF6',
-//     padding: 20,
-//   },
-//   avatarContainer: {
-//     marginBottom: 20,
-//     marginTop: 20,
-//   },
-//   avatar: {
-//     width: 48,
-//     height: 48,
-//     borderRadius: 24,
-//     flex: 1,
-//   },
-//   name: {
-//     position: 'absolute',
-//     left: 70,
-//     top: 20,
-//   },
-//   item: {
-//     fontSize: 14,
-//     fontWeight: '300',
-//     paddingTop: 5,
-//   },
-// });
-
-// module.exports = class Menu extends Component {
-//   render() {
-//     return (
-//       <ScrollView style={styles.menu}>
-//         <View style={styles.avatarContainer}>
-//           <Image
-//             style={styles.avatar}
-//             source={{ uri, }}/>
-//           <Text style={styles.name}>DJ Kat</Text>
-//         </View>
-//         <TouchableOpacity>
-//           <Text style={styles.item}>Home</Text>
-//         </TouchableOpacity>
-//         <TouchableOpacity>
-//           <Text style={styles.item}>Shows</Text>
-//         </TouchableOpacity>
-//         <TouchableOpacity>
-//           <Text style={styles.item}>Profile</Text>
-//         </TouchableOpacity>
-//         <TouchableOpacity>
-//           <Text style={styles.item}>Banking</Text>
-//         </TouchableOpacity>
-//         <TouchableOpacity>
-//           <Text style={styles.item}>Login</Text>
-//         </TouchableOpacity>
-//         <TouchableOpacity>
-//           <Text style={styles.item}>Signup</Text>
-//         </TouchableOpacity>
-//       </ScrollView>
-//     );
-//   }
-// }
 
 module.exports = Menu;
