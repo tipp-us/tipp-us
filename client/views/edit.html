@@ -3,23 +3,6 @@
     <label style="color:white">name</label>
     <input style="color:white" ng-model="profile.name" type="text"> <!-- ng-model="user.name"> -->
   </md-input-container>
-  <md-input-container class="md-primary">
-    <label style="color:white">description</label>
-    <input style="color:white" ng-model="profile.description" type="text"> <!-- ng-model="user.name"> -->
-  </md-input-container>
-  <md-input-container class="md-primary">
-    <label style="color:white">email</label>
-    <input style="color:white" ng-model="profile.email" type="email" placeholder="mail@example.com"> <!-- ng-model="user.name"> -->
-  </md-input-container>
-  <md-input-container class="md-primary">
-    <label style="color:white">password</label>
-    <input style="color:white" ng-model="profile.pass" type="password"> <!-- ng-model="user.name"> -->
-  </md-input-container>
-  <md-input-container class="md-primary">
-    <label style="color:white">web site</label>
-    <input style="color:white" ng-model="profile.url" type="text" placeholder="www.example.com"> <!-- ng-model="user.name"> -->
-
-  </md-input-container>
   <div ng-controller="photoUploadCtrl" id="direct_upload" 
       ngf-drop="uploadFiles($files)"
       ngf-drag-over-class="dragOverClass($event)"
@@ -27,16 +10,15 @@
       ng-multiple="false">
     
         <div class="form_line">
-            <label>Image:</label>
+            <!-- <label style="color:white">Image:</label> -->
             <div class="form_controls">
                 <div class="upload_button_holder">
-                  <md-button class="md-raised md-primary" ngf-select="uploadFiles($files)" resetOnClick="true" >Upload</md-button>
+                  <md-button class="md-raised md-primary" ngf-select="uploadFiles($files)" resetOnClick="true" >Upload Image</md-button>
                 </div>
-                
             </div>
         </div>
     
-    <div class="file" ng-repeat="file in files">
+    <div class="file" ng-repeat="file in files" style="color:white">
         <div class="status">{{file.status}}</div>
         <div class="progress-bar">
           <div class="progress" style="width: {{file.progress}}%" ng-init="progress=0"></div>
@@ -51,6 +33,18 @@
     </div>
   </div>
   
+  <md-input-container class="md-primary">
+    <label style="color:white">description</label>
+    <input style="color:white" ng-model="profile.description" type="text"> <!-- ng-model="user.name"> -->
+  </md-input-container>
+  <md-input-container class="md-primary">
+    <label style="color:white">email</label>
+    <input style="color:white" ng-model="profile.email" type="email" placeholder="mail@example.com"> <!-- ng-model="user.name"> -->
+  </md-input-container>
+  <md-input-container class="md-primary">
+    <label style="color:white">web site</label>
+    <input style="color:white" ng-model="profile.url" type="text" placeholder="www.example.com"> <!-- ng-model="user.name"> -->
+  </md-input-container>
 <div flex layout-align="end center" layout="column">
   <md-button class="md-raised md-primary" ng-click="editCtrl.save()">Save</md-button>
   <md-button class="md-raised md-accent" ng-click="editCtrl.info()">Edit Banking Information</md-button>
