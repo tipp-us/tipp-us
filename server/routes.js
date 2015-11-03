@@ -241,7 +241,6 @@ app.post('/edit/artist', function(req, res) {
   req.sanitize('name').escape();
   req.sanitize('description').escape();
   req.sanitize('email').escape();
-  req.sanitize('url').escape();
   req.sanitize('pass').escape();
   var data = req.body;
   db.artist.findOne({
