@@ -18,7 +18,16 @@ app.controller('sideButtons', ['$rootScope', '$state', '$http', 'geolocation', '
 
   this.click = function(artist) {
     // console.log(JSON.stringify($scope.nearbyArtists));
-    $mdSidenav('left').toggle();
+    if($scope.artist !== undefined){
+      $mdSidenav('left').toggle();
+      $scope.searchableArtists.forEach(function(element) {
+        if(element.name === artist) {
+          $scope.artist = element;
+          $state.go('^.artists', {}, {reload: true});
+        }
+      });
+    }else{
+      $mdSidenav('left').toggle();
     $scope.searchableArtists.forEach(function(element) {
       if(element.name === artist) {
         $scope.artist = element;
@@ -31,6 +40,7 @@ app.controller('sideButtons', ['$rootScope', '$state', '$http', 'geolocation', '
         $state.go('^.artists');
       }
     });
+    }
   };
   this.clickNoSide = function(artist) {
     // console.log($scope.nearbyArtists);
