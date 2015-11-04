@@ -61,16 +61,16 @@ app.controller('AppCtrl', ['$rootScope', '$scope', '$state', '$mdSidenav', '$htt
 
   $scope.currentShow = false;
   $scope.startNow = function() {
-    $scope.currentShow = true;
-    //get current id
+    $scope.changeState('home');
 
     geolocation.getLocation().then(function(data){
       var sendData = {
         lat:data.coords.latitude,
         long:data.coords.longitude
       };
-      $http.post('/shows/startNow',sendData).success(function(data) {
-        
+      $http.post('/shows/startNow', sendData).then(function(data) {
+        $scope.currentShow = true;
+        alert('Show added');
       });
     });
 
