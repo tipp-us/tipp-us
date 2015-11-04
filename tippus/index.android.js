@@ -32,7 +32,7 @@ var tippus = React.createClass({
   updateFrontView: function() {
     switch (this.state.route) {
       case 'home':
-        return <Home />;
+        return <Home routeFrontView={this.routeFrontView} />;
       case 'shows':
         return <Shows />;
       case 'banking':
