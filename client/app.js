@@ -114,6 +114,7 @@ app.controller('AppCtrl', ['$rootScope', '$scope', '$state', '$mdSidenav', '$htt
         $state.go('^.artists');
       }
     });
+    $scope.artist = undefined;
   };
   
 }]);
