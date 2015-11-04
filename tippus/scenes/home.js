@@ -56,7 +56,7 @@ const LButton = MKButton.coloredButton()
     marginBottom: 10,
     width: 300,
   })
-  .withBackgroundColor(MKColor.Purple)
+  .withBackgroundColor('#EC407A')
   // Shadows not supported yet on Android...
   // https://facebook.github.io/react-native/docs/known-issues.html#no-support-for-shadows-on-android
   // .withShadowRadius(2)
