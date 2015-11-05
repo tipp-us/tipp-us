@@ -317,6 +317,7 @@ app.post('/shows/add', function(req, res) {
     }).then(function(show) {
       show.setArtist(artist);
       show.save();
+      res.end('Success', 200);
     });
   });
 });
@@ -340,6 +341,7 @@ app.post('/rn/shows/add', function(req, res) {
     }).then(function(show) {
       show.setArtist(artist);
       show.save();
+      res.end('Success', 200);
     });
   });
 });
