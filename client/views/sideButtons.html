@@ -1,7 +1,7 @@
 <md-sidenav layout="column" layout-fill class="md-sidenav-left md-whiteframe-z2" style="background-color:#E8EAF6" md-component-id="left" md-is-locked-open="$mdMedia('gt-sm')">
 
   <div append-source>
-    <form class="form-inline" role="form" layout="row" layout-margin layout-align="center" ng-submit="sideButtons.click(selectedArtist)">
+    <form class="form-inline" role="form" layout="row" layout-margin layout-align="center" ng-submit="sideButtons.click(selectedArtist); selectedArtist=''">
       <div class="form-group">
         <input type="text" class="form-control typeahead" ng-model="selectedArtist" bs-options="artist for artist in artists" placeholder="Search by Artist" bs-typeahead>
         <input type="submit" class="hiddenSubmit"/>

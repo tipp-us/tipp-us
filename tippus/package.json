@@ -7,6 +7,8 @@
   },
   "dependencies": {
     "react-native": "^0.13.2",
-    "react-native-autocomplete": "^0.1.1"
+    "react-native-material-kit": "^0.2.2",
+    "react-native-navigation-drawer": "^1.2.2",
+    "react-native-side-menu": "^0.14.3"
   }
 }

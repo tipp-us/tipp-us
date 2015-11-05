@@ -36,6 +36,20 @@ app.post('/login/artist',
     res.redirect('/#/edit');
   });
 
+// react-native android local create artist
+app.post('/rn/create/artist',
+  passport.authenticate('local-signup', { failureRedirect: '/#/signup' }),
+  function(req, res) {
+    res.status(200).json({id: req.user.artistId});
+  });
+
+// react-native android local login
+app.post('/rn/login/artist',
+  passport.authenticate('local-login', { failureRedirect: '/#/login' }),
+  function(req, res) {
+    res.status(200).json({id: req.user.artistId});
+  });
+
 app.get('/logout', function(req, res) {
   req.logout();
   res.redirect('/');
@@ -81,6 +95,7 @@ app.post('/shows/startNow', function(req, res) {
     }).then(function(show) {
       show.setArtist(artist);
       show.save();
+      res.end('Success', 200);
     });
   });
 });
@@ -88,20 +103,51 @@ app.post('/shows/startNow', function(req, res) {
 // Get info of single artist
 app.get('/artists/id/:id', function(req, res) {
   var artistId = req.params.id;
-
-  db.artist.findById(artistId)
+  db.artist.findOne({where: {id: artistId}, include: [db.show]})
     .then(function(artist) {
+
       if (artist === null) {
         res.status(404).end('ArtistID ' + artistId + ' not found.');
       }
-
-      res.status(200).json({
+      var currentShow = null;
+      for(var i = 0; i < artist.Shows.length; i++) {
+        var show = artist.Shows[i];
+        var now = new Date(Date.now());
+        if (show.startTime < now && now < show.stopTime) {
+          currentShow = show;
+          break;
+        }
+      }
+      var send = {
         id: artist.id,
         name: artist.name,
         pic: artist.imageUrl,
         email: artist.email,
         artistUrl: artist.artistUrl,
-      });
+        venue: artist.venue,
+      }
+      if(currentShow) {
+        send.position =  {
+          lat: show.latitude,
+          long: show.longitude,
+        }
+        send.venue = show.venue;
+      } 
+      res.status(200).json(send);
+    });
+});
+
+app.get('/upcomingShows', function(req, res) {
+  var artistId = req.session.passport.user.artistId;
+
+  db.artist.findOne({where: {id: artistId}, include: [db.show]})
+    .then(function(artist) {
+
+      if (artist === null) {
+        res.status(404).end('ArtistID ' + artistId + ' not found.');
+      }
+
+      res.status(200).json(artist.Shows);
     });
 });
 
@@ -156,28 +202,6 @@ app.get('/artists/nearby', function(req, res) {
   });
 });
 
-// app.post('/create/artist', function(req, res) {
-
-//   // TODO: fill in necessary fields to create a user
-//   var artistData = {
-//     email: req.body.email,
-//     password: req.body.password,
-//   };
-
-//   // TODO: Check to see if we need this, probably won't after
-//   // implementing local auth strategy
-//   db.artist.findOne({
-//     where: {email: artistData.email},
-//   }).then(function(artist) {
-//     if (artist) {
-//       res.status(200).end('Sorry, email already registered');
-//     } else {
-//       db.artist.create(artistData).then(function(artist) {
-//         res.status(201).json(artist);
-//       });
-//     }
-//   });
-// });
 app.get('/edit/artist', function(req, res) {
   var user = req.user;
   console.log(user)
@@ -197,9 +221,54 @@ app.get('/edit/artist', function(req, res) {
   });
 });
 
+app.get('/rn/edit/artist/id/:id', function(req, res) {
+  var artistId = req.params.id;
+  db.artist.findOne({
+    where: {id: artistId},
+  }).then(function(artist) {
+    res.status(200).json({
+      name: artist.name,
+      description: artist.description,
+      email: artist.email,
+      url: artist.artistUrl,
+    });
+  });
+});
+
 // Edit an already created artist page
 app.post('/edit/artist', function(req, res) {
   var user = req.user;
+  // Escape dangerous characters from user input
+  req.sanitize('name').escape();
+  req.sanitize('description').escape();
+  req.sanitize('email').escape();
+  req.sanitize('pass').escape();
+  var data = req.body;
+  db.artist.findOne({
+    where: {id: req.user.artistId},
+  }).then(function(artist) {
+    artist.name = data.name;
+    artist.description = data.description;
+    artist.password = data.pass;
+    artist.email = data.email;
+
+    //Check to see if new url is already used by someone
+    artist.artistUrl = data.url;
+    if(data.imageUrl) {
+      artist.imageUrl = data.imageUrl;
+    }
+
+    artist.save().then(function() {
+      res.end('Success', 200);
+    });
+  }).catch(function(err) {
+    res.status(400).json({error: err});
+  });
+});
+
+// react-native android edit artist
+app.post('/rn/edit/artist', function(req, res) {
+  var user = req.body.user;
   // Escape dangerous characters from user input
   req.sanitize('name').escape();
   req.sanitize('description').escape();
@@ -208,7 +277,7 @@ app.post('/edit/artist', function(req, res) {
   req.sanitize('pass').escape();
   var data = req.body;
   db.artist.findOne({
-    where: {id: req.user.artistId},
+    where: {id: user.id},
   }).then(function(artist) {
     artist.name = data.name;
     artist.description = data.description;
@@ -248,6 +317,31 @@ app.post('/shows/add', function(req, res) {
     }).then(function(show) {
       show.setArtist(artist);
       show.save();
+      res.end('Success', 200);
+    });
+  });
+});
+
+app.post('/rn/shows/add', function(req, res) {
+  var data = req.body;
+
+  if (!data.user) {
+    res.status(403);
+    return;
+  }
+
+  // Show auth and check authed user email instead of sent ID
+  db.artist.findOne({where: {id: data.user.id}}).then(function(artist) {
+    db.show.create({
+      venue: data.venue,
+      latitude: data.lat,
+      longitude: data.long,
+      startTime: data.start,
+      stopTime: data.end,
+    }).then(function(show) {
+      show.setArtist(artist);
+      show.save();
+      res.end('Success', 200);
     });
   });
 });
