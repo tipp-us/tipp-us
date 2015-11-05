@@ -70,12 +70,31 @@ app.controller('AppCtrl', ['$rootScope', '$scope', '$state', '$mdSidenav', '$htt
       };
       $http.post('/shows/startNow', sendData).then(function(data) {
         $scope.currentShow = true;
-        alert('Show added');
+        alert = $mdDialog.alert({
+          title: 'Start playing!',
+          content: 'Your show has begun. You\'re ready to collect tips!',
+          ok: 'Close'
+        });
+        $mdDialog
+          .show( alert )
+          .finally(function() {
+            alert = undefined;
+        });
       });
     });
 
     $scope.cancelShow = function() {
       $scope.currentShow = false;
+      alert = $mdDialog.alert({
+        title: 'Awesome show!',
+        content: 'Check your mobile app to see how much you collected!',
+        ok: 'Close'
+      });
+      $mdDialog
+        .show( alert )
+        .finally(function() {
+          alert = undefined;
+      });
     };
   };
 
@@ -229,7 +248,7 @@ app.config(function ($stateProvider, $urlRouterProvider) {
   $stateProvider.state('add', {
     url: '/add',
     templateUrl: 'views/addshow.html',
-    controller: ['$rootScope', '$http','$state', 'geolocation', function($scope, $http, $state, geolocation) {
+    controller: ['$rootScope', '$http','$state', 'geolocation', '$mdDialog', function($scope, $http, $state, geolocation, $mdDialog) {
       $scope.upcomingShows;
       this.location = function() {
         var self = this;
@@ -249,8 +268,17 @@ app.config(function ($stateProvider, $urlRouterProvider) {
           end: this.end,
           id: this.id,
         };
-        $http.post('shows/add', data).success(function(rdata) {
-          state.go("^.home");
+        $http.post('/shows/add', data).then(function(data) {
+          alert = $mdDialog.alert({
+            title: 'Info Received!',
+            content: 'Your show has been added. Click the update button at the bottom of the page and confirm.',
+            ok: 'Close'
+          });
+          $mdDialog
+            .show( alert )
+            .finally(function() {
+              alert = undefined;
+          });
         });
       };
       this.updateUpcomingShows = function() {
