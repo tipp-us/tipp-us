@@ -1,46 +1,48 @@
-var app = angular.module('StarterApp', ['submerchant', 'ngMaterial','ui.router', 'geolocation', 'mgcrea.ngStrap', 'cloudinary','ngFileUpload'])
+var app = angular.module('StarterApp', ['submerchant', 'ngMaterial', 'ui.router', 'geolocation', 'mgcrea.ngStrap', 'cloudinary', 'ngFileUpload'])
 .config(function($mdThemingProvider) {
   $mdThemingProvider.theme('default')
     .primaryPalette('indigo', {
-      'default': '800', // by default use shade 400 from the pink palette for primary intentions
-      'hue-1': '50', // use shade 100 for the <code>md-hue-1</code> class
-      'hue-2': '600', // use shade 600 for the <code>md-hue-2</code> class
-      'hue-3': 'A100' // use shade A100 for the <code>md-hue-3</code> class
+      default: '800',
+      'hue-1': '50',
+      'hue-2': '600',
+      'hue-3': 'A100',
     })
     .accentPalette('pink')
     .backgroundPalette('indigo', {
-      'default': '400', // by default use shade 400 from the pink palette for primary intentions
+      default: '400',
     });
-    // .dark();
+
 });
+
 app.controller('photoUploadCtrl', ['$scope', '$location', 'Upload', function($scope, $location, $upload) {
-  
+
   $scope.uploadFiles = function(files) {
     $scope.files = files;
-    angular.forEach(files, function(file){
+    angular.forEach(files, function(file) {
       if (file && !file.$error) {
         file.upload = $upload.upload({
-          url: "https://api.cloudinary.com/v1_1/dalft4dfx/upload",
+          url: 'https://api.cloudinary.com/v1_1/dalft4dfx/upload',
           fields: {
             upload_preset: "yx6jjrem",
           },
           file: file
-        }).progress(function (e) {
+        }).progress(function(e) {
           file.progress = Math.round((e.loaded * 100.0) / e.total);
-          file.status = "Uploading... " + file.progress + "%";
-        }).success(function (data, status, headers, config) {
+          file.status = 'Uploading... ' + file.progress + '%';
+        }).success(function(data, status, headers, config) {
           // data.context = {custom: {photo: $scope.title}};
           $scope.profile.imageUrl = data.url;
-        }).error(function (data, status, headers, config) {
+        }).error(function(data, status, headers, config) {
           file.result = data;
         });
       }
     });
+
     $scope.dragOverClass = function($event) {
       var items = $event.dataTransfer.items;
       var hasFile = false;
       if (items != null) {
-        for (var i = 0 ; i < items.length; i++) {
+        for (var i = 0; i < items.length; i++) {
           if (items[i].kind == 'file') {
             hasFile = true;
             break;
@@ -49,12 +51,13 @@ app.controller('photoUploadCtrl', ['$scope', '$location', 'Upload', function($sc
       } else {
         hasFile = true;
       }
-      return hasFile ? "dragover" : "dragover-err";
+
+      return hasFile ? 'dragover' : 'dragover-err';
     };
-    
-  }
+  };
 }])
-app.controller('AppCtrl', ['$rootScope', '$scope', '$state', '$mdSidenav', '$http', '$location','geolocation', '$mdDialog', function($rootScope, $scope, $state, $mdSidenav, $http, $location, geolocation, $mdDialog){
+
+app.controller('AppCtrl', ['$rootScope', '$scope', '$state', '$mdSidenav', '$http', '$location', 'geolocation', '$mdDialog', function($rootScope, $scope, $state, $mdSidenav, $http, $location, geolocation, $mdDialog) {
   $scope.toggleSidenav = function(menuId) {
     $mdSidenav(menuId).toggle();
   };
@@ -63,7 +66,7 @@ app.controller('AppCtrl', ['$rootScope', '$scope', '$state', '$mdSidenav', '$htt
   $scope.startNow = function() {
     $scope.changeState('home');
 
-    geolocation.getLocation().then(function(data){
+    geolocation.getLocation().then(function(data) {
       var sendData = {
         lat:data.coords.latitude,
         long:data.coords.longitude
@@ -76,10 +79,10 @@ app.controller('AppCtrl', ['$rootScope', '$scope', '$state', '$mdSidenav', '$htt
           ok: 'Close'
         });
         $mdDialog
-          .show( alert )
+          .show(alert)
           .finally(function() {
             alert = undefined;
-        });
+          });
       });
     });
 
@@ -91,18 +94,18 @@ app.controller('AppCtrl', ['$rootScope', '$scope', '$state', '$mdSidenav', '$htt
         ok: 'Close'
       });
       $mdDialog
-        .show( alert )
+        .show(alert)
         .finally(function() {
           alert = undefined;
-      });
+        });
     };
   };
 
   $scope.changeState = function(stateName) {
-      $state.go('^.'+stateName);
-      $mdSidenav('left').close();
-      $scope.loaded = false;
-      $scope.isPaid = false;
+    $state.go('^.' + stateName);
+    $mdSidenav('left').close();
+    $scope.loaded = false;
+    $scope.isPaid = false;
   };
 
 /*===========================================================================/
