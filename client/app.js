@@ -30,7 +30,6 @@ app.controller('photoUploadCtrl', ['$scope', '$location', 'Upload', function($sc
           file.progress = Math.round((e.loaded * 100.0) / e.total);
           file.status = 'Uploading... ' + file.progress + '%';
         }).success(function(data, status, headers, config) {
-          // data.context = {custom: {photo: $scope.title}};
           $scope.profile.imageUrl = data.url;
         }).error(function(data, status, headers, config) {
           file.result = data;
@@ -63,6 +62,13 @@ app.controller('AppCtrl', ['$rootScope', '$scope', '$state', '$mdSidenav', '$htt
   };
 
   $scope.currentShow = false;
+  $scope.showAlert = function(dialog){
+    $mdDialog
+      .show(dialog)
+      .finally(function(){
+        alert = undefined;
+      });
+  };
   $scope.startNow = function() {
     $scope.changeState('home');
 
@@ -73,31 +79,23 @@ app.controller('AppCtrl', ['$rootScope', '$scope', '$state', '$mdSidenav', '$htt
       };
       $http.post('/shows/startNow', sendData).then(function(data) {
         $scope.currentShow = true;
-        alert = $mdDialog.alert({
+        var alert = $mdDialog.alert({
           title: 'Start playing!',
           content: 'Your show has begun. You\'re ready to collect tips!',
           ok: 'Close'
         });
-        $mdDialog
-          .show(alert)
-          .finally(function() {
-            alert = undefined;
-          });
+        $scope.showAlert(alert);
       });
     });
 
     $scope.cancelShow = function() {
       $scope.currentShow = false;
-      alert = $mdDialog.alert({
+      var alert = $mdDialog.alert({
         title: 'Awesome show!',
         content: 'Check your mobile app to see how much you collected!',
         ok: 'Close'
       });
-      $mdDialog
-        .show(alert)
-        .finally(function() {
-          alert = undefined;
-        });
+      $scope.showAlert(alert);
     };
   };
 
@@ -127,7 +125,6 @@ app.controller('AppCtrl', ['$rootScope', '$scope', '$state', '$mdSidenav', '$htt
   $scope.getArtists();
 
   $scope.search = function(artist){
-    // console.log(artist);
     $scope.searchableArtists.forEach(function(element){
       if(element.name === artist){
         $scope.artist = element;
@@ -176,7 +173,6 @@ app.config(function ($stateProvider, $urlRouterProvider) {
       $scope.geoCalled = false;
       $scope.artistList = [];
       $scope.viewArtist = function(artist) {
-        // console.log(artist);
         $scope.artist = artist;
         $state.go('^.artists');
       };
@@ -220,7 +216,7 @@ app.config(function ($stateProvider, $urlRouterProvider) {
       };
       this.info = function(){
         $state.go('^.banking');
-        alert = $mdDialog.alert({
+        var alert = $mdDialog.alert({
           title: 'Get Paid!',
           content: 'Link your bank account and start collecting tips instantly.',
           ok: 'Close'
@@ -238,7 +234,6 @@ app.config(function ($stateProvider, $urlRouterProvider) {
         $scope.profile = data;
       });
       $http.get('/loggedin').success(function(data){
-        console.log(data);
         $scope.user = data;
         if (data === '0') {
           $state.go('^.home');
@@ -257,7 +252,6 @@ app.config(function ($stateProvider, $urlRouterProvider) {
         var self = this;
         geolocation.getLocation().then(function(data){
           var coords = {lat:data.coords.latitude, long:data.coords.longitude};
-          console.log(coords);
           self.lat = coords.lat;
           self.long = coords.long;
         });
@@ -272,7 +266,7 @@ app.config(function ($stateProvider, $urlRouterProvider) {
           id: this.id,
         };
         $http.post('/shows/add', data).then(function(data) {
-          alert = $mdDialog.alert({
+          var alert = $mdDialog.alert({
             title: 'Info Received!',
             content: 'Your show has been added. Click the update button at the bottom of the page and confirm.',
             ok: 'Close'
@@ -313,7 +307,6 @@ app.config(function ($stateProvider, $urlRouterProvider) {
       var valid = this.email && this.pass;
       if(valid) {
         $http.post('/login/artist', form).success(function(data) {
-          console.log(data);
           $state.go('^.edit');
         });
       } else {
@@ -334,10 +327,8 @@ app.config(function ($stateProvider, $urlRouterProvider) {
         var valid = this.email && this.pass && this.confirm;
         if(valid) {
           $http.post('/create/artist', form).success(function(data) {
-            console.log(data);
             $state.go('^.edit');
           });
-          
         } else {
           this.formValid = false;
         }

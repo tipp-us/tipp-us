@@ -25,7 +25,7 @@ angular.module('submerchant', [])
     };
 
     $scope.showAlert = function() {
-      alert = $mdDialog.alert({
+      var alert = $mdDialog.alert({
         title: 'Success!',
         content: 'Your banking information has been stored. You can now receive tips!',
         ok: 'Close'
@@ -40,7 +40,6 @@ angular.module('submerchant', [])
     $scope.bankingSubmit = function(){
       $http.post('/submerchant', {submerchantInfo: $scope.submerchant}).success(function(data) {
         if(data.success){
-          // Let the user know that they successfully signed up to receive tips
           $state.go('^.home');
           $scope.showAlert();
         }  
