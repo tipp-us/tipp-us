@@ -8,41 +8,23 @@ var facebookAppId;
 var facebookAppSecret;
 var facebookCB;
 
-// For venmo auth:
-// var request = require('request');
-// var venmoId, venmoSecret;
-
-if (process.env.NODE_MODE === 'prod') { // Running on Heroku production server
-  // For venmo auth:
-  // venmoId = process.env.VENMO_CLIENT_ID;
-  // venmoSecret = process.env.VENMO_CLIENT_SECRET;
+if (process.env.NODE_MODE === 'prod') {
+  // Running on Heroku production server
   facebookAppId = process.env.FACEBOOK_APP_ID;
   facebookAppSecret = process.env.FACEBOOK_APP_SECRET;
-  facebookCB = 'http://tipp-us.herokuapp.com/auth/facebook/callback';
-} else if (process.env.NODE_MODE === 'staging') { // Running on Heroku staging server
+  facebookCB = 'http://tipp.us/auth/facebook/callback';
+} else if (process.env.NODE_MODE === 'staging') {
+  // Running on Heroku staging server
   facebookAppId = process.env.FACEBOOK_APP_ID;
   facebookAppSecret = process.env.FACEBOOK_APP_SECRET;
   facebookCB = 'http://tipp-us-staging.herokuapp.com/auth/facebook/callback';
-} else { // running locally
+} else {
+  // running locally
   var config = require('./config.js');
-
-  // For venmo auth:
-  // venmoId = config.venmo.client_id;
-  // venmoSecret = config.venmo.client_secret;
   facebookAppId = config.facebook.app_id;
   facebookAppSecret = config.facebook.app_secret;
   facebookCB = 'http://localhost:3000/auth/facebook/callback';
 }
-
-// Simple route middleware to ensure user is authenticated.
-// Use this route middleware on any resource that needs to be protected. If
-// the request is authenticated (typically via a persistent login session),
-// the request will proceed. Otherwise, the user will be redirected to the
-// login page.
-var ensureAuthenticated = function(req, res, next) {
-  if (req.isAuthenticated()) return next();
-  res.redirect('/#/login');
-};
 
 /*===========================================================================/
 /                             AUTHENTICATION                                 /
@@ -73,15 +55,13 @@ passport.use(new FacebookStrategy({
     callbackURL: facebookCB,
   },
   function(accessToken, refreshToken, profile, done) {
-    // asynchronous verification, for effect...
     process.nextTick(function() {
       db.artist.findOne({where: {facebookID: profile.id}}).then(function(artist) {
-        //if we did not find a artist with that ID create one
+        // If no artist found with this id, create one
         if (!artist) {
           db.artist.create({
             facebookID: profile.id,
           }).then(function(art) {
-            console.log('Created new artist');
             profile.artistId = art.id;
             return done(null, profile);
           });
@@ -90,13 +70,11 @@ passport.use(new FacebookStrategy({
           return done(null, profile);
         }
       });
-      // TODO: associate the Facebook account with a user record in
-      // database, and return that user instead.
     });
   }
 ));
 
-
+// Signup strategy for local email and password
 passport.use('local-signup', new LocalStrategy({
     usernameField: 'email',
     passwordField: 'password',
@@ -104,9 +82,8 @@ passport.use('local-signup', new LocalStrategy({
   },
   function(req, email, password, done) {
     db.artist.findOne({where: {email: email}}).then(function(artist) {
-      // TODO: error handling maybe
       if (artist) {
-        console.log('This email has already been registered.');
+        // Artist with this email already exists
         return done(null, false);
       } else {
         db.artist.genHash(password, function(hash) {
@@ -114,10 +91,9 @@ passport.use('local-signup', new LocalStrategy({
             email: email,
             password: hash,
           }).then(function(newArtist) {
+            // Create new artist record
             var recreated = JSON.parse(JSON.stringify(newArtist.dataValues));
-            console.log("New artist created " + recreated.id)
             recreated.artistId = recreated.id;
-            console.log(recreated.artistId)
             return done(null, recreated);
           });
         });
@@ -126,51 +102,49 @@ passport.use('local-signup', new LocalStrategy({
   }
 ));
 
+// Login strategy for local email and password
 passport.use('local-login', new LocalStrategy({
   usernameField: 'email',
   passwordField: 'password',
   passReqToCallback: true,
 }, function(req, email, password, done) {
   db.artist.findOne({where:{email: email}}).then(function(artist) {
-    // TODO: error handling maybe
     if (!artist) {
-      console.log('No artist with that email found.');
+      // No artist found with this email
       return done(null, false);
     } else {
       db.artist.verifyPassword(artist, password, function(isVerified) {
         if (isVerified) {
-          console.log('User credentials matched locally!');
-          console.log(artist)
+          // User credentials matched
           artist.artistId = artist.dataValues.id;
           artist.dataValues.artistId = artist.dataValues.id;
           return done(null, artist);
         } else {
-          console.log('Incorrect password, try again.');
+          // Email exists, but password incorrect
           return done(null, false);
         }
       });
     }
-
   });
 }));
 
 // Initialize Passport!  Also use passport.session() middleware, to support
-// persistent login sessions (recommended).
+//  persistent login sessions (recommended).
 app.use(passport.initialize());
 app.use(passport.session());
 
 // Redirect user to facebook.com. After authorization, Facebook will
-// redirect the user back to this application at /auth/facebook/callback
+//  redirect the user back to this application at /auth/facebook/callback
 app.get('/auth/facebook',
   passport.authenticate('facebook'),
   function(req, res) {
     // Request will be redirected to Facebook for authentication, so this
-    // function will not be called.
+    //  function will not be called.
   });
 
 // If authentication fails, the user will be redirected back to the
-// login page.  Otherwise, the primary route function function will be called,
-// which, in this example, will redirect the user to the home page.
+//  login page.  Otherwise, the primary route function function will be called,
+//  which, in this example, will redirect the user to the home page.
 app.get('/auth/facebook/callback',
   passport.authenticate('facebook', { failureRedirect: '/#/login' }),
   function(req, res) {
@@ -181,9 +155,8 @@ app.post('/rn/auth/facebook', function(req, res) {
   var fbid = req.body.facebookId;
   db.artist.findOne({where: {facebookID: fbid}})
     .then(function(artist) {
+      // If no artist found with this id, create one
       if (!artist) {
-        // res.status(404).end('User not found.');
-        //TODO: make new artist in db
         db.artist.create({
           facebookID: fbid,
         }).then(function(art) {
@@ -194,47 +167,3 @@ app.post('/rn/auth/facebook', function(req, res) {
       }
     });
 });
-
-// Might work if we could get cookies/sessions to work with react-native android,
-//  replaced for now with the above post request
-// passport.use('rn-facebook', new FacebookStrategy({
-//     clientID: facebookAppId,
-//     clientSecret: facebookAppSecret,
-//     callbackURL: 'http://localhost:3000/rn/auth/facebook/callback',
-//   },
-//   function(accessToken, refreshToken, profile, done) {
-//     // asynchronous verification, for effect...
-//     process.nextTick(function() {
-//       db.artist.findOne({where: {facebookID: profile.id}}).then(function(artist) {
-//         //if we did not find a artist with that ID create one
-//         if (!artist) {
-//           db.artist.create({
-//             facebookID: profile.id,
-//           }).then(function(art) {
-//             console.log('Created new artist');
-//             profile.artistId = art.id;
-//             return done(null, profile);
-//           });
-//         } else {
-//           profile.artistId = artist.id;
-//           return done(null, profile);
-//         }
-//       });
-//       // TODO: associate the Facebook account with a user record in
-//       // database, and return that user instead.
-//     });
-//   }
-// ));
-
-// app.get('/rn/auth/facebook',
-//   passport.authenticate('rn-facebook'),
-//   function(req, res) {
-//     // not called
-//   });
-
-// app.get('/rn/auth/facebook/callback',
-//   passport.authenticate('rn-facebook'),
-//   function(req, res) {
-//     // console.log('LINE 188: RN REQ:', req);
-//     res.status(200).json({id: req.user.artistId});
-//   });
