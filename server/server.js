@@ -14,7 +14,6 @@ var validator = require('express-validator');
 /                             MIDDLEWARE                                     /
 /===========================================================================*/
 
-// attach middleware
 app.use(express.static(__dirname + '/../client'));
 app.use(morgan('dev'));
 app.use(cookieParser('keyboard cat'));
@@ -27,7 +26,8 @@ app.use(session({
   saveUninitialized: false,
   resave: true,
 }));
-/**
+
+/*
  * Enable CORS (http://enable-cors.org/server_expressjs.html)
  * to allow different clients to request data from your server
  */
