@@ -37,7 +37,7 @@
 Use github’s interface to make a fork of the repo, then add that repo as an upstream remote:
 
 ```
-git remote add upstream https://github.com/starvingartists/starvingartists.git
+git remote add upstream https://github.com/tipp-us/tipp-us.git
 ```
 
 ### Cut a namespaced feature branch from staging
